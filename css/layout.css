@@ -1,0 +1,38 @@
+.calendar-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.row {
+  display: flex;
+}
+
+.col-14 {
+  flex-basis: calc(100% / 7);
+}
+
+.col-20 {
+  flex-basis: 20%;
+}
+
+.col-60 {
+  flex-basis: 60%;
+}
+
+.col-100 {
+  flex-basis: 100%;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.center {
+  text-align: center;
+}
+
+.middle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

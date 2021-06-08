@@ -1,0 +1,50 @@
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+header,
+footer {
+  background-color: #5f738b;
+  color: white;
+}
+
+footer {
+  height: 32px;
+}
+
+.header-month-year {
+  font-weight: 400;
+  font-size: 24px;
+}
+
+.left-arrow-button,
+.right-arrow-button {
+  border: none;
+  border-radius: 4px;
+  background-color: inherit;
+  color: white;
+  font-size: 24px;
+  padding: 0.5rem;
+}
+
+.left-arrow-button:hover,
+.right-arrow-button:hover {
+  cursor: pointer;
+  border: 2px solid white;
+}
+
+.day-of-week {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0.5rem 0;
+}
+
+.calendar-squares {
+  margin-bottom: 1.5rem;
+}
+
+.square {
+  box-sizing: content-box;
+  height: 3rem;
+  border: 1px solid black;
+}

@@ -1,19 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AJAX Project</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
   <link rel="icon" href="images/favicon.ico">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
+
 <body>
   <header>
+    <div class="calendar-container">
+      <div class="row">
+        <!-- Left Button -->
+        <div class="col-20 middle">
+          <button class="fas left-arrow-button"></button>
+        </div>
+        <!-- Month Year -->
+        <div class="col-60 center">
+          <h1 class="header-month-year">January 2021</h1>
+        </div>
+        <!-- Right Button -->
+        <div class="col-20 middle">
+          <button class="fas right-arrow-button"></button>
+        </div>
+      </div>
+    </div>
   </header>
+
   <main>
+    <div class="calendar-container">
+      <!-- Days of Week -->
+      <div class="row center">
+        <div class="col-14">
+          <h6 class="day-of-week">Sun</h6>
+        </div>
+        <div class="col-14">
+          <h6 class="day-of-week">Mon</h6>
+        </div>
+        <div class="col-14">
+          <h6 class="day-of-week">Tue</h6>
+        </div>
+        <div class="col-14">
+          <h6 class="day-of-week">Wed</h6>
+        </div>
+        <div class="col-14">
+          <h6 class="day-of-week">Thu</h6>
+        </div>
+        <div class="col-14">
+          <h6 class="day-of-week">Fri</h6>
+        </div>
+        <div class="col-14">
+          <h6 class="day-of-week">Sat</h6>
+        </div>
+      </div>
+
+      <!-- Calendar Squares -->
+      <div class="row">
+        <div class="col-100">
+          <div class="calendar-squares">
+
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
+
+  <footer></footer>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
