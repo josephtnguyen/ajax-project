@@ -21,6 +21,10 @@ button {
   background-color: inherit;
 }
 
+button:hover {
+  cursor: pointer;
+}
+
 .black {
   color: black;
 }
@@ -49,7 +53,6 @@ button {
 
 .left-arrow-button:hover,
 .right-arrow-button:hover {
-  cursor: pointer;
   border: 2px solid white;
 }
 
