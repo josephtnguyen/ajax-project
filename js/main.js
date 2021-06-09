@@ -16,10 +16,13 @@ var $previousMonth = document.querySelector('.left-arrow-button');
 var $nextMonth = document.querySelector('.right-arrow-button');
 var $dateInfoDate = document.querySelector('.date-info-date');
 
+var holidays = null;
+
 $previousMonth.addEventListener('click', handlePrevious);
 $nextMonth.addEventListener('click', handleNext);
 $calendar.addEventListener('click', handleSelect);
 
+getHolidays(today.year);
 generateSquares($calendar);
 populateCalendar(today);
 populateDayBanner(today);
@@ -86,24 +89,24 @@ function populateCalendar(view) {
   $calendarMonthYear.children[1].textContent = view.year;
 
   // fill in calendar
-  var thisMonth = new Date(view.year, view.month, 1);
+  var currentDate = new Date(view.year, view.month, 1);
   // wind back to Sunday
-  var firstDay = thisMonth.getDay();
+  var firstDay = currentDate.getDay();
   for (var dayOfWeek = firstDay; dayOfWeek > 0; dayOfWeek--) {
-    thisMonth.setDate(thisMonth.getDate() - 1);
+    currentDate.setDate(currentDate.getDate() - 1);
   }
 
   // loop through all squares
   for (var i = 0; i < $calendar.children.length; i++) {
     for (var j = 0; j < 7; j++) {
       var $square = $calendar.children[i].children[j];
-      var currentDay = thisMonth.getDate();
+      var currentDay = currentDate.getDate();
       var isCurrentMonth = true;
-      if (thisMonth.getMonth() !== view.month) {
+      if (currentDate.getMonth() !== view.month) {
         isCurrentMonth = false;
       }
       generateHTMLCalendarDay($square, currentDay, isCurrentMonth);
-      thisMonth.setDate(currentDay + 1);
+      currentDate.setDate(currentDay + 1);
     }
   }
 
@@ -126,6 +129,12 @@ function generateHTMLCalendarDay(square, day, isCurrentMonth) {
     }
   } else {
     $number.classList.add('light-gray');
+  }
+  for (var i = 0; i < holidays.length; i++) {
+    if (holidays[i].date.datetime.month - 1 === view.month && holidays[i].date.datetime.day === day) {
+      $number.classList.add('pink');
+      break;
+    }
   }
   $number.textContent = day;
 
@@ -160,8 +169,24 @@ function populateDayBanner(view) {
   $dateInfoDate.children[1].textContent = view.day;
   $dateInfoDate.children[2].textContent = view.year;
 }
-// function populateCalendarDay(dayObject) {
-// }
+
+// AJAX Functions
+function getHolidays(year) {
+  holidays = new XMLHttpRequest();
+  var holidayKey = '?api_key=89c4f0216fb3240f31be20bc4f84aee739d99cda';
+  var holidayCountry = '&country=US';
+  var holidayYear = '&year=' + year;
+  var holidayType = '&type=national';
+
+  holidays.open('GET', 'https://calendarific.com/api/v2/holidays' + holidayKey + holidayCountry + holidayYear + holidayType);
+  holidays.responseType = 'json';
+  holidays.addEventListener('load', handleHolidays);
+  holidays.send();
+
+  function handleHolidays(event) {
+    holidays = holidays.response.response.holidays;
+  }
+}
 
 // // OOP Objects
 // function CalendarDay() {
