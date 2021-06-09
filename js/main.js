@@ -50,12 +50,12 @@ function handleSelect(event) {
     return;
   }
 
-  var dateId = '#' + event.target.closest('.square').id;
+  var squareId = '#' + event.target.closest('.square').id;
 
   generateSquares($calendar);
   populateCalendar(view);
 
-  var $date = document.querySelector(dateId).children[0].children[0].children[0];
+  var $date = document.querySelector(squareId).children[0].children[0].children[0];
 
   $date.classList.add('selected');
   view.day = $date.textContent;
@@ -173,6 +173,7 @@ function populateDayBanner(calendarDate) {
   $dateInfoDate.children[2].textContent = calendarDate.year;
 
   // update holiday
+  $dateInfoHoliday.textContent = '';
   for (var i = 0; i < holidays.length; i++) {
     if (holidays[i].date.datetime.month - 1 === calendarDate.month && holidays[i].date.datetime.day === parseInt(calendarDate.day)) {
       $dateInfoHoliday.textContent = holidays[i].name;
