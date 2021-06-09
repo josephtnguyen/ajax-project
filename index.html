@@ -19,84 +19,90 @@
 </head>
 
 <body>
-  <header>
-    <div class="calendar-container">
-      <div class="row">
-        <!-- Left Button -->
-        <div class="col-20 middle">
-          <button class="fas left-arrow-button"></button>
-        </div>
-        <!-- Month Year -->
-        <div class="col-60 center">
-          <h1 class="header-month-year">
-            <span>January</span> <span>2021</span>
-          </h1>
-        </div>
-        <!-- Right Button -->
-        <div class="col-20 middle">
-          <button class="fas right-arrow-button"></button>
-        </div>
-      </div>
-    </div>
-  </header>
+  <div class="complete-container">
 
-  <main>
     <div class="calendar-container">
-      <!-- Days of Week -->
-      <div class="row center">
-        <div class="col-14">
-          <h6 class="day-of-week">Sun</h6>
+      <header class="middle">
+        <div class="col-100 row">
+          <!-- Left Button -->
+          <div class="col-20 middle">
+            <button class="fas left-arrow-button"></button>
+          </div>
+          <!-- Month Year -->
+          <div class="col-60 middle">
+            <h1 class="header-month-year">
+              <span>January</span> <span>2021</span>
+            </h1>
+          </div>
+          <!-- Right Button -->
+          <div class="col-20 middle">
+            <button class="fas right-arrow-button"></button>
+          </div>
         </div>
-        <div class="col-14">
-          <h6 class="day-of-week">Mon</h6>
-        </div>
-        <div class="col-14">
-          <h6 class="day-of-week">Tue</h6>
-        </div>
-        <div class="col-14">
-          <h6 class="day-of-week">Wed</h6>
-        </div>
-        <div class="col-14">
-          <h6 class="day-of-week">Thu</h6>
-        </div>
-        <div class="col-14">
-          <h6 class="day-of-week">Fri</h6>
-        </div>
-        <div class="col-14">
-          <h6 class="day-of-week">Sat</h6>
-        </div>
-      </div>
+      </header>
 
-      <!-- Calendar Squares -->
-      <div class="row">
-        <div class="col-100">
-          <div class="calendar-squares">
+      <main>
+        <!-- Days of Week -->
+        <div class="row center">
+          <div class="col-14">
+            <h6 class="day-of-week">Sun</h6>
+          </div>
+          <div class="col-14">
+            <h6 class="day-of-week">Mon</h6>
+          </div>
+          <div class="col-14">
+            <h6 class="day-of-week">Tue</h6>
+          </div>
+          <div class="col-14">
+            <h6 class="day-of-week">Wed</h6>
+          </div>
+          <div class="col-14">
+            <h6 class="day-of-week">Thu</h6>
+          </div>
+          <div class="col-14">
+            <h6 class="day-of-week">Fri</h6>
+          </div>
+          <div class="col-14">
+            <h6 class="day-of-week">Sat</h6>
+          </div>
+        </div>
+
+        <!-- Calendar Squares -->
+        <div class="row">
+          <div class="col-100 calendar-squares">
 
           </div>
         </div>
-      </div>
-    </div>
-  </main>
+      </main>
 
-  <footer></footer>
-
-  <!-- Checklist -->
-  <div class="checklist-container">
-    <!-- Banner -->
-    <div class="row day-banner">
-      <!-- Date -->
-      <div class="col-50 date-info">
-        <h3 class="date-info-date">
-          <span>January</span> <span>1</span>, <span>2021</span>
-        </h3>
-        <h6 class="date-info-holiday"> </h6>
-      </div>
-      <!-- Weather -->
-      <div class="col-50"></div>
+      <footer></footer>
     </div>
 
     <!-- Checklist -->
+    <div class="checklist-container">
+      <!-- Banner -->
+      <div class="row middle day-banner">
+        <!-- Date -->
+        <div class="col-50 date-info">
+          <h3 class="date-info-date">
+            <span>January</span> <span>1</span>, <span>2021</span>
+          </h3>
+          <h6 class="date-info-holiday"> </h6>
+        </div>
+        <!-- Weather -->
+        <div class="col-50"></div>
+      </div>
 
+      <!-- Checklist -->
+      <div class="row">
+        <div class="col-100 checklist-div">
+          <ul>
+
+          </ul>
+        </div>
+      </div>
+
+    </div>
   </div>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>

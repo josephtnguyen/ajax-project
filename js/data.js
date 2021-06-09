@@ -2,6 +2,7 @@
 var data = {
   homeName: '',
   homeTown: null,
+  holidaysDummy: null,
   days: []
 };
 

@@ -8,8 +8,12 @@ footer {
   color: white;
 }
 
+header {
+  height: 6vh;
+}
+
 footer {
-  height: 32px;
+  height: 4vh;
 }
 
 button {
@@ -32,6 +36,7 @@ button {
 .header-month-year {
   font-weight: 400;
   font-size: 24px;
+  margin: 0;
 }
 
 .left-arrow-button,
@@ -65,9 +70,10 @@ button {
 
 .date {
   height: 2.5rem;
-  width: 75%;
+  width: 2.5rem;
   font-size: 24px;
   border-radius: 50%;
+  padding: 0;
 }
 
 .current-day {
@@ -76,13 +82,14 @@ button {
 }
 
 .selected {
-  border: 2px solid #5f738b;
+  border: 3px solid #49596d;
 }
 
 .day-banner {
   background-color: #9dacb9;
   color: white;
-  padding: 1rem 1.5rem;
+  height: 6vh;
+  padding: 0 1.5rem;
 }
 
 .date-info {
@@ -96,11 +103,38 @@ button {
 .date-info-date {
   font-weight: 500;
   font-size: 18px;
-  margin: 0 0 0.25rem;
+  margin: 0;
 }
 
 .date-info-holiday {
   font-weight: 400;
   font-size: 10px;
   margin: 0;
+}
+
+.checklist-div {
+  background-color: #fafcff;
+}
+
+@media (min-width: 1080px) {
+  header {
+    height: 8vh;
+  }
+
+  footer {
+    height: 5vh;
+  }
+
+  .day-of-week {
+    font-size: 24px;
+  }
+
+  .square {
+    height: 13.27vh;
+    border: 1px solid #c8c8c8;
+  }
+
+  .checklist-div {
+    height: 94vh;
+  }
 }
