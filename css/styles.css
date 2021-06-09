@@ -1,0 +1,143 @@
+* {
+  font-family: 'Roboto', sans-serif;
+}
+
+header,
+footer {
+  background-color: #5f738b;
+  color: white;
+}
+
+header {
+  height: 6vh;
+}
+
+footer {
+  height: 4vh;
+}
+
+button {
+  border: none;
+  background-color: inherit;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.black {
+  color: black;
+}
+
+.light-gray {
+  color: #a5a4a4;
+}
+
+.pink {
+  color: #ecd2d3;
+}
+
+.header-month-year {
+  font-weight: 400;
+  font-size: 24px;
+  margin: 0;
+}
+
+.left-arrow-button,
+.right-arrow-button {
+  border-radius: 4px;
+  color: white;
+  font-size: 24px;
+  padding: 0.5rem;
+}
+
+.left-arrow-button:hover,
+.right-arrow-button:hover {
+  border: 2px solid white;
+}
+
+.day-of-week {
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0.5rem 0;
+}
+
+.calendar-squares {
+  margin-bottom: 1.5rem;
+}
+
+.square {
+  box-sizing: content-box;
+  height: 3rem;
+}
+
+.date {
+  height: 2.5rem;
+  width: 2.5rem;
+  font-size: 24px;
+  border-radius: 50%;
+  padding: 0;
+}
+
+.current-day {
+  background-color: #5f738b;
+  color: white;
+}
+
+.selected {
+  border: 3px solid #49596d;
+}
+
+.day-banner {
+  background-color: #9dacb9;
+  color: white;
+  height: 6vh;
+  padding: 0 1.5rem;
+}
+
+.date-info {
+  height: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.date-info-date {
+  font-weight: 500;
+  font-size: 18px;
+  margin: 0;
+}
+
+.date-info-holiday {
+  font-weight: 400;
+  font-size: 10px;
+  margin: 0;
+}
+
+.checklist-div {
+  background-color: #fafcff;
+}
+
+@media (min-width: 1080px) {
+  header {
+    height: 8vh;
+  }
+
+  footer {
+    height: 5vh;
+  }
+
+  .day-of-week {
+    font-size: 24px;
+  }
+
+  .square {
+    height: 13.27vh;
+    border: 1px solid #c8c8c8;
+  }
+
+  .checklist-div {
+    height: 94vh;
+  }
+}
