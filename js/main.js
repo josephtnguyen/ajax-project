@@ -15,6 +15,7 @@ var $calendar = document.querySelector('.calendar-squares');
 var $previousMonth = document.querySelector('.left-arrow-button');
 var $nextMonth = document.querySelector('.right-arrow-button');
 var $dateInfoDate = document.querySelector('.date-info-date');
+var $dateInfoHoliday = document.querySelector('.date-info-holiday');
 
 var holidays = null;
 
@@ -54,6 +55,10 @@ function handleSelect(event) {
   if (!event.target.closest('.square')) {
     return;
   }
+  if (!event.target.closest('.black')) {
+    return;
+  }
+
   var dateId = '#' + event.target.closest('.square').id;
 
   generateSquares($calendar);
@@ -131,7 +136,14 @@ function generateHTMLCalendarDay(square, day, isCurrentMonth) {
     $number.classList.add('light-gray');
   }
   for (var i = 0; i < holidays.length; i++) {
-    if (holidays[i].date.datetime.month - 1 === view.month && holidays[i].date.datetime.day === day) {
+    var viewingMonth = view.month;
+    var viewingDay = day;
+    if (!isCurrentMonth && day > 15) {
+      viewingMonth--;
+    } else if (!isCurrentMonth && day < 15) {
+      viewingMonth++;
+    }
+    if (holidays[i].date.datetime.month - 1 === viewingMonth && holidays[i].date.datetime.day === viewingDay) {
       $number.classList.add('pink');
       break;
     }
@@ -168,6 +180,14 @@ function populateDayBanner(view) {
   $dateInfoDate.children[0].textContent = months[view.month];
   $dateInfoDate.children[1].textContent = view.day;
   $dateInfoDate.children[2].textContent = view.year;
+
+  // update holiday
+  for (var i = 0; i < holidays.length; i++) {
+    if (holidays[i].date.datetime.month - 1 === view.month && holidays[i].date.datetime.day === parseInt(view.day)) {
+      $dateInfoHoliday.textContent = holidays[i].name;
+      break;
+    }
+  }
 }
 
 // AJAX Functions
