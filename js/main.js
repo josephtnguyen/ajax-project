@@ -60,47 +60,6 @@ function generateSquares(calendar) {
   }
 }
 
-function generateHTMLCalendarDay(square, day, isCurrentMonth) {
-  var $heading = document.createElement('div');
-  $heading.className = 'row';
-
-  // Number
-  var $numberDiv = document.createElement('div');
-  $numberDiv.className = 'col-33-lg middle';
-
-  var $number = document.createElement('button');
-  $number.className = 'date';
-  if (isCurrentMonth) {
-    $number.classList.add('black');
-  } else {
-    $number.classList.add('light-gray');
-  }
-  $number.textContent = day;
-
-  // Location/Weather
-  var $headingSideDiv = document.createElement('div');
-  $headingSideDiv.className = 'col-66-lg mobile-hidden date-heading';
-
-  // Events
-  var $body = document.createElement('div');
-  $body.className = 'row mobile-hidden';
-
-  var $listDiv = document.createElement('div');
-  $listDiv.className = 'col-100';
-
-  var $list = document.createElement('ul');
-  $list.className = 'events';
-
-  square.append($heading);
-  square.append($body);
-  $heading.append($numberDiv);
-  $heading.append($headingSideDiv);
-  $numberDiv.append($number);
-  $body.append($listDiv);
-  $listDiv.append($list);
-
-}
-
 function populateCalendar(month, year) {
   // update header
   var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -131,6 +90,49 @@ function populateCalendar(month, year) {
 
 }
 
+function generateHTMLCalendarDay(square, day, isCurrentMonth) {
+  var $heading = document.createElement('div');
+  $heading.className = 'row';
+
+  // Number
+  var $numberDiv = document.createElement('div');
+  $numberDiv.className = 'col-33-lg middle';
+
+  var $number = document.createElement('button');
+  $number.className = 'date';
+  if (isCurrentMonth) {
+    $number.classList.add('black');
+    if (day === today.day && view.month === today.month) {
+      $number.classList.add('current-day');
+    }
+  } else {
+    $number.classList.add('light-gray');
+  }
+  $number.textContent = day;
+
+  // Location/Weather
+  var $headingSideDiv = document.createElement('div');
+  $headingSideDiv.className = 'col-66-lg mobile-hidden date-heading';
+
+  // Events
+  var $body = document.createElement('div');
+  $body.className = 'row mobile-hidden';
+
+  var $listDiv = document.createElement('div');
+  $listDiv.className = 'col-100';
+
+  var $list = document.createElement('ul');
+  $list.className = 'events';
+
+  square.append($heading);
+  square.append($body);
+  $heading.append($numberDiv);
+  $heading.append($headingSideDiv);
+  $numberDiv.append($number);
+  $body.append($listDiv);
+  $listDiv.append($list);
+
+}
 // function populateCalendarDay(dayObject) {
 // }
 

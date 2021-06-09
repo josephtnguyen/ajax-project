@@ -60,7 +60,13 @@ button {
 }
 
 .date {
-  height: 3rem;
-  width: 90%;
+  height: 2.5rem;
+  width: 75%;
   font-size: 24px;
+  border-radius: 50%;
+}
+
+.current-day {
+  background-color: #5f738b;
+  color: white;
 }
