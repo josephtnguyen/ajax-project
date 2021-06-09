@@ -12,6 +12,19 @@ footer {
   height: 32px;
 }
 
+button {
+  border: none;
+  background-color: inherit;
+}
+
+.black {
+  color: black;
+}
+
+.light-gray {
+  color: #a5a4a4;
+}
+
 .header-month-year {
   font-weight: 400;
   font-size: 24px;
@@ -19,9 +32,7 @@ footer {
 
 .left-arrow-button,
 .right-arrow-button {
-  border: none;
   border-radius: 4px;
-  background-color: inherit;
   color: white;
   font-size: 24px;
   padding: 0.5rem;
@@ -46,5 +57,10 @@ footer {
 .square {
   box-sizing: content-box;
   height: 3rem;
-  border: 1px solid black;
+}
+
+.date {
+  height: 3rem;
+  width: 90%;
+  font-size: 24px;
 }
