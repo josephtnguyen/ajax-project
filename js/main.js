@@ -14,12 +14,15 @@ var $calendarMonthYear = document.querySelector('.header-month-year');
 var $calendar = document.querySelector('.calendar-squares');
 var $previousMonth = document.querySelector('.left-arrow-button');
 var $nextMonth = document.querySelector('.right-arrow-button');
+var $dateInfoDate = document.querySelector('.date-info-date');
 
 $previousMonth.addEventListener('click', handlePrevious);
 $nextMonth.addEventListener('click', handleNext);
+$calendar.addEventListener('click', handleSelect);
 
 generateSquares($calendar);
-populateCalendar(today.month, today.year);
+populateCalendar(today);
+populateDayBanner(today);
 
 // Event Handlers
 function handlePrevious(event) {
@@ -30,7 +33,7 @@ function handlePrevious(event) {
     view.month--;
   }
   generateSquares($calendar);
-  populateCalendar(view.month, view.year);
+  populateCalendar(view);
 }
 
 function handleNext(event) {
@@ -41,7 +44,23 @@ function handleNext(event) {
     view.month++;
   }
   generateSquares($calendar);
-  populateCalendar(view.month, view.year);
+  populateCalendar(view);
+}
+
+function handleSelect(event) {
+  if (!event.target.closest('.square')) {
+    return;
+  }
+  var dateId = '#' + event.target.closest('.square').id;
+
+  generateSquares($calendar);
+  populateCalendar(view);
+
+  var $date = document.querySelector(dateId).children[0].children[0].children[0];
+
+  $date.classList.add('selected');
+  view.day = $date.textContent;
+  populateDayBanner(view);
 }
 
 // General Functions
@@ -53,21 +72,21 @@ function generateSquares(calendar) {
     for (var j = 0; j < 7; j++) {
       var $square = document.createElement('div');
       $square.className = 'col-14 square';
-      $square.setAttribute('id', i * 10 + j);
+      $square.setAttribute('id', 'p' + (i * 10 + j));
       $row.append($square);
     }
     calendar.append($row);
   }
 }
 
-function populateCalendar(month, year) {
+function populateCalendar(view) {
   // update header
   var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-  $calendarMonthYear.children[0].textContent = months[month];
-  $calendarMonthYear.children[1].textContent = year;
+  $calendarMonthYear.children[0].textContent = months[view.month];
+  $calendarMonthYear.children[1].textContent = view.year;
 
   // fill in calendar
-  var thisMonth = new Date(year, month, 1);
+  var thisMonth = new Date(view.year, view.month, 1);
   // wind back to Sunday
   var firstDay = thisMonth.getDay();
   for (var dayOfWeek = firstDay; dayOfWeek > 0; dayOfWeek--) {
@@ -80,7 +99,7 @@ function populateCalendar(month, year) {
       var $square = $calendar.children[i].children[j];
       var currentDay = thisMonth.getDate();
       var isCurrentMonth = true;
-      if (thisMonth.getMonth() !== month) {
+      if (thisMonth.getMonth() !== view.month) {
         isCurrentMonth = false;
       }
       generateHTMLCalendarDay($square, currentDay, isCurrentMonth);
@@ -132,6 +151,14 @@ function generateHTMLCalendarDay(square, day, isCurrentMonth) {
   $body.append($listDiv);
   $listDiv.append($list);
 
+}
+
+function populateDayBanner(view) {
+  // update Date Info
+  var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  $dateInfoDate.children[0].textContent = months[view.month];
+  $dateInfoDate.children[1].textContent = view.day;
+  $dateInfoDate.children[2].textContent = view.year;
 }
 // function populateCalendarDay(dayObject) {
 // }

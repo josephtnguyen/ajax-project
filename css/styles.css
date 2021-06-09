@@ -70,3 +70,33 @@ button {
   background-color: #5f738b;
   color: white;
 }
+
+.selected {
+  border: 2px solid #5f738b;
+}
+
+.day-banner {
+  background-color: #9dacb9;
+  color: white;
+  padding: 1rem 2rem;
+}
+
+.date-info {
+  height: 3rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: baseline;
+}
+
+.date-info-date {
+  font-weight: 500;
+  font-size: 18px;
+  margin: 0 0 0.25rem;
+}
+
+.date-info-holiday {
+  font-weight: 400;
+  font-size: 10px;
+  margin: 0;
+}

@@ -3,6 +3,11 @@
   margin: 0 auto;
 }
 
+.checklist-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
 .row {
   display: flex;
 }
@@ -13,6 +18,10 @@
 
 .col-20 {
   flex-basis: 20%;
+}
+
+.col-50 {
+  flex-basis: 50%;
 }
 
 .col-60 {

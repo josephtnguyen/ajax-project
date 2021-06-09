@@ -1,6 +1,7 @@
 /* exported data */
 var data = {
-  home: null,
+  homeName: '',
+  homeTown: null,
   days: []
 };
 
