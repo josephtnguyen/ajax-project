@@ -202,33 +202,8 @@ function getHolidays(year) {
 }
 
 // OOP Objects
-// function CalendarDay(calendarDate) {
-//   this.date = calendarDate;
-
-//   this.weather = null;
-
-//   this.holiday = null;
-//   this.travel = null;
-
-//   this.birthdays = [];
-//   this.meetings = [];
-//   this.hangouts = [];
-//   this.events = [];
-// }
-
 function CalendarDate(day, month, year) {
   this.day = day;
   this.month = month;
   this.year = year;
 }
-
-// function CalendarEvent(type, input, time = null) {
-//   this.type = type;
-//   this.input = input;
-//   if (time) {
-//     this.time = time;
-//   }
-//   if (type === 'birthday') {
-//     this.input = input.capitalize() + "'s Birthday";
-//   }
-// }
