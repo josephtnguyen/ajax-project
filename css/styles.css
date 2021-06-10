@@ -37,6 +37,10 @@ button:hover {
   color: #ecd2d3;
 }
 
+.not-clickable:hover {
+  cursor: unset;
+}
+
 .header-month-year {
   font-weight: 400;
   font-size: 24px;
@@ -88,6 +92,23 @@ button:hover {
   border: 3px solid #49596d;
 }
 
+.calendar-date-weather-heading {
+  display: none;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.calendar-date-weather-icon {
+  width: 26px;
+}
+
+.calendar-date-weather-temp {
+  color: #5f738b;
+  font-size: 14px;
+  font-weight: 400;
+  margin: 0.25rem;
+}
+
 .day-banner {
   background-color: #9dacb9;
   color: white;
@@ -115,11 +136,31 @@ button:hover {
   margin: 0;
 }
 
+.date-weather {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+}
+
+.date-weather-icon {
+  width: 36px;
+}
+
+.date-weather-main-temp {
+  font-size: 24px;
+  font-weight: 400;
+  margin: 0 0.5rem;
+}
+
+.date-weather-side-temp {
+  font-size: 12px;
+}
+
 .checklist-div {
   background-color: #fafcff;
 }
 
-@media (min-width: 1080px) {
+@media (min-width: 1250px) {
   header {
     height: 8vh;
   }
@@ -135,6 +176,10 @@ button:hover {
   .square {
     height: 13.27vh;
     border: 1px solid #c8c8c8;
+  }
+
+  .calendar-date-weather-heading {
+    display: flex;
   }
 
   .checklist-div {

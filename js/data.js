@@ -1,7 +1,10 @@
 /* exported data */
 var data = {
-  homeName: '',
-  homeTown: null,
+  homeName: 'Garden Grove',
+  homeTown: {
+    lat: 33.7739,
+    lon: -117.9415
+  },
   holidaysDummy: null,
   days: []
 };
