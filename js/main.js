@@ -9,12 +9,14 @@ var $dateInfoDate = document.querySelector('.date-info-date');
 var $dateInfoHoliday = document.querySelector('.date-info-holiday');
 
 var holidays = null;
+var weather = null;
 
 $previousMonth.addEventListener('click', handlePrevious);
 $nextMonth.addEventListener('click', handleNext);
 $calendar.addEventListener('click', handleSelect);
 
 getHolidays(today.year);
+getWeather(data.homeTown);
 generateSquares($calendar);
 populateCalendar(today);
 populateDayBanner(today);
@@ -201,9 +203,49 @@ function getHolidays(year) {
   }
 }
 
+function getWeather(location) {
+  weather = new XMLHttpRequest();
+  var weatherKey = '&appid=5ff45e05a8481e8ad44a0bc795ab4ace';
+  var weatherUnits = '&units=imperial';
+  var weatherLocation = '?lat=' + location.lat + '&lon=' + location.lon;
+
+  weather.open('GET', 'https://api.openweathermap.org/data/2.5/onecall' + weatherLocation + weatherUnits + weatherKey);
+  weather.responseType = 'json';
+  weather.addEventListener('load', handleWeather);
+  weather.send();
+
+  function handleWeather(event) {
+    // weather = weather.response;
+    var weatherList = weather.response.daily;
+    var finalData = [];
+    for (var i = 0; i < weatherList.length; i++) {
+      var data = weatherList[i];
+      // var dateTime = new Date(data.dt);
+      var weatherObj = new Weather(
+        // new CalendarDate(dateTime.getDate(), dateTime.getMonth(), dateTime.getFullYear()),
+        new CalendarDate(today.day + i, today.month, today.year),
+        data.weather[0].main,
+        data.temp.day,
+        data.temp.max,
+        data.temp.min
+      );
+      finalData.push(weatherObj);
+    }
+    weather = finalData;
+  }
+}
+
 // OOP Objects
 function CalendarDate(day, month, year) {
   this.day = day;
   this.month = month;
   this.year = year;
+}
+
+function Weather(calendarDate, forecast, temp, max, min) {
+  this.date = calendarDate;
+  this.forecast = forecast;
+  this.temp = temp;
+  this.max = max;
+  this.min = min;
 }
