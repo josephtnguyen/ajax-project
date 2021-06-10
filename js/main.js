@@ -9,13 +9,20 @@ var $dateInfoDate = document.querySelector('.date-info-date');
 var $dateInfoHoliday = document.querySelector('.date-info-holiday');
 var $dateWeather = document.querySelector('.date-weather');
 
+var $travelModal = document.querySelector('.travel-modal-container');
+var $travelModalForm = document.querySelector('.travel-modal-form');
+var $travelModalCancel = document.querySelector('.travel-button.cancel');
+
 var holidays = null;
 var weathers = null;
 
 $previousMonth.addEventListener('click', handlePrevious);
 $nextMonth.addEventListener('click', handleNext);
 $calendar.addEventListener('click', handleSelect);
+$travelModalForm.addEventListener('submit', handleTravelSubmit);
+$travelModalCancel.addEventListener('click', handleTravelCancel);
 
+getHomeTown(data);
 getHolidays(today.year);
 getWeather(data.homeTown);
 generateSquares($calendar);
@@ -63,6 +70,31 @@ function handleSelect(event) {
   $date.classList.add('selected');
   view.day = $date.textContent;
   populateDayBanner(view);
+}
+
+function handleTravelSubmit(event) {
+  event.preventDefault();
+
+  if (!data.homeName) {
+    $travelModalCancel.classList.remove('lighter-gray');
+  }
+
+  data.homeName = $travelModalForm.children[1].children[0].children[0].children[2].children[2].value;
+  $travelModal.classList.add('hidden');
+
+  $travelModalForm.reset();
+}
+
+function handleTravelCancel(event) {
+  event.preventDefault();
+
+  if (event.target.matches('.lighter-gray')) {
+    return;
+  }
+
+  $travelModal.classList.add('hidden');
+  $travelModalForm.reset();
+
 }
 
 // General Functions
@@ -294,6 +326,13 @@ function getWeather(location) {
     populateDayBanner(today);
     generateSquares($calendar);
     populateCalendar(today);
+  }
+}
+
+function getHomeTown(data) {
+  if (!data.homeName) {
+    $travelModalCancel.classList.add('lighter-gray');
+    $travelModal.classList.remove('hidden');
   }
 }
 

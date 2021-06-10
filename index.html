@@ -19,31 +19,32 @@
 </head>
 
 <body>
-  <div class="travel-modal-container middle">
-    <div class="travel-modal">
+  <div class="travel-modal-container middle hidden">
+    <form class="travel-modal-form">
       <!-- Heading -->
       <div class="row">
         <div class="col-100 travel-modal-header">
-          <button class="travel-button cancel">Cancel</button>
-          <button class="travel-button save">Save</button>
+          <button class="travel-button cancel dark-blue">Cancel</button>
+          <button class="travel-button save dark-blue">Save</button>
         </div>
       </div>
 
       <!-- Body -->
       <div class="row">
-        <form class="col-100 travel-modal-form">
+        <div class="col-100 travel-modal-body">
           <label>
-            <h1 class="travel-modal-question hidden">Where are you going?</h1>
-            <h1 class="travel-modal-question">Where do you live?</h1>
+            <h1 class="travel-modal-question dark-blue hidden">Where are you going?</h1>
+            <h1 class="travel-modal-question dark-blue">Where do you live?</h1>
 
             <div class="travel-modal-prompt">
+              <img src="images/airplane.svg" alt="Airplane" class="travel-modal-icon hidden">
               <img src="images/house.svg" alt="House" class="travel-modal-icon">
-              <input type="text" placeholder="Los Angeles" class="travel-modal-input">
+              <input required type="text" placeholder="Los Angeles" class="travel-modal-input dark-gray">
             </div>
           </label>
-        </form>
+        </div>
       </div>
-    </div>
+    </form>
   </div>
 
   <div class="complete-container">

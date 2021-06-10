@@ -1,6 +1,6 @@
 /* exported data */
 var data = {
-  homeName: 'Garden Grove',
+  homeName: '',
   homeTown: {
     lat: 33.7739,
     lon: -117.9415

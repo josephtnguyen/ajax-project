@@ -29,8 +29,20 @@ button:hover {
   color: black;
 }
 
+.dark-blue {
+  color: #5f738b;
+}
+
+.lighter-gray {
+  color: #f2f2f2;
+}
+
 .light-gray {
   color: #a5a4a4;
+}
+
+.dark-gray {
+  color: #5f6368;
 }
 
 .pink {
@@ -45,7 +57,7 @@ button:hover {
   background-color: rgba(41, 41, 41, 0.75);
 }
 
-.travel-modal {
+.travel-modal-form {
   background-color: white;
   border-radius: 30px;
   width: 80%;
@@ -62,16 +74,14 @@ button:hover {
 }
 
 .travel-button {
-  color: #5f738b;
   font-size: 18px;
 }
 
-.travel-modal-form {
+.travel-modal-body {
   padding: 3rem 1rem;
 }
 
 .travel-modal-question {
-  color: #5f738b;
   font-size: 24px;
   font-weight: 500;
 }
@@ -88,7 +98,6 @@ button:hover {
 .travel-modal-input {
   border: none;
   border-bottom: 1px solid black;
-  color: #5f6368;
   font-size: 18px;
   margin: 0 1rem;
   width: 100%;
