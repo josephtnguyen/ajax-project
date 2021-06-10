@@ -115,6 +115,26 @@ button:hover {
   margin: 0;
 }
 
+.date-weather {
+  display: flex;
+  align-items: center;
+  height: 3rem;
+}
+
+.date-weather-icon {
+  width: 36px;
+}
+
+.date-weather-main-temp {
+  font-size: 24px;
+  font-weight: 400;
+  margin: 0 0.5rem;
+}
+
+.date-weather-side-temp {
+  font-size: 12px;
+}
+
 .checklist-div {
   background-color: #fafcff;
 }
