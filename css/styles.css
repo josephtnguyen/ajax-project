@@ -37,6 +37,10 @@ button:hover {
   color: #ecd2d3;
 }
 
+.not-clickable:hover {
+  cursor: unset;
+}
+
 .header-month-year {
   font-weight: 400;
   font-size: 24px;

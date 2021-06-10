@@ -21,9 +21,6 @@ getWeather(data.homeTown);
 generateSquares($calendar);
 populateCalendar(today);
 populateDayBanner(today);
-setTimeout(populateDayBanner, 500, today);
-setTimeout(generateSquares, 500, $calendar);
-setTimeout(populateCalendar, 500, today);
 
 // Event Handlers
 function handlePrevious(event) {
@@ -131,6 +128,7 @@ function generateHTMLCalendarDay(square, day, isCurrentMonth) {
     }
   } else {
     $number.classList.add('light-gray');
+    $number.classList.add('not-clickable');
   }
   $number.textContent = day;
 
@@ -211,14 +209,14 @@ function populateDayBanner(calendarDate) {
   $dateWeather.innerHTML = '';
   for (i = 0; i < weathers.length; i++) {
     if (weathers[i].date.day === parseInt(calendarDate.day) && weathers[i].date.month === calendarDate.month && weathers[i].date.year === calendarDate.year) {
-      generateBannerWeather(weathers[i]);
+      generateBannerWeather($dateWeather, weathers[i]);
       break;
     }
   }
 
 }
 
-function generateBannerWeather(weather) {
+function generateBannerWeather(weatherDiv, weather) {
   var $icon = document.createElement('img');
   $icon.className = 'date-weather-icon';
   $icon.setAttribute('src', weather.svg);
@@ -238,9 +236,9 @@ function generateBannerWeather(weather) {
   $low.className = 'no-margin';
   $low.textContent = 'Low: ' + weather.min + '\u00B0';
 
-  $dateWeather.append($icon);
-  $dateWeather.append($mainTemp);
-  $dateWeather.append($sideTemp);
+  weatherDiv.append($icon);
+  weatherDiv.append($mainTemp);
+  weatherDiv.append($sideTemp);
   $sideTemp.append($high);
   $sideTemp.append($low);
 }
@@ -293,6 +291,9 @@ function getWeather(location) {
       finalData.push(weatherObj);
     }
     weathers = finalData;
+    populateDayBanner(today);
+    generateSquares($calendar);
+    populateCalendar(today);
   }
 }
 
