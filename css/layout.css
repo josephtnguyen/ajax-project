@@ -44,15 +44,11 @@
 }
 
 .col-66-lg {
-  flex-basis: calc(100% / 3 * 2);
+  flex-basis: 0;
 }
 
 .hidden {
   display: none !important;
-}
-
-.mobile-hidden {
-  display: none;
 }
 
 .center {
@@ -69,7 +65,7 @@
   margin: 0;
 }
 
-@media (min-width: 1080px) {
+@media (min-width: 1250px) {
   .complete-container {
     flex-direction: row;
   }
@@ -85,11 +81,11 @@
     margin: 0 auto;
   }
 
-  .mobile-hidden {
-    display: unset;
-  }
-
   .col-33-lg {
     flex-basis: calc(100% / 3);
+  }
+
+  .col-66-lg {
+    flex-basis: calc(100% / 3 * 2);
   }
 }

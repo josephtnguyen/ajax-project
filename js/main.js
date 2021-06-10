@@ -21,6 +21,9 @@ getWeather(data.homeTown);
 generateSquares($calendar);
 populateCalendar(today);
 populateDayBanner(today);
+setTimeout(populateDayBanner, 500, today);
+setTimeout(generateSquares, 500, $calendar);
+setTimeout(populateCalendar, 500, today);
 
 // Event Handlers
 function handlePrevious(event) {
@@ -129,6 +132,9 @@ function generateHTMLCalendarDay(square, day, isCurrentMonth) {
   } else {
     $number.classList.add('light-gray');
   }
+  $number.textContent = day;
+
+  // Holiday
   for (var i = 0; i < holidays.length; i++) {
     var viewingMonth = view.month;
     var viewingDay = day;
@@ -142,15 +148,32 @@ function generateHTMLCalendarDay(square, day, isCurrentMonth) {
       break;
     }
   }
-  $number.textContent = day;
 
   // Location/Weather
   var $headingSideDiv = document.createElement('div');
-  $headingSideDiv.className = 'col-66-lg mobile-hidden date-heading';
+  $headingSideDiv.className = 'col-66-lg calendar-date-weather-heading';
+
+  if (view.month === today.month && view.year === today.year) {
+    for (i = 0; i < weathers.length; i++) {
+      if (weathers[i].date.day === day && isCurrentMonth) {
+        var $weatherIcon = document.createElement('img');
+        $weatherIcon.className = 'calendar-date-weather-icon';
+        $weatherIcon.setAttribute('src', weathers[i].svg);
+
+        var $weatherTemp = document.createElement('h3');
+        $weatherTemp.className = 'calendar-date-weather-temp no-margin';
+        $weatherTemp.textContent = weathers[i].temp + '\u00B0';
+
+        $headingSideDiv.append($weatherIcon);
+        $headingSideDiv.append($weatherTemp);
+        break;
+      }
+    }
+  }
 
   // Events
   var $body = document.createElement('div');
-  $body.className = 'row mobile-hidden';
+  $body.className = 'row';
 
   var $listDiv = document.createElement('div');
   $listDiv.className = 'col-100';
