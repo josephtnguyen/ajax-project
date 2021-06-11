@@ -227,6 +227,29 @@ button:hover {
   background-color: #fafcff;
 }
 
+.add-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.add-event,
+.add-travel {
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  margin: 1rem;
+}
+
+.add-event {
+  background-color: #afc5b9;
+  color: white;
+  font-size: 24px;
+}
+
+.add-travel {
+  background-color: #c8b2d2;
+}
+
 @media (min-width: 1250px) {
   header {
     height: 8vh;
