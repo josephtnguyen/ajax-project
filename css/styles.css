@@ -245,6 +245,22 @@ button:hover {
     border: 1px solid #c8c8c8;
   }
 
+  .square.travel-1 {
+    border: 1px solid #7299fd;
+  }
+
+  .square.travel-2 {
+    border: 1px solid #4f7673;
+  }
+
+  .square.travel-3 {
+    border: 1px solid #d64c4c;
+  }
+
+  .square.travel-4 {
+    border: 2px solid #5f6368;
+  }
+
   .calendar-date-weather-heading {
     display: flex;
   }
