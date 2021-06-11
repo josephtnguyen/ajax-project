@@ -13,8 +13,8 @@ var $travelModal = document.querySelector('.travel-modal-container');
 var $travelModalForm = document.querySelector('.travel-modal-form');
 var $travelModalCancel = document.querySelector('.travel-button.cancel');
 
-var holidays = null;
-var weathers = null;
+var holidays = [];
+var weathers = [];
 
 $previousMonth.addEventListener('click', handlePrevious);
 $nextMonth.addEventListener('click', handleNext);
@@ -22,9 +22,8 @@ $calendar.addEventListener('click', handleSelect);
 $travelModalForm.addEventListener('submit', handleTravelSubmit);
 $travelModalCancel.addEventListener('click', handleTravelCancel);
 
-getHomeTown(data);
+getHomeName(data);
 getHolidays(today.year);
-getWeather(data.homeTown);
 generateSquares($calendar);
 populateCalendar(today);
 populateDayBanner(today);
@@ -77,9 +76,10 @@ function handleTravelSubmit(event) {
 
   if (!data.homeName) {
     $travelModalCancel.classList.remove('lighter-gray');
+    data.homeName = $travelModalForm.children[1].children[0].children[0].children[2].children[2].value;
+    getHomeTown(data.homeName);
   }
 
-  data.homeName = $travelModalForm.children[1].children[0].children[0].children[2].children[2].value;
   $travelModal.classList.add('hidden');
 
   $travelModalForm.reset();
@@ -295,25 +295,22 @@ function getHolidays(year) {
 }
 
 function getWeather(location) {
-  weathers = new XMLHttpRequest();
-  var weatherKey = '&appid=5ff45e05a8481e8ad44a0bc795ab4ace';
+  var weather = new XMLHttpRequest();
+  var weatherKey = data.weatherKey;
   var weatherUnits = '&units=imperial';
   var weatherLocation = '?lat=' + location.lat + '&lon=' + location.lon;
 
-  weathers.open('GET', 'https://api.openweathermap.org/data/2.5/onecall' + weatherLocation + weatherUnits + weatherKey);
-  weathers.responseType = 'json';
-  weathers.addEventListener('load', handleWeather);
-  weathers.send();
+  weather.open('GET', 'https://api.openweathermap.org/data/2.5/onecall' + weatherLocation + weatherUnits + weatherKey);
+  weather.responseType = 'json';
+  weather.addEventListener('load', handleWeather);
+  weather.send();
 
   function handleWeather(event) {
-    // weather = weather.response;
-    var weatherList = weathers.response.daily;
+    var weatherList = weather.response.daily;
     var finalData = [];
     for (var i = 0; i < weatherList.length; i++) {
       var data = weatherList[i];
-      // var dateTime = new Date(data.dt);
       var weatherObj = new Weather(
-        // new CalendarDate(dateTime.getDate(), dateTime.getMonth(), dateTime.getFullYear()),
         new CalendarDate(today.day + i, today.month, today.year),
         data.weather[0].main,
         Math.trunc(data.temp.day),
@@ -329,10 +326,29 @@ function getWeather(location) {
   }
 }
 
-function getHomeTown(data) {
+function getHomeName(data) {
   if (!data.homeName) {
     $travelModalCancel.classList.add('lighter-gray');
     $travelModal.classList.remove('hidden');
+  } else {
+    getWeather(data.homeTown);
+  }
+}
+
+function getHomeTown(homeName) {
+  var homeTown = new XMLHttpRequest();
+  var weatherKey = data.weatherKey;
+  var weatherUnits = '&units=imperial';
+  var weatherLocation = '?q=' + homeName;
+
+  homeTown.open('GET', 'https://api.openweathermap.org/data/2.5/weather' + weatherLocation + weatherUnits + weatherKey);
+  homeTown.responseType = 'json';
+  homeTown.addEventListener('load', handleHomeTown);
+  homeTown.send();
+
+  function handleHomeTown(event) {
+    data.homeTown = new Coord(homeTown.response.coord.lat, homeTown.response.coord.lon);
+    getWeather(data.homeTown);
   }
 }
 
@@ -360,4 +376,9 @@ function Weather(calendarDate, forecast, temp, max, min) {
   } else if (forecast === 'Snow') {
     this.svg = 'images/cloud-with-snow.svg';
   }
+}
+
+function Coord(lat, lon) {
+  this.lat = lat;
+  this.lon = lon;
 }
