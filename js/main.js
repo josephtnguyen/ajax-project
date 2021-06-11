@@ -12,6 +12,7 @@ var $dateWeather = document.querySelector('.date-weather');
 var $travelModal = document.querySelector('.travel-modal-container');
 var $travelModalForm = document.querySelector('.travel-modal-form');
 var $travelModalCancel = document.querySelector('.travel-button.cancel');
+var $travelButton = document.querySelector('.add-travel');
 
 var holidays = [];
 var weathers = [];
@@ -21,6 +22,7 @@ $nextMonth.addEventListener('click', handleNext);
 $calendar.addEventListener('click', handleSelect);
 $travelModalForm.addEventListener('submit', handleTravelSubmit);
 $travelModalCancel.addEventListener('click', handleTravelCancel);
+$travelButton.addEventListener('click', handleAddTravel);
 
 getHomeName(data);
 getHolidays(today.year);
@@ -95,6 +97,14 @@ function handleTravelCancel(event) {
   $travelModal.classList.add('hidden');
   $travelModalForm.reset();
 
+}
+
+function handleAddTravel(event) {
+  $travelModalForm.children[1].children[0].children[0].children[0].classList.remove('hidden');
+  $travelModalForm.children[1].children[0].children[0].children[1].classList.add('hidden');
+  $travelModalForm.children[1].children[0].children[0].children[2].children[0].classList.remove('hidden');
+  $travelModalForm.children[1].children[0].children[0].children[2].children[1].classList.add('hidden');
+  $travelModal.classList.remove('hidden');
 }
 
 // General Functions
