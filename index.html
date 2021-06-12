@@ -19,6 +19,8 @@
 </head>
 
 <body>
+
+
   <div class="complete-container">
 
     <div class="calendar-container">
@@ -82,8 +84,39 @@
       <footer></footer>
     </div>
 
+
+
     <!-- Checklist -->
     <div class="checklist-container">
+      <div class="travel-modal-container middle hidden">
+        <form class="travel-modal-form">
+          <!-- Heading -->
+          <div class="row">
+            <div class="col-100 travel-modal-header">
+              <button class="travel-button cancel dark-blue">Cancel</button>
+              <button class="travel-button save dark-blue">Save</button>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <div class="row">
+            <div class="col-100 travel-modal-body">
+              <label>
+                <h1 class="travel-modal-question dark-blue hidden">Where are you going?</h1>
+                <h1 class="travel-modal-question dark-blue">Where do you live?</h1>
+
+                <div class="travel-modal-prompt">
+                  <img src="images/airplane.svg" alt="Airplane" class="travel-modal-icon hidden">
+                  <img src="images/house.svg" alt="House" class="travel-modal-icon">
+                  <input required type="text" placeholder="Los Angeles" class="travel-modal-input dark-gray">
+                </div>
+              </label>
+            </div>
+          </div>
+        </form>
+      </div>
+
+
       <!-- Banner -->
       <div class="row middle day-banner">
         <!-- Date -->
@@ -103,12 +136,21 @@
           <ul>
 
           </ul>
+          <div class="add-buttons">
+            <button class="add-event middle">
+              +
+            </button>
+            <button class="add-travel middle">
+              <img src="images/plane-icon.svg" alt="Plane" class="plane-icon">
+            </button>
+          </div>
         </div>
       </div>
 
     </div>
   </div>
   <script src="js/data.js"></script>
+  <script src="js/constructors.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

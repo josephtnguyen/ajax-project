@@ -29,8 +29,20 @@ button:hover {
   color: black;
 }
 
+.dark-blue {
+  color: #5f738b;
+}
+
+.lighter-gray {
+  color: #f2f2f2;
+}
+
 .light-gray {
   color: #a5a4a4;
+}
+
+.dark-gray {
+  color: #5f6368;
 }
 
 .pink {
@@ -39,6 +51,61 @@ button:hover {
 
 .not-clickable:hover {
   cursor: unset;
+}
+
+.travel-modal-container {
+  background-color: rgba(41, 41, 41, 0.75);
+}
+
+.travel-modal-form {
+  background-color: white;
+  border-radius: 30px;
+  width: 80%;
+  height: 60vh;
+}
+
+.travel-modal-header {
+  border-bottom: 1px solid #a5a4a4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  height: 3rem;
+}
+
+.travel-button {
+  font-size: 18px;
+}
+
+.travel-modal-body {
+  padding: 3rem 1rem;
+}
+
+.travel-modal-question {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.travel-modal-prompt {
+  display: flex;
+  align-items: center;
+}
+
+.travel-modal-icon {
+  width: 39px;
+}
+
+.travel-modal-input {
+  border: none;
+  border-bottom: 1px solid black;
+  font-size: 18px;
+  margin: 0 1rem;
+  width: 100%;
+  height: 30px;
+}
+
+.travel-modal-input::placeholder {
+  color: #f2f2f2;
 }
 
 .header-month-year {
@@ -83,7 +150,23 @@ button:hover {
   padding: 0;
 }
 
-.current-day {
+.date.travel-1 {
+  color: #7299fd;
+}
+
+.date.travel-2 {
+  color: #4f7673;
+}
+
+.date.travel-3 {
+  color: #d64c4c;
+}
+
+.date.travel-4 {
+  color: #5f6368;
+}
+
+.date.current-day {
   background-color: #5f738b;
   color: white;
 }
@@ -107,6 +190,26 @@ button:hover {
   font-size: 14px;
   font-weight: 400;
   margin: 0.25rem;
+}
+
+.calendar-date-destination {
+  font-size: 12px;
+}
+
+.calendar-date-destination.travel-1 {
+  color: #7299fd;
+}
+
+.calendar-date-destination.travel-2 {
+  color: #4f7673;
+}
+
+.calendar-date-destination.travel-3 {
+  color: #d64c4c;
+}
+
+.calendar-date-destination.travel-4 {
+  color: #5f6368;
 }
 
 .day-banner {
@@ -160,6 +263,29 @@ button:hover {
   background-color: #fafcff;
 }
 
+.add-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+.add-event,
+.add-travel {
+  border-radius: 50%;
+  height: 25px;
+  width: 25px;
+  margin: 1rem;
+}
+
+.add-event {
+  background-color: #afc5b9;
+  color: white;
+  font-size: 24px;
+}
+
+.add-travel {
+  background-color: #c8b2d2;
+}
+
 @media (min-width: 1250px) {
   header {
     height: 8vh;
@@ -174,8 +300,28 @@ button:hover {
   }
 
   .square {
-    height: 13.27vh;
+    height: 13.06vh;
     border: 1px solid #c8c8c8;
+  }
+
+  .square.travel-1 {
+    border: 1px solid #7299fd;
+    box-shadow: inset 0 0 1px 1px #7299fd;
+  }
+
+  .square.travel-2 {
+    border: 1px solid #4f7673;
+    box-shadow: inset 0 0 1px 1px #4f7673;
+  }
+
+  .square.travel-3 {
+    border: 1px solid #d64c4c;
+    box-shadow: inset 0 0 1px 1px #d64c4c;
+  }
+
+  .square.travel-4 {
+    border: 1px solid #5f6368;
+    box-shadow: inset 0 0 1px 1px #5f6368;
   }
 
   .calendar-date-weather-heading {

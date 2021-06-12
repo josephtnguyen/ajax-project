@@ -1,12 +1,13 @@
 /* exported data */
 var data = {
-  homeName: 'Garden Grove',
-  homeTown: {
-    lat: 33.7739,
-    lon: -117.9415
-  },
+  homeTown: '',
+  homeCoord: null,
+  coords: {},
+
   holidaysDummy: null,
-  days: []
+  days: [],
+  weatherKey: '&appid=5ff45e05a8481e8ad44a0bc795ab4ace',
+  colorCounter: 1
 };
 
 var previousData = localStorage.getItem('calendar-data');
