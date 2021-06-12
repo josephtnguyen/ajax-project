@@ -15,7 +15,8 @@
   margin: 0 auto;
 }
 
-.travel-modal-container {
+.travel-modal-container,
+.event-modal-container {
   position: fixed;
   width: 100%;
   height: 100vh;
@@ -83,7 +84,8 @@
     height: 100vh;
   }
 
-  .travel-modal-container {
+  .travel-modal-container,
+  .event-modal-container {
     position: absolute;
     width: 25%;
   }

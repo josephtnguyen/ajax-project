@@ -41,6 +41,10 @@ button:hover {
   color: #a5a4a4;
 }
 
+.gray {
+  color: #7c7c7c;
+}
+
 .dark-gray {
   color: #5f6368;
 }
@@ -53,58 +57,7 @@ button:hover {
   cursor: unset;
 }
 
-.travel-modal-container {
-  background-color: rgba(41, 41, 41, 0.75);
-}
-
-.travel-modal-form {
-  background-color: white;
-  border-radius: 30px;
-  width: 80%;
-  height: 60vh;
-}
-
-.travel-modal-header {
-  border-bottom: 1px solid #a5a4a4;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  height: 3rem;
-}
-
-.travel-button {
-  font-size: 18px;
-}
-
-.travel-modal-body {
-  padding: 3rem 1rem;
-}
-
-.travel-modal-question {
-  font-size: 24px;
-  font-weight: 500;
-}
-
-.travel-modal-prompt {
-  display: flex;
-  align-items: center;
-}
-
-.travel-modal-icon {
-  width: 39px;
-}
-
-.travel-modal-input {
-  border: none;
-  border-bottom: 1px solid black;
-  font-size: 18px;
-  margin: 0 1rem;
-  width: 100%;
-  height: 30px;
-}
-
-.travel-modal-input::placeholder {
+input::placeholder {
   color: #f2f2f2;
 }
 
@@ -210,6 +163,117 @@ button:hover {
 
 .calendar-date-destination.travel-4 {
   color: #5f6368;
+}
+
+.travel-modal-container,
+.event-modal-container {
+  background-color: rgba(41, 41, 41, 0.75);
+}
+
+.travel-modal-form,
+.event-modal-form {
+  background-color: white;
+  border-radius: 30px;
+  width: 90%;
+  height: 60vh;
+}
+
+.modal-header {
+  border-bottom: 1px solid #a5a4a4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  height: 3rem;
+}
+
+.travel-button,
+.event-button {
+  font-size: 18px;
+}
+
+.travel-modal-body {
+  padding: 3rem 1.5rem;
+}
+
+.modal-heading {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.modal-prompt {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+
+.modal-icon {
+  width: 39px;
+}
+
+.modal-input {
+  border: none;
+  border-bottom: 1px solid black;
+  font-size: 18px;
+  margin: 0 1rem;
+  width: 100%;
+  height: 30px;
+}
+
+button.modal-selected {
+  border: 3px solid #1a73e8;
+}
+
+.event-modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 0.75rem;
+}
+
+button.event-modal-view {
+  color: white;
+  border-radius: 5px;
+  font-size: 18px;
+  padding: 0.25rem 0.35rem;
+  margin: 0 0.125rem;
+}
+
+button.event {
+  background-color: #5f738b;
+}
+
+button.birthday {
+  background-color: #d64c4c;
+}
+
+button.hangout {
+  background-color: #c6e6fb;
+}
+
+button.meeting {
+  background-color: #9dacb9;
+}
+
+.event-modal-body {
+  padding: 0 1rem;
+}
+
+.event-modal-time-input {
+  font-size: 18px;
+  margin: 0 1rem;
+  width: 100%;
+  height: 30px;
+}
+
+.event-modal-time {
+  background-color: #f2f2f2;
+  color: #7c7c7c;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 5px;
+  border: none;
 }
 
 .day-banner {
