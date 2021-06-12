@@ -8,7 +8,7 @@ function CalendarDate(day, month, year) {
 }
 
 CalendarDate.prototype.isSameDay = function (calendarDate) {
-  if (this.year === calendarDate.year && this.month === calendarDate.month && this.day === calendarDate.day) {
+  if (this.year === calendarDate.year && this.month === calendarDate.month && parseInt(this.day) === calendarDate.day) {
     return true;
   } else {
     return false;
