@@ -29,9 +29,9 @@ $previousMonth.addEventListener('click', handlePrevious);
 $nextMonth.addEventListener('click', handleNext);
 $calendar.addEventListener('click', handleSelect);
 
-$travelModalForm.addEventListener('submit', handleTravelSubmit);
-$travelModalCancel.addEventListener('click', handleTravelCancel);
 $travelButton.addEventListener('click', handleAddTravel);
+$travelModalCancel.addEventListener('click', handleTravelCancel);
+$travelModalForm.addEventListener('submit', handleTravelSubmit);
 
 $eventButton.addEventListener('click', handleAddEvent);
 $eventModalCancel.addEventListener('click', handleEventCancel);
@@ -150,7 +150,6 @@ function handleAddEvent(event) {
 
 function handleEventCancel(event) {
   event.preventDefault();
-
   $eventModal.classList.add('hidden');
   $eventModalForm.reset();
 }
@@ -158,6 +157,15 @@ function handleEventCancel(event) {
 function handleEventSubmit(event) {
   event.preventDefault();
 
+  generateSquares($calendar);
+  populateCalendar(view);
+  // populateChecklist(view);
+
+  if (event.submitter.matches('.event-button.save')) {
+    $eventModal.classList.add('hidden');
+  }
+
+  $eventModalForm.reset();
 }
 
 // General Functions
