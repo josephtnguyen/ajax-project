@@ -17,15 +17,25 @@ var $dateWeather = document.querySelector('.date-weather');
 
 var $travelModal = document.querySelector('.travel-modal-container');
 var $travelModalForm = document.querySelector('.travel-modal-form');
-var $travelModalCancel = document.querySelector('.travel-button.cancel');
 var $travelButton = document.querySelector('.add-travel');
+var $travelModalCancel = document.querySelector('.travel-button.cancel');
+
+var $eventModal = document.querySelector('.event-modal-container');
+var $eventModalForm = document.querySelector('.event-modal-form');
+var $eventButton = document.querySelector('.add-event');
+var $eventModalCancel = document.querySelector('.event-button.cancel');
 
 $previousMonth.addEventListener('click', handlePrevious);
 $nextMonth.addEventListener('click', handleNext);
 $calendar.addEventListener('click', handleSelect);
+
 $travelModalForm.addEventListener('submit', handleTravelSubmit);
 $travelModalCancel.addEventListener('click', handleTravelCancel);
 $travelButton.addEventListener('click', handleAddTravel);
+
+$eventButton.addEventListener('click', handleAddEvent);
+$eventModalCancel.addEventListener('click', handleEventCancel);
+$eventModalForm.addEventListener('submit', handleEventSubmit);
 
 getHomeTown(data);
 getHolidays(today.year);
@@ -124,7 +134,6 @@ function handleTravelCancel(event) {
 
   $travelModal.classList.add('hidden');
   $travelModalForm.reset();
-
 }
 
 function handleAddTravel(event) {
@@ -133,6 +142,22 @@ function handleAddTravel(event) {
   $travelModalForm.children[1].children[0].children[0].children[2].children[0].classList.remove('hidden');
   $travelModalForm.children[1].children[0].children[0].children[2].children[1].classList.add('hidden');
   $travelModal.classList.remove('hidden');
+}
+
+function handleAddEvent(event) {
+  $eventModal.classList.remove('hidden');
+}
+
+function handleEventCancel(event) {
+  event.preventDefault();
+
+  $eventModal.classList.add('hidden');
+  $eventModalForm.reset();
+}
+
+function handleEventSubmit(event) {
+  event.preventDefault();
+
 }
 
 // General Functions
