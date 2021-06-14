@@ -1,5 +1,5 @@
 /* global data */
-/* exported CalendarDate, Weather, Coord, CalendarDay */
+/* exported CalendarDate, Weather, Coord, CalendarDay, CalendarEvent, EventTime */
 
 function CalendarDate(day, month, year) {
   this.day = day;
@@ -59,7 +59,29 @@ function CalendarDay(calendarDate, travel = '') {
   this.events = [];
 }
 
+function CalendarEvent(type, input, time = null) {
+  this.type = type;
+  this.input = input;
+  this.time = time;
+
+  if (type === 'birthday') {
+    this.input = input + "'s Birthday";
+  }
+}
+
+function EventTime(hour, minute, ampm) {
+  this.hour = hour;
+  this.minute = minute;
+  this.ampm = ampm;
+}
+
+EventTime.prototype.isBefore = function (eventTime) {
+
+  return true;
+};
+
 // add prototypes back to days
 for (var i = 0; i < data.days.length; i++) {
+  Object.setPrototypeOf(data.days[i], CalendarDay.prototype);
   Object.setPrototypeOf(data.days[i].date, CalendarDate.prototype);
 }

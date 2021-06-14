@@ -261,6 +261,8 @@ button.meeting {
 }
 
 .event-modal-time-input {
+  display: flex;
+  align-items: center;
   font-size: 18px;
   margin: 0 1rem;
   width: 100%;
