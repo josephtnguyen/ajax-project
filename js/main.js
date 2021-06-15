@@ -29,6 +29,7 @@ var $eventModalForm = document.querySelector('.event-modal-form');
 var $eventButton = document.querySelector('.add-event');
 var $eventModalCancel = document.querySelector('.event-button.cancel');
 var $eventModalTypeDiv = document.querySelector('.event-modal-buttons');
+var $eventModalDate = document.querySelector('.event-modal-date');
 var $eventModalNone = document.querySelector('button.event-modal-time');
 var $eventModalInput = document.querySelector('.event-modal-container .modal-input');
 var $checklist = document.querySelector('.checklist-div > ul');
@@ -162,11 +163,17 @@ function handleAddEvent(event) {
   $eventModalTypeSelectors[0].classList.add('modal-selected');
   $eventModalIcons[0].classList.remove('hidden');
   $eventModalInput.setAttribute('placeholder', 'New Event');
-  $eventModalNone.classList.add('modal-selected');
+  $eventModalNone.classList.remove('modal-selected');
   for (var i = 1; i < $eventModalTypeSelectors.length; i++) {
     $eventModalTypeSelectors[i].classList.remove('modal-selected');
     $eventModalIcons[i].classList.add('hidden');
   }
+
+  var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  $eventModalDate.children[0].textContent = months[view.month];
+  $eventModalDate.children[1].textContent = view.day;
+  $eventModalDate.children[2].textContent = view.year;
+
   $eventModal.classList.remove('hidden');
 }
 
@@ -194,9 +201,13 @@ function handleEventTypeSelection(event) {
       $eventModalTypeSelectors[i].classList.add('modal-selected');
       $eventModalIcons[i].classList.remove('hidden');
       $eventModalInput.setAttribute('placeholder', placeholders[i]);
+      if (event.target.matches('.birthday')) {
+        $eventModalNone.classList.add('modal-selected');
+      }
     } else {
       $eventModalTypeSelectors[i].classList.remove('modal-selected');
       $eventModalIcons[i].classList.add('hidden');
+      $eventModalNone.classList.remove('modal-selected');
     }
   }
 }
