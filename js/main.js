@@ -47,6 +47,7 @@ $eventModalCancel.addEventListener('click', handleEventCancel);
 $eventModalTypeDiv.addEventListener('click', handleEventTypeSelection);
 $eventModalNone.addEventListener('click', handleEventNoTime);
 $eventModalForm.addEventListener('submit', handleEventSubmit);
+// $checklist.addEventListener('click', handleEventEdit);
 
 getHomeTown(data);
 getHolidays(today.year);
@@ -272,6 +273,14 @@ function handleEventSubmit(event) {
 
   $eventModalForm.reset();
 }
+
+// function handleEventEdit(event) {
+//   if (!event.target.matches('button')) {
+//     return;
+//   }
+
+//   var day;
+// }
 
 // General Functions
 function generateSquares(calendar) {

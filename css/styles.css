@@ -343,6 +343,7 @@ button.meeting {
   height: 20px;
   border: 1px solid #e5e3e6;
   border-radius: 50%;
+  padding: 0 9px;
 }
 
 .event-icon {
