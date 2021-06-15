@@ -47,7 +47,7 @@ $eventModalCancel.addEventListener('click', handleEventCancel);
 $eventModalTypeDiv.addEventListener('click', handleEventTypeSelection);
 $eventModalNone.addEventListener('click', handleEventNoTime);
 $eventModalForm.addEventListener('submit', handleEventSubmit);
-// $checklist.addEventListener('click', handleEventEdit);
+$checklist.addEventListener('click', handleEventEdit);
 
 getHomeTown(data);
 getHolidays(today.year);
@@ -89,7 +89,7 @@ function handleSelect(event) {
 
   var squareId = '#' + event.target.closest('.square').id;
   var $date = document.querySelector(squareId).children[0].children[0].children[0];
-  view.day = $date.textContent;
+  view.day = parseInt($date.textContent);
 
   generateSquares($calendar);
   populateCalendar(view);
@@ -164,11 +164,14 @@ function handleAddEvent(event) {
   $eventModalTypeSelectors[0].classList.add('modal-selected');
   $eventModalIcons[0].classList.remove('hidden');
   $eventModalInput.setAttribute('placeholder', 'New Event');
+  $eventModalInput.setAttribute('value', '');
   $eventModalNone.classList.remove('modal-selected');
   for (var i = 1; i < $eventModalTypeSelectors.length; i++) {
     $eventModalTypeSelectors[i].classList.remove('modal-selected');
     $eventModalIcons[i].classList.add('hidden');
   }
+
+  setEventModalTime(new EventTime('7', '00', 'pm'));
 
   var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   $eventModalDate.children[0].textContent = months[view.month];
@@ -254,11 +257,20 @@ function handleEventSubmit(event) {
     time = new EventTime($eventModalTimes[0].value, $eventModalTimes[1].value, $eventModalTimes[2].value);
   }
 
-  // create a CalendarEvent
-  var calendarEvent = new CalendarEvent(type, $eventModalInput.value, time);
-
-  // add CalendarEvent to corresponding array in CalendarDay
-  day.events.push(calendarEvent);
+  // create a CalendarEvent or update current event
+  if (data.editing) {
+    for (i = 0; i < day.events.length; i++) {
+      if (day.events[i].id === data.editingId) {
+        day.events[i] = new CalendarEvent(type, $eventModalInput.value, time, data.editingId);
+        data.editing = false;
+        break;
+      }
+    }
+  } else {
+    var calendarEvent = new CalendarEvent(type, $eventModalInput.value, time, data.eventId);
+    data.eventId++;
+    day.events.push(calendarEvent);
+  }
 
   // sort the events of the day
   day.events.sort((a, b) => b.weight - a.weight);
@@ -274,13 +286,66 @@ function handleEventSubmit(event) {
   $eventModalForm.reset();
 }
 
-// function handleEventEdit(event) {
-//   if (!event.target.matches('button')) {
-//     return;
-//   }
+function handleEventEdit(event) {
+  if (!event.target.closest('button')) {
+    return;
+  }
+  data.editing = true;
 
-//   var day;
-// }
+  // find the day to edit
+  var day;
+  for (var i = 0; i < data.days.length; i++) {
+    if (view.isSameDay(data.days[i].date)) {
+      day = data.days[i];
+      break;
+    }
+  }
+
+  // find the event to edit
+  var eventListing;
+  var eventId = parseInt(event.target.closest('.row').getAttribute('data-id'));
+  data.editingId = eventId;
+  for (i = 0; i < day.events.length; i++) {
+    if (day.events[i].id === eventId) {
+      eventListing = day.events[i];
+      break;
+    }
+  }
+
+  // open the modal and populate it with the proper inputs
+  var placeholders = [
+    'New Event',
+    'Whose Birthday?',
+    'New Hangout',
+    'New Meeting'
+  ];
+  for (i = 0; i < $eventModalTypeSelectors.length; i++) {
+    if ($eventModalTypeSelectors[i].matches('.' + eventListing.type)) {
+      $eventModalTypeSelectors[i].classList.add('modal-selected');
+      $eventModalIcons[i].classList.remove('hidden');
+      $eventModalInput.setAttribute('placeholder', placeholders[i]);
+    } else {
+      $eventModalTypeSelectors[i].classList.remove('modal-selected');
+      $eventModalIcons[i].classList.add('hidden');
+    }
+  }
+  $eventModalInput.setAttribute('value', eventListing.input);
+  // populate time
+  if (eventListing.time) {
+    setEventModalTime(eventListing.time);
+    $eventModalNone.classList.remove('modal-selected');
+  } else {
+    $eventModalNone.classList.add('modal-selected');
+  }
+  // update date
+  var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  $eventModalDate.children[0].textContent = months[view.month];
+  $eventModalDate.children[1].textContent = view.day;
+  $eventModalDate.children[2].textContent = view.year;
+
+  $eventModal.classList.remove('hidden');
+
+}
 
 // General Functions
 function generateSquares(calendar) {
@@ -528,6 +593,19 @@ function generateBannerWeather(weatherDiv, weather) {
   $sideTemp.append($low);
 }
 
+function setEventModalTime(time) {
+  var timeComponents = ['hour', 'minute', 'ampm'];
+  for (var i = 0; i < $eventModalTimes.length; i++) {
+    for (var j = 0; j < $eventModalTimes[i].children.length; j++) {
+      if (time[timeComponents[i]] === $eventModalTimes[i].children[j].value) {
+        $eventModalTimes[i].children[j].setAttribute('selected', '');
+      } else {
+        $eventModalTimes[i].children[j].removeAttribute('selected');
+      }
+    }
+  }
+}
+
 function populateChecklist(calendarDate) {
   // if the current day has no data, return
   $checklist.innerHTML = '';
@@ -548,6 +626,7 @@ function populateChecklist(calendarDate) {
   for (i = 0; i < day.events.length; i++) {
     var $li = document.createElement('li');
     $li.className = 'row';
+    $li.setAttribute('data-id', day.events[i].id);
 
     var $eventTextDiv = document.createElement('div');
     $eventTextDiv.className = 'col-75 event-text-div';

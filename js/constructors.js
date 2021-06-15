@@ -56,12 +56,13 @@ function CalendarDay(calendarDate, travel = '') {
   this.events = [];
 }
 
-function CalendarEvent(type, input, time) {
+function CalendarEvent(type, input, time, id) {
   this.type = type;
   this.input = input;
   this.time = time;
   this.checked = false;
   this.weight = 0;
+  this.id = id;
 
   if (time) {
     var timeValue = 0;

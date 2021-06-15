@@ -7,7 +7,10 @@ var data = {
   holidaysDummy: null,
   days: [],
   weatherKey: '&appid=5ff45e05a8481e8ad44a0bc795ab4ace',
-  colorCounter: 1
+  colorCounter: 1,
+  eventId: 1,
+  editing: false,
+  editingId: 0
 };
 
 var previousData = localStorage.getItem('calendar-data');
