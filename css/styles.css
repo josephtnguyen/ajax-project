@@ -329,6 +329,44 @@ button.meeting {
   background-color: #fafcff;
 }
 
+.checklist-div > ul {
+  padding: 0 1rem;
+}
+
+.event-text-div {
+  display: flex;
+  align-items: center;
+}
+
+.event-radio-button {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #e5e3e6;
+  border-radius: 50%;
+}
+
+.event-text {
+  font-size: 14px;
+  margin-left: 0.5rem;
+}
+
+.event-time-edit-div {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.event-time {
+  color: #888;
+  font-size: 14px;
+}
+
+.event-edit {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+}
+
 .add-buttons {
   display: flex;
   justify-content: center;

@@ -31,6 +31,7 @@ var $eventModalCancel = document.querySelector('.event-button.cancel');
 var $eventModalTypeDiv = document.querySelector('.event-modal-buttons');
 var $eventModalNone = document.querySelector('button.event-modal-time');
 var $eventModalInput = document.querySelector('.event-modal-container .modal-input');
+var $checklist = document.querySelector('.checklist-div > ul');
 
 $previousMonth.addEventListener('click', handlePrevious);
 $nextMonth.addEventListener('click', handleNext);
@@ -51,6 +52,7 @@ getHolidays(today.year);
 generateSquares($calendar);
 populateCalendar(today);
 populateDayBanner(today);
+populateChecklist(today);
 
 // Event Handlers
 function handlePrevious(event) {
@@ -84,14 +86,15 @@ function handleSelect(event) {
   }
 
   var squareId = '#' + event.target.closest('.square').id;
-
-  generateSquares($calendar);
-  populateCalendar(view);
-
   var $date = document.querySelector(squareId).children[0].children[0].children[0];
 
   $date.classList.add('selected');
   view.day = $date.textContent;
+
+  generateSquares($calendar);
+  populateCalendar(view);
+  populateChecklist(view);
+
   populateDayBanner(view);
 }
 
@@ -242,11 +245,11 @@ function handleEventSubmit(event) {
   var calendarEvent = new CalendarEvent(type, $eventModalInput.value, time);
 
   // add CalendarEvent to corresponding array in CalendarDay
-  day[type + 's'].push(calendarEvent);
+  day.events.push(calendarEvent);
 
   generateSquares($calendar);
   populateCalendar(view);
-  // populateChecklist(view);
+  populateChecklist(view);
 
   if (event.submitter.matches('.event-button.save')) {
     $eventModal.classList.add('hidden');
@@ -499,6 +502,64 @@ function generateBannerWeather(weatherDiv, weather) {
   weatherDiv.append($sideTemp);
   $sideTemp.append($high);
   $sideTemp.append($low);
+}
+
+function populateChecklist(calendarDate) {
+  // if the current day has no data, return
+  $checklist.innerHTML = '';
+  var day;
+  for (var i = 0; i < data.days.length; i++) {
+    if (data.days[i].date.isSameDay(calendarDate)) {
+      day = data.days[i];
+      break;
+    }
+    if (i === data.days.length - 1) {
+      return;
+    }
+  }
+
+  // populate checklist
+  for (i = 0; i < day.events.length; i++) {
+    var $li = document.createElement('li');
+    $li.className = 'row';
+
+    var $eventTextDiv = document.createElement('div');
+    $eventTextDiv.className = 'col-75 event-text-div';
+
+    var $checkButton = document.createElement('button');
+    $checkButton.className = 'event-radio-button';
+    if (day.events[i].checked) {
+      $checkButton.classList.add('checked');
+    }
+
+    var $text = document.createElement('p');
+    $text.className = 'event-text';
+    $text.textContent = day.events[i].input;
+
+    var $eventTimeEdit = document.createElement('div');
+    $eventTimeEdit.className = 'col-25 event-time-edit-div';
+
+    var $time = document.createElement('p');
+    $time.className = 'event-time';
+    if (day.events[i].time) {
+      $time.textContent = day.events[i].time.hour + ':' + day.events[i].time.minute + day.events[i].time.ampm.toUpperCase();
+    }
+
+    var $edit = document.createElement('button');
+    $edit.className = 'event-edit middle';
+
+    var $editImage = document.createElement('img');
+    $editImage.setAttribute('src', 'images/edit.svg');
+
+    $checklist.append($li);
+    $li.append($eventTextDiv);
+    $li.append($eventTimeEdit);
+    $eventTextDiv.append($checkButton);
+    $eventTextDiv.append($text);
+    $eventTimeEdit.append($time);
+    $eventTimeEdit.append($edit);
+    $edit.append($editImage);
+  }
 }
 
 // AJAX Functions

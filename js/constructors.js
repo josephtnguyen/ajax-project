@@ -53,20 +53,35 @@ function CalendarDay(calendarDate, travel = '') {
   this.date = calendarDate;
   this.travel = travel;
 
-  this.birthdays = [];
-  this.meetings = [];
-  this.hangouts = [];
   this.events = [];
 }
 
-function CalendarEvent(type, input, time = null) {
+function CalendarEvent(type, input, time) {
   this.type = type;
   this.input = input;
   this.time = time;
+  this.checked = false;
+  this.weight = 0;
 
   if (type === 'birthday') {
+    this.weight += Math.pow(10, 8);
     this.input = input + "'s Birthday";
+  } else if (type === 'meeting') {
+    this.weight += Math.pow(10, 7);
+  } else if (type === 'hangout') {
+    this.weight += Math.pow(10, 6);
+  } else if (type === 'event') {
+    this.weight += Math.pow(10, 5);
   }
+
+  if (time) {
+    this.weight += parseInt(this.hour) * 100;
+    this.weight += parseInt(this.minute);
+    if (this.ampm === 'pm') {
+      this.weight += 1200;
+    }
+  }
+
 }
 
 function EventTime(hour, minute, ampm) {
@@ -74,11 +89,6 @@ function EventTime(hour, minute, ampm) {
   this.minute = minute;
   this.ampm = ampm;
 }
-
-EventTime.prototype.isBefore = function (eventTime) {
-
-  return true;
-};
 
 // add prototypes back to days
 for (var i = 0; i < data.days.length; i++) {
