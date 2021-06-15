@@ -278,6 +278,14 @@ button.meeting {
   border: none;
 }
 
+.event-modal-delete-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 30vh;
+}
+
 .day-banner {
   background-color: #9dacb9;
   color: white;

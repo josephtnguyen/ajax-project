@@ -32,6 +32,7 @@ var $eventModalTypeDiv = document.querySelector('.event-modal-buttons');
 var $eventModalDate = document.querySelector('.event-modal-date');
 var $eventModalNone = document.querySelector('button.event-modal-time');
 var $eventModalInput = document.querySelector('.event-modal-container .modal-input');
+var $eventModalDelete = document.querySelector('.event-modal-delete-div');
 var $checklist = document.querySelector('.checklist-div > ul');
 
 $previousMonth.addEventListener('click', handlePrevious);
@@ -42,7 +43,7 @@ $travelButton.addEventListener('click', handleAddTravel);
 $travelModalCancel.addEventListener('click', handleTravelCancel);
 $travelModalForm.addEventListener('submit', handleTravelSubmit);
 
-$eventButton.addEventListener('click', handleAddEvent);
+$eventButton.addEventListener('click', handleEventAdd);
 $eventModalCancel.addEventListener('click', handleEventCancel);
 $eventModalTypeDiv.addEventListener('click', handleEventTypeSelection);
 $eventModalNone.addEventListener('click', handleEventNoTime);
@@ -160,12 +161,13 @@ function handleAddTravel(event) {
   $travelModal.classList.remove('hidden');
 }
 
-function handleAddEvent(event) {
+function handleEventAdd(event) {
   $eventModalTypeSelectors[0].classList.add('modal-selected');
   $eventModalIcons[0].classList.remove('hidden');
   $eventModalInput.setAttribute('placeholder', 'New Event');
   $eventModalInput.setAttribute('value', '');
   $eventModalNone.classList.remove('modal-selected');
+  $eventModalDelete.classList.add('hidden');
   for (var i = 1; i < $eventModalTypeSelectors.length; i++) {
     $eventModalTypeSelectors[i].classList.remove('modal-selected');
     $eventModalIcons[i].classList.add('hidden');
@@ -344,6 +346,7 @@ function handleEventEdit(event) {
   $eventModalDate.children[1].textContent = view.day;
   $eventModalDate.children[2].textContent = view.year;
 
+  $eventModalDelete.classList.remove('hidden');
   $eventModal.classList.remove('hidden');
 }
 
