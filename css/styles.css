@@ -345,9 +345,13 @@ button.meeting {
   border-radius: 50%;
 }
 
+.event-icon {
+  width: 14px;
+  margin: 0 0.5rem;
+}
+
 .event-text {
   font-size: 14px;
-  margin-left: 0.5rem;
 }
 
 .event-time-edit-div {

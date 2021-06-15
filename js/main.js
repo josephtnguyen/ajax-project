@@ -23,7 +23,7 @@ var $travelModalCancel = document.querySelector('.travel-button.cancel');
 
 var $eventModalTypeSelectors = document.querySelectorAll('button.event-modal-view');
 var $eventModalTimes = document.querySelectorAll('select.event-modal-time');
-var $eventModalIcons = document.querySelectorAll('.event-icon .modal-icon');
+var $eventModalIcons = document.querySelectorAll('.event-modal-input-icons .modal-icon');
 var $eventModal = document.querySelector('.event-modal-container');
 var $eventModalForm = document.querySelector('.event-modal-form');
 var $eventButton = document.querySelector('.add-event');
@@ -87,13 +87,13 @@ function handleSelect(event) {
 
   var squareId = '#' + event.target.closest('.square').id;
   var $date = document.querySelector(squareId).children[0].children[0].children[0];
-
-  $date.classList.add('selected');
   view.day = $date.textContent;
 
   generateSquares($calendar);
   populateCalendar(view);
   populateChecklist(view);
+  $date = document.querySelector(squareId).children[0].children[0].children[0];
+  $date.classList.add('selected');
 
   populateDayBanner(view);
 }
@@ -162,6 +162,7 @@ function handleAddEvent(event) {
   $eventModalTypeSelectors[0].classList.add('modal-selected');
   $eventModalIcons[0].classList.remove('hidden');
   $eventModalInput.setAttribute('placeholder', 'New Event');
+  $eventModalNone.classList.add('modal-selected');
   for (var i = 1; i < $eventModalTypeSelectors.length; i++) {
     $eventModalTypeSelectors[i].classList.remove('modal-selected');
     $eventModalIcons[i].classList.add('hidden');
@@ -246,6 +247,9 @@ function handleEventSubmit(event) {
 
   // add CalendarEvent to corresponding array in CalendarDay
   day.events.push(calendarEvent);
+
+  // sort the events of the day
+  day.events.sort((a, b) => b.weight - a.weight);
 
   generateSquares($calendar);
   populateCalendar(view);
@@ -517,6 +521,8 @@ function populateChecklist(calendarDate) {
       return;
     }
   }
+  // sort the events of the day
+  day.events.sort((a, b) => a.weight - b.weight);
 
   // populate checklist
   for (i = 0; i < day.events.length; i++) {
@@ -531,6 +537,10 @@ function populateChecklist(calendarDate) {
     if (day.events[i].checked) {
       $checkButton.classList.add('checked');
     }
+
+    var $icon = document.createElement('img');
+    $icon.className = 'event-icon';
+    $icon.setAttribute('src', day.events[i].svg);
 
     var $text = document.createElement('p');
     $text.className = 'event-text';
@@ -555,6 +565,7 @@ function populateChecklist(calendarDate) {
     $li.append($eventTextDiv);
     $li.append($eventTimeEdit);
     $eventTextDiv.append($checkButton);
+    $eventTextDiv.append($icon);
     $eventTextDiv.append($text);
     $eventTimeEdit.append($time);
     $eventTimeEdit.append($edit);

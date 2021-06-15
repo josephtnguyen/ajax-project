@@ -63,23 +63,33 @@ function CalendarEvent(type, input, time) {
   this.checked = false;
   this.weight = 0;
 
-  if (type === 'birthday') {
-    this.weight += Math.pow(10, 8);
-    this.input = input + "'s Birthday";
-  } else if (type === 'meeting') {
-    this.weight += Math.pow(10, 7);
-  } else if (type === 'hangout') {
-    this.weight += Math.pow(10, 6);
-  } else if (type === 'event') {
-    this.weight += Math.pow(10, 5);
+  if (time) {
+    var timeValue = 0;
+    timeValue += parseInt(time.minute);
+    if (time.hour !== '12') {
+      timeValue += parseInt(time.hour) * 100;
+    }
+    if (time.ampm === 'pm') {
+      timeValue += 1200;
+    }
+    this.weight = timeValue * 10;
+  } else if (type !== 'birthday') {
+    this.weight += 100000;
   }
 
-  if (time) {
-    this.weight += parseInt(this.hour) * 100;
-    this.weight += parseInt(this.minute);
-    if (this.ampm === 'pm') {
-      this.weight += 1200;
-    }
+  if (type === 'birthday') {
+    this.weight += 1;
+    this.input = input + "'s Birthday";
+    this.svg = 'images/birthday.svg';
+  } else if (type === 'meeting') {
+    this.weight += 2;
+    this.svg = 'images/group.svg';
+  } else if (type === 'hangout') {
+    this.weight += 3;
+    this.svg = 'images/friends.svg';
+  } else if (type === 'event') {
+    this.weight += 4;
+    this.svg = 'images/calendar.svg';
   }
 
 }
