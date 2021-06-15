@@ -283,6 +283,7 @@ function handleEventSubmit(event) {
     $eventModal.classList.add('hidden');
   }
 
+  $eventModalInput.setAttribute('value', '');
   $eventModalForm.reset();
 }
 
@@ -344,7 +345,6 @@ function handleEventEdit(event) {
   $eventModalDate.children[2].textContent = view.year;
 
   $eventModal.classList.remove('hidden');
-
 }
 
 // General Functions
