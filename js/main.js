@@ -794,7 +794,7 @@ function getHolidays(year) {
   function handleHolidays(event) {
     holidays = holidaysList.response.response.holidays;
     data.holidaysDummy = holidays;
-    refreshApp();
+    refreshApp(view);
   }
 }
 

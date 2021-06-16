@@ -5,7 +5,7 @@ var data = {
   coords: {},
   holidaysDummy: null,
   days: [],
-  weatherKey: '&appid=5ff45e05a8481e8ad44a0bc795ab4ace',
+  weatherKey: '&appid=2518c4e728699f8725f31dbf2865f2ff',
   colorCounter: 1,
   eventId: 1,
   editing: false,
