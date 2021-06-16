@@ -80,7 +80,6 @@ function CalendarEvent(type, input, time, id) {
 
   if (type === 'birthday') {
     this.weight += 1;
-    this.input = input + "'s Birthday";
     this.svg = 'images/birthday.svg';
   } else if (type === 'meeting') {
     this.weight += 2;

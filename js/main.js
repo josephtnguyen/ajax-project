@@ -82,11 +82,12 @@ function handleSelect(event) {
   if (!event.target.closest('.square')) {
     return;
   }
-  if (!event.target.closest('.black')) {
+  var $square = event.target.closest('.square');
+  if (!$square.children[0].children[0].children[0].matches('.black')) {
     return;
   }
 
-  view.day = parseInt(event.target.closest('.square').children[0].children[0].children[0].textContent);
+  view.day = parseInt($square.children[0].children[0].children[0].textContent);
   refreshApp(view);
 }
 
@@ -293,7 +294,6 @@ function handleEventEdit(event) {
   if (!event.target.closest('button')) {
     return;
   }
-  data.editing = true;
 
   // find the day to edit
   var day;
@@ -315,7 +315,15 @@ function handleEventEdit(event) {
     }
   }
 
+  // if the radio button was clicked, check/uncheck it instead
+  if (event.target.closest('.event-radio-button')) {
+    eventListing.checked = !eventListing.checked;
+    refreshApp(view);
+    return;
+  }
+
   // open the modal and populate it with the proper inputs
+  data.editing = true;
   var placeholders = [
     'New Event',
     'Whose Birthday?',
@@ -463,21 +471,6 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
   }
   $number.textContent = dateObj.day;
 
-  // Holiday
-  for (var i = 0; i < holidays.length; i++) {
-    var viewingMonth = view.month;
-    var viewingDay = dateObj.day;
-    if (!isCurrentMonth && dateObj.day > 15) {
-      viewingMonth--;
-    } else if (!isCurrentMonth && dateObj.day < 15) {
-      viewingMonth++;
-    }
-    if (holidays[i].date.datetime.month - 1 === viewingMonth && holidays[i].date.datetime.day === viewingDay) {
-      $number.classList.add('pink');
-      break;
-    }
-  }
-
   // Location/Weather
   var $headingSideDiv = document.createElement('div');
   $headingSideDiv.className = 'col-66-lg calendar-date-weather-heading';
@@ -498,7 +491,7 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
         }
       }
       // find the correct day in weatherList and fill in the DOM
-      for (i = 0; i < weatherList.length; i++) {
+      for (var i = 0; i < weatherList.length; i++) {
         if (weatherList[i].date.day === dateObj.day && isCurrentMonth) {
           var $weatherIcon = document.createElement('img');
           $weatherIcon.className = 'calendar-date-weather-icon';
@@ -518,25 +511,59 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
   }
 
   // Travel
+  var travelAdded = false;
   if (dayObj) {
     if (dayObj.travel) {
-      if (dayObj.travel !== currentTravel.location) {
-        currentTravel.style = 'travel-' + (parseInt(currentTravel.style[7]) + 1);
-        if (currentTravel.style[7] === '5') {
-          currentTravel.style = 'travel-1';
+      if (dayObj.travel !== data.homeTown) {
+        travelAdded = true;
+        if (dayObj.travel !== currentTravel.location) {
+          currentTravel.location = dayObj.travel;
+          var nextStyleIndex = parseInt(currentTravel.style[7]) + 1;
+          currentTravel.style = 'travel-' + nextStyleIndex;
+          if (nextStyleIndex === 5) {
+            currentTravel.style = 'travel-1';
+          }
         }
-      }
-      square.classList.add(currentTravel.style);
-      $number.classList.add(currentTravel.style);
+        square.classList.add(currentTravel.style);
+        $number.classList.add(currentTravel.style);
 
-      // add text if no weather is present
-      if (!weatherAdded) {
-        var $travelDestination = document.createElement('p');
-        $travelDestination.className = 'calendar-date-destination';
-        $travelDestination.classList.add(currentTravel.style);
-        $travelDestination.textContent = dayObj.travel;
-        $headingSideDiv.append($travelDestination);
+        // add text if no weather is present
+        if (!weatherAdded) {
+          var $travelDestination = document.createElement('p');
+          $travelDestination.className = 'calendar-date-destination';
+          $travelDestination.classList.add(currentTravel.style);
+          $travelDestination.textContent = dayObj.travel;
+          $headingSideDiv.classList.remove('calendar-date-weather-heading');
+          $headingSideDiv.classList.add('calendar-date-text-heading');
+          $headingSideDiv.append($travelDestination);
+        }
+      } else {
+        dayObj.travel = '';
       }
+    }
+  }
+
+  // Holiday
+  for (i = 0; i < holidays.length; i++) {
+    var viewingMonth = view.month;
+    var viewingDay = dateObj.day;
+    if (!isCurrentMonth && dateObj.day > 15) {
+      viewingMonth--;
+    } else if (!isCurrentMonth && dateObj.day < 15) {
+      viewingMonth++;
+    }
+    if (holidays[i].date.datetime.month - 1 === viewingMonth && holidays[i].date.datetime.day === viewingDay) {
+      $number.classList.add('pink');
+      // add text if no weather or travel plans are present
+      if (!weatherAdded && !travelAdded) {
+        var $holidayName = document.createElement('p');
+        $holidayName.className = 'calendar-date-holiday pink';
+        $holidayName.textContent = holidays[i].name;
+        $headingSideDiv.classList.remove('calendar-date-weather-heading');
+        $headingSideDiv.classList.add('calendar-date-text-heading');
+        $headingSideDiv.append($holidayName);
+      }
+      break;
     }
   }
 
@@ -702,6 +729,11 @@ function populateChecklist(calendarDate) {
     $checkButton.className = 'event-radio-button';
     if (day.events[i].checked) {
       $checkButton.classList.add('checked');
+      $checkButton.classList.add('middle');
+      var $checkImg = document.createElement('img');
+      $checkImg.setAttribute('src', 'images/check.svg');
+      $checkImg.className = 'check';
+      $checkButton.append($checkImg);
     }
 
     var $icon = document.createElement('img');
@@ -757,12 +789,12 @@ function getHolidays(year) {
   holidaysList.open('GET', 'https://calendarific.com/api/v2/holidays' + holidayKey + holidayCountry + holidayYear + holidayType);
   holidaysList.responseType = 'json';
   holidaysList.addEventListener('load', handleHolidays);
-  // holidays = data.holidaysDummy;
   holidaysList.send();
 
   function handleHolidays(event) {
     holidays = holidaysList.response.response.holidays;
     data.holidaysDummy = holidays;
+    refreshApp(view);
   }
 }
 

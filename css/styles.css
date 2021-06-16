@@ -86,10 +86,6 @@ input::placeholder {
   margin: 0.5rem 0;
 }
 
-.calendar-squares {
-  margin-bottom: 1.5rem;
-}
-
 .square {
   box-sizing: content-box;
   height: 3rem;
@@ -134,6 +130,11 @@ input::placeholder {
   padding: 0 1rem;
 }
 
+.calendar-date-text-heading {
+  display: none;
+  align-items: center;
+}
+
 .calendar-date-weather-icon {
   width: 26px;
 }
@@ -145,8 +146,10 @@ input::placeholder {
   margin: 0.25rem;
 }
 
-.calendar-date-destination {
+.calendar-date-destination,
+.calendar-date-holiday {
   font-size: 12px;
+  margin: 0;
 }
 
 .calendar-date-destination.travel-1 {
@@ -289,7 +292,9 @@ button.meeting {
 .event-modal-time-input {
   display: flex;
   align-items: center;
+  color: #7c7c7c;
   font-size: 18px;
+  font-weight: 600;
   margin: 0 1rem;
   width: 100%;
   height: 30px;
@@ -302,6 +307,7 @@ button.meeting {
   font-weight: 500;
   border-radius: 5px;
   border: none;
+  margin: 0 0.25rem;
 }
 
 .event-modal-delete-div {
@@ -380,6 +386,16 @@ button.meeting {
   padding: 0 9px;
 }
 
+.event-radio-button.checked {
+  border: none;
+  padding: 0;
+}
+
+.check {
+  width: 20px;
+  height: auto;
+}
+
 .event-icon {
   width: 14px;
   margin: 0 0.5rem;
@@ -443,7 +459,7 @@ button.meeting {
   }
 
   .square {
-    height: 13.06vh;
+    height: 13.45vh;
     border: 1px solid #c8c8c8;
   }
 
@@ -468,6 +484,10 @@ button.meeting {
   }
 
   .calendar-date-weather-heading {
+    display: flex;
+  }
+
+  .calendar-date-text-heading {
     display: flex;
   }
 
