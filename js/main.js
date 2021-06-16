@@ -518,9 +518,10 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
         travelAdded = true;
         if (dayObj.travel !== currentTravel.location) {
           currentTravel.location = dayObj.travel;
-          var travelStyleIndex = parseInt(currentTravel.style[7]);
-          currentTravel.style = 'travel-' + (travelStyleIndex + 1);
-          if (currentTravel.style[7] === '5') {
+          var travelStyleIndex = currentTravel.style[7];
+          currentTravel.style = 'travel-' + (parseInt(travelStyleIndex) + 1);
+          travelStyleIndex = currentTravel.style[7];
+          if (travelStyleIndex === '5') {
             currentTravel.style = 'travel-1';
           }
         }
