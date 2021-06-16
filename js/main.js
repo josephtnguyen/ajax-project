@@ -53,10 +53,7 @@ $checklist.addEventListener('click', handleEventEdit);
 
 getHomeTown(data);
 getHolidays(today.year);
-generateSquares($calendar);
-populateCalendar(today);
-populateDayBanner(today);
-populateChecklist(today);
+refreshApp(today);
 
 // Event Handlers
 function handlePrevious(event) {
@@ -66,8 +63,8 @@ function handlePrevious(event) {
   } else {
     view.month--;
   }
-  generateSquares($calendar);
-  populateCalendar(view);
+  view.day = 1;
+  refreshApp(view);
 }
 
 function handleNext(event) {
@@ -77,8 +74,8 @@ function handleNext(event) {
   } else {
     view.month++;
   }
-  generateSquares($calendar);
-  populateCalendar(view);
+  view.day = 1;
+  refreshApp(view);
 }
 
 function handleSelect(event) {
@@ -89,17 +86,8 @@ function handleSelect(event) {
     return;
   }
 
-  var squareId = '#' + event.target.closest('.square').id;
-  var $date = document.querySelector(squareId).children[0].children[0].children[0];
-  view.day = parseInt($date.textContent);
-
-  generateSquares($calendar);
-  populateCalendar(view);
-  populateChecklist(view);
-  $date = document.querySelector(squareId).children[0].children[0].children[0];
-  $date.classList.add('selected');
-
-  populateDayBanner(view);
+  view.day = parseInt(event.target.closest('.square').children[0].children[0].children[0].textContent);
+  refreshApp(view);
 }
 
 function handleTravelSubmit(event) {
@@ -112,14 +100,18 @@ function handleTravelSubmit(event) {
     data.homeTown = $travelModalInput.value;
     getCoord(data.homeTown);
     $travelModalForm.reset();
-    getHomeTown(data);
     return;
   }
 
   // if adding a travel destination, create a new day object
   var travel = $travelModalInput.value;
-  var day = new CalendarDay(view, travel);
+  getCoord(travel);
+  var day = new CalendarDay({ ...view }, travel);
+  Object.setPrototypeOf(day.date, CalendarDate.prototype);
   // if the day already exists, modify the day instead
+  if (data.days.length === 0) {
+    data.days.push(day);
+  }
   for (var i = 0; i < data.days.length; i++) {
     if (data.days[i].date.isSameDay(view)) {
       day = data.days[i];
@@ -128,12 +120,12 @@ function handleTravelSubmit(event) {
     }
     if (i === data.days.length - 1) {
       data.days.push(day);
+      break;
     }
   }
 
   // update the calendar
-  generateSquares($calendar);
-  populateCalendar(view);
+  refreshApp(view);
 
   // if they are in the weather forecast range, update the weather
   // if ()
@@ -186,6 +178,7 @@ function handleEventAdd(event) {
 
 function handleEventCancel(event) {
   event.preventDefault();
+  data.editing = false;
   $eventModal.classList.add('hidden');
   $eventModalForm.reset();
 }
@@ -208,13 +201,16 @@ function handleEventTypeSelection(event) {
       $eventModalTypeSelectors[i].classList.add('modal-selected');
       $eventModalIcons[i].classList.remove('hidden');
       $eventModalInput.setAttribute('placeholder', placeholders[i]);
-      if (event.target.matches('.birthday')) {
-        $eventModalNone.classList.add('modal-selected');
+      if (!data.editing) {
+        if (event.target.matches('.birthday')) {
+          $eventModalNone.classList.add('modal-selected');
+        } else {
+          $eventModalNone.classList.remove('modal-selected');
+        }
       }
     } else {
       $eventModalTypeSelectors[i].classList.remove('modal-selected');
       $eventModalIcons[i].classList.add('hidden');
-      $eventModalNone.classList.remove('modal-selected');
     }
   }
 }
@@ -233,8 +229,12 @@ function handleEventSubmit(event) {
   event.preventDefault();
 
   // create a CalendarDay
-  var day = new CalendarDay(view);
+  var day = new CalendarDay({ ...view });
+  Object.setPrototypeOf(day.date, CalendarDate.prototype);
   // if a CalendarDay already exists, modify it instead
+  if (data.days.length === 0) {
+    data.days.push(day);
+  }
   for (var i = 0; i < data.days.length; i++) {
     if (data.days[i].date.isSameDay(view)) {
       day = data.days[i];
@@ -242,6 +242,7 @@ function handleEventSubmit(event) {
     }
     if (i === data.days.length - 1) {
       data.days.push(day);
+      break;
     }
   }
 
@@ -276,7 +277,7 @@ function handleEventSubmit(event) {
   }
 
   // sort the events of the day
-  day.events.sort((a, b) => b.weight - a.weight);
+  day.events.sort((a, b) => a.weight - b.weight);
 
   generateSquares($calendar);
   populateCalendar(view);
@@ -416,7 +417,11 @@ function populateCalendar(calendarDate) {
   for (var i = 0; i < $calendar.children.length; i++) {
     for (var j = 0; j < 7; j++) {
       var $square = $calendar.children[i].children[j];
-      var currentDay = currentDate.getDate();
+      var dateObj = new CalendarDate(
+        currentDate.getDate(),
+        currentDate.getMonth(),
+        currentDate.getFullYear()
+      );
       var isCurrentMonth = true;
       if (currentDate.getMonth() !== calendarDate.month) {
         isCurrentMonth = false;
@@ -424,19 +429,19 @@ function populateCalendar(calendarDate) {
       // see if we have any data on the current day
       var dayObj = null;
       for (var k = 0; k < data.days.length; k++) {
-        if (data.days[k].date.day === currentDay.toString() && data.days[k].date.month === currentDate.getMonth() && data.days[k].date.year === currentDate.getFullYear()) {
+        if (dateObj.isSameDay(data.days[k].date)) {
           dayObj = data.days[k];
           break;
         }
       }
 
-      generateHTMLCalendarDay($square, currentDay, isCurrentMonth, dayObj, currentTravel);
-      currentDate.setDate(currentDay + 1);
+      generateHTMLCalendarDay($square, dateObj, isCurrentMonth, dayObj, currentTravel);
+      currentDate.setDate(dateObj.day + 1);
     }
   }
 }
 
-function generateHTMLCalendarDay(square, day, isCurrentMonth, dayObj, currentTravel) {
+function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, currentTravel) {
   var $heading = document.createElement('div');
   $heading.className = 'row';
 
@@ -448,22 +453,25 @@ function generateHTMLCalendarDay(square, day, isCurrentMonth, dayObj, currentTra
   $number.className = 'date';
   if (isCurrentMonth) {
     $number.classList.add('black');
-    if (day === today.day && view.month === today.month) {
+    if (dateObj.day === today.day && view.month === today.month) {
       $number.classList.add('current-day');
     }
   } else {
     $number.classList.add('light-gray');
     $number.classList.add('not-clickable');
   }
-  $number.textContent = day;
+  if (dateObj.isSameDay(view)) {
+    $number.classList.add('selected');
+  }
+  $number.textContent = dateObj.day;
 
   // Holiday
   for (var i = 0; i < holidays.length; i++) {
     var viewingMonth = view.month;
-    var viewingDay = day;
-    if (!isCurrentMonth && day > 15) {
+    var viewingDay = dateObj.day;
+    if (!isCurrentMonth && dateObj.day > 15) {
       viewingMonth--;
-    } else if (!isCurrentMonth && day < 15) {
+    } else if (!isCurrentMonth && dateObj.day < 15) {
       viewingMonth++;
     }
     if (holidays[i].date.datetime.month - 1 === viewingMonth && holidays[i].date.datetime.day === viewingDay) {
@@ -493,7 +501,7 @@ function generateHTMLCalendarDay(square, day, isCurrentMonth, dayObj, currentTra
       }
       // find the correct day in weatherList and fill in the DOM
       for (i = 0; i < weatherList.length; i++) {
-        if (weatherList[i].date.day === day && isCurrentMonth) {
+        if (weatherList[i].date.day === dateObj.day && isCurrentMonth) {
           var $weatherIcon = document.createElement('img');
           $weatherIcon.className = 'calendar-date-weather-icon';
           $weatherIcon.setAttribute('src', weatherList[i].svg);
@@ -539,10 +547,31 @@ function generateHTMLCalendarDay(square, day, isCurrentMonth, dayObj, currentTra
   $body.className = 'row';
 
   var $listDiv = document.createElement('div');
-  $listDiv.className = 'col-100';
+  $listDiv.className = 'col-100 calendar-date-events-div';
 
   var $list = document.createElement('ul');
-  $list.className = 'events';
+
+  if (dayObj) {
+    for (i = 0; i < 4; i++) {
+      if (!dayObj.events[i]) {
+        break;
+      }
+      var $li = document.createElement('li');
+      $li.className = 'calendar-date-event';
+
+      var $icon = document.createElement('img');
+      $icon.className = 'calendar-date-event-icon';
+      $icon.setAttribute('src', dayObj.events[i].svg);
+
+      var $text = document.createElement('p');
+      $text.className = 'calendar-date-event-text';
+      $text.textContent = dayObj.events[i].input;
+
+      $list.append($li);
+      $li.append($icon);
+      $li.append($text);
+    }
+  }
 
   square.append($heading);
   square.append($body);
@@ -573,12 +602,12 @@ function populateDayBanner(calendarDate) {
   // update weather
   $dateWeather.innerHTML = '';
   var weatherList = weathers[data.homeTown];
+  var dayObj = null;
   if (weatherList) {
     // see if we have any data on the current day
-    var dayObj = null;
-    for (var k = 0; k < data.days.length; k++) {
-      if (data.days[k].date.isSameDay(calendarDate)) {
-        dayObj = data.days[k];
+    for (i = 0; i < data.days.length; i++) {
+      if (data.days[i].date.isSameDay(calendarDate)) {
+        dayObj = data.days[i];
         break;
       }
     }
@@ -590,10 +619,12 @@ function populateDayBanner(calendarDate) {
       }
     }
 
-    for (i = 0; i < weatherList.length; i++) {
-      if (weatherList[i].date.day === parseInt(calendarDate.day) && weatherList[i].date.month === calendarDate.month && weatherList[i].date.year === calendarDate.year) {
-        generateBannerWeather($dateWeather, weatherList[i]);
-        break;
+    if (weatherList) {
+      for (i = 0; i < weatherList.length; i++) {
+        if (weatherList[i].date.day === parseInt(calendarDate.day) && weatherList[i].date.month === calendarDate.month && weatherList[i].date.year === calendarDate.year) {
+          generateBannerWeather($dateWeather, weatherList[i]);
+          break;
+        }
       }
     }
   }
@@ -641,6 +672,9 @@ function setEventModalTime(time) {
 }
 
 function populateChecklist(calendarDate) {
+  if (data.days.length === 0) {
+    return;
+  }
   // if the current day has no data, return
   $checklist.innerHTML = '';
   var day;
@@ -653,6 +687,7 @@ function populateChecklist(calendarDate) {
       return;
     }
   }
+
   // sort the events of the day
   day.events.sort((a, b) => a.weight - b.weight);
 
@@ -706,6 +741,13 @@ function populateChecklist(calendarDate) {
   }
 }
 
+function refreshApp(calendarDate) {
+  generateSquares($calendar);
+  populateCalendar(calendarDate);
+  populateDayBanner(calendarDate);
+  populateChecklist(calendarDate);
+}
+
 // AJAX Functions
 function getHolidays(year) {
   var holidaysList = new XMLHttpRequest();
@@ -717,12 +759,61 @@ function getHolidays(year) {
   holidaysList.open('GET', 'https://calendarific.com/api/v2/holidays' + holidayKey + holidayCountry + holidayYear + holidayType);
   holidaysList.responseType = 'json';
   holidaysList.addEventListener('load', handleHolidays);
-  holidays = data.holidaysDummy;
-  // holidaysList.send();
+  // holidays = data.holidaysDummy;
+  holidaysList.send();
 
   function handleHolidays(event) {
     holidays = holidaysList.response.response.holidays;
     data.holidaysDummy = holidays;
+  }
+}
+
+function getHomeTown(data) {
+  if (!data.homeTown) {
+    $travelModalCancel.classList.add('lighter-gray');
+    $travelModal.classList.remove('hidden');
+  } else {
+    getAllWeather();
+  }
+}
+
+function getAllWeather() {
+  getWeather(data.homeCoord);
+
+  // get all travel locations
+  var locations = new Set();
+  for (var i = 0; i < data.days.length; i++) {
+    if (data.days[i].travel) {
+      locations.add(data.days[i].travel);
+    }
+  }
+
+  // get coords for all locations, which will then get the weather
+  var locationsList = [...locations];
+  for (i = 0; i < locationsList.length; i++) {
+    getCoord(locationsList[i]);
+  }
+}
+
+function getCoord(locationName) {
+  var coord = new XMLHttpRequest();
+  var weatherKey = data.weatherKey;
+  var weatherUnits = '&units=imperial';
+  var weatherLocation = '?q=' + locationName;
+
+  coord.open('GET', 'https://api.openweathermap.org/data/2.5/weather' + weatherLocation + weatherUnits + weatherKey);
+  coord.responseType = 'json';
+  coord.addEventListener('load', handleCoord);
+  coord.send();
+
+  function handleCoord(event) {
+    if (locationName === data.homeTown) {
+      data.homeCoord = new Coord(coord.response.coord.lat, coord.response.coord.lon);
+      getAllWeather();
+    } else {
+      data.coords[locationName] = new Coord(coord.response.coord.lat, coord.response.coord.lon, locationName);
+      getWeather(data.coords[locationName]);
+    }
   }
 }
 
@@ -753,60 +844,6 @@ function getWeather(coord) {
       finalData.push(weatherObj);
     }
     weathers[coord.location] = finalData;
-    populateDayBanner(today);
-    generateSquares($calendar);
-    populateCalendar(today);
-  }
-}
-
-function getAllWeather() {
-  getWeather(data.homeCoord);
-
-  // get all travel locations
-  var locations = new Set();
-  for (var i = 0; i < data.days.length; i++) {
-    if (data.days[i].travel) {
-      locations.add(data.days[i].travel);
-    }
-  }
-
-  // get coords for all locations
-  var locationsList = [...locations];
-  for (i = 0; i < locationsList.length; i++) {
-    getCoord(locationsList[i]);
-  }
-
-  // get weather for all coords
-  for (var location in data.coords) {
-    getWeather(data.coords[location]);
-  }
-}
-
-function getHomeTown(data) {
-  if (!data.homeTown) {
-    $travelModalCancel.classList.add('lighter-gray');
-    $travelModal.classList.remove('hidden');
-  } else {
-    getAllWeather();
-  }
-}
-
-function getCoord(locationName) {
-  var coord = new XMLHttpRequest();
-  var weatherKey = data.weatherKey;
-  var weatherUnits = '&units=imperial';
-  var weatherLocation = '?q=' + locationName;
-
-  coord.open('GET', 'https://api.openweathermap.org/data/2.5/weather' + weatherLocation + weatherUnits + weatherKey);
-  coord.responseType = 'json';
-  coord.addEventListener('load', handleCoord);
-  coord.send();
-
-  function handleCoord(event) {
-    if (locationName === data.homeTown) {
-      data.homeCoord = new Coord(coord.response.coord.lat, coord.response.coord.lon);
-    } else {
-      data.coords[locationName] = new Coord(coord.response.coord.lat, coord.response.coord.lon, locationName);
-    }
+    refreshApp(view);
   }
 }

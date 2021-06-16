@@ -165,6 +165,32 @@ input::placeholder {
   color: #5f6368;
 }
 
+.calendar-date-events-div {
+  display: none;
+  padding: 0 0.5rem;
+}
+
+.calendar-date-events-div > ul {
+  margin: 0;
+  padding: 0;
+}
+
+.calendar-date-event {
+  display: flex;
+  align-items: center;
+}
+
+.calendar-date-event-icon {
+  width: 16px;
+  margin: 0 0.25rem;
+}
+
+.calendar-date-event-text {
+  color: #5f6368;
+  font-size: 12px;
+  margin: 0;
+}
+
 .travel-modal-container,
 .event-modal-container {
   background-color: rgba(41, 41, 41, 0.75);
@@ -443,6 +469,10 @@ button.meeting {
 
   .calendar-date-weather-heading {
     display: flex;
+  }
+
+  .calendar-date-events-div {
+    display: unset;
   }
 
   .checklist-div {
