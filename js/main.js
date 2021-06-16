@@ -528,23 +528,25 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
   // Travel
   if (dayObj) {
     if (dayObj.travel) {
-      if (dayObj.travel !== currentTravel.location) {
-        currentTravel.location = dayObj.travel;
-        currentTravel.style = 'travel-' + (parseInt(currentTravel.style[7]) + 1);
-        if (currentTravel.style[7] === '5') {
-          currentTravel.style = 'travel-1';
+      if (dayObj.travel !== data.homeTown) {
+        if (dayObj.travel !== currentTravel.location) {
+          currentTravel.location = dayObj.travel;
+          currentTravel.style = 'travel-' + (parseInt(currentTravel.style[7]) + 1);
+          if (currentTravel.style[7] === '5') {
+            currentTravel.style = 'travel-1';
+          }
         }
-      }
-      square.classList.add(currentTravel.style);
-      $number.classList.add(currentTravel.style);
+        square.classList.add(currentTravel.style);
+        $number.classList.add(currentTravel.style);
 
-      // add text if no weather is present
-      if (!weatherAdded) {
-        var $travelDestination = document.createElement('p');
-        $travelDestination.className = 'calendar-date-destination';
-        $travelDestination.classList.add(currentTravel.style);
-        $travelDestination.textContent = dayObj.travel;
-        $headingSideDiv.append($travelDestination);
+        // add text if no weather is present
+        if (!weatherAdded) {
+          var $travelDestination = document.createElement('p');
+          $travelDestination.className = 'calendar-date-destination';
+          $travelDestination.classList.add(currentTravel.style);
+          $travelDestination.textContent = dayObj.travel;
+          $headingSideDiv.append($travelDestination);
+        }
       }
     }
   }
