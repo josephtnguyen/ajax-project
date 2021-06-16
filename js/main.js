@@ -316,7 +316,7 @@ function handleEventEdit(event) {
 
   // if the radio button was clicked, check/uncheck it instead
   if (event.target.closest('.event-radio-button')) {
-
+    eventListing.checked = !eventListing.checked;
     return;
   }
 
