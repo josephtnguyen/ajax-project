@@ -518,7 +518,8 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
         travelAdded = true;
         if (dayObj.travel !== currentTravel.location) {
           currentTravel.location = dayObj.travel;
-          currentTravel.style = 'travel-' + (parseInt(currentTravel.style[7]) + 1);
+          var travelStyleIndex = parseInt(currentTravel.style[7]);
+          currentTravel.style = 'travel-' + (travelStyleIndex + 1);
           if (currentTravel.style[7] === '5') {
             currentTravel.style = 'travel-1';
           }
@@ -788,7 +789,6 @@ function getHolidays(year) {
   holidaysList.open('GET', 'https://calendarific.com/api/v2/holidays' + holidayKey + holidayCountry + holidayYear + holidayType);
   holidaysList.responseType = 'json';
   holidaysList.addEventListener('load', handleHolidays);
-  // holidays = data.holidaysDummy;
   holidaysList.send();
 
   function handleHolidays(event) {
