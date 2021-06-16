@@ -82,11 +82,12 @@ function handleSelect(event) {
   if (!event.target.closest('.square')) {
     return;
   }
-  if (!event.target.closest('.black')) {
+  var $square = event.target.closest('.square');
+  if (!$square.children[0].children[0].children[0].matches('.black')) {
     return;
   }
 
-  view.day = parseInt(event.target.closest('.square').children[0].children[0].children[0].textContent);
+  view.day = parseInt($square.children[0].children[0].children[0].textContent);
   refreshApp(view);
 }
 
