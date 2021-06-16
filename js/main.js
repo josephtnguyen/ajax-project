@@ -520,7 +520,7 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
           currentTravel.location = dayObj.travel;
           var nextStyleIndex = parseInt(currentTravel.style[7]) + 1;
           currentTravel.style = 'travel-' + nextStyleIndex;
-          if (nextStyleIndex === '5') {
+          if (nextStyleIndex === 5) {
             currentTravel.style = 'travel-1';
           }
         }
