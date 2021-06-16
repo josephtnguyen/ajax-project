@@ -3,7 +3,6 @@ var data = {
   homeTown: '',
   homeCoord: null,
   coords: {},
-
   holidaysDummy: null,
   days: [],
   weatherKey: '&appid=5ff45e05a8481e8ad44a0bc795ab4ace',

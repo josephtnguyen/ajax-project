@@ -317,6 +317,7 @@ function handleEventEdit(event) {
   // if the radio button was clicked, check/uncheck it instead
   if (event.target.closest('.event-radio-button')) {
     eventListing.checked = !eventListing.checked;
+    refreshApp(view);
     return;
   }
 
@@ -708,6 +709,11 @@ function populateChecklist(calendarDate) {
     $checkButton.className = 'event-radio-button';
     if (day.events[i].checked) {
       $checkButton.classList.add('checked');
+      $checkButton.classList.add('middle');
+      var $checkImg = document.createElement('img');
+      $checkImg.setAttribute('src', 'images/check.svg');
+      $checkImg.className = 'check';
+      $checkButton.append($checkImg);
     }
 
     var $icon = document.createElement('img');

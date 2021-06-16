@@ -380,6 +380,16 @@ button.meeting {
   padding: 0 9px;
 }
 
+.event-radio-button.checked {
+  border: none;
+  padding: 0;
+}
+
+.check {
+  width: 20px;
+  height: auto;
+}
+
 .event-icon {
   width: 14px;
   margin: 0 0.5rem;
