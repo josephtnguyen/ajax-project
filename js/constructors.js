@@ -1,5 +1,5 @@
 /* global data */
-/* exported CalendarDate, Weather, Coord, CalendarDay */
+/* exported CalendarDate, Weather, Coord, CalendarDay, CalendarEvent, EventTime */
 
 function CalendarDate(day, month, year) {
   this.day = day;
@@ -53,13 +53,56 @@ function CalendarDay(calendarDate, travel = '') {
   this.date = calendarDate;
   this.travel = travel;
 
-  this.birthdays = [];
-  this.meetings = [];
-  this.hangouts = [];
   this.events = [];
+}
+
+function CalendarEvent(type, input, time, id) {
+  this.type = type;
+  this.input = input;
+  this.time = time;
+  this.checked = false;
+  this.weight = 0;
+  this.id = id;
+
+  if (time) {
+    var timeValue = 0;
+    timeValue += parseInt(time.minute);
+    if (time.hour !== '12') {
+      timeValue += parseInt(time.hour) * 100;
+    }
+    if (time.ampm === 'pm') {
+      timeValue += 1200;
+    }
+    this.weight = timeValue * 10;
+  } else if (type !== 'birthday') {
+    this.weight += 100000;
+  }
+
+  if (type === 'birthday') {
+    this.weight += 1;
+    this.input = input + "'s Birthday";
+    this.svg = 'images/birthday.svg';
+  } else if (type === 'meeting') {
+    this.weight += 2;
+    this.svg = 'images/group.svg';
+  } else if (type === 'hangout') {
+    this.weight += 3;
+    this.svg = 'images/friends.svg';
+  } else if (type === 'event') {
+    this.weight += 4;
+    this.svg = 'images/calendar.svg';
+  }
+
+}
+
+function EventTime(hour, minute, ampm) {
+  this.hour = hour;
+  this.minute = minute;
+  this.ampm = ampm;
 }
 
 // add prototypes back to days
 for (var i = 0; i < data.days.length; i++) {
+  Object.setPrototypeOf(data.days[i], CalendarDay.prototype);
   Object.setPrototypeOf(data.days[i].date, CalendarDate.prototype);
 }

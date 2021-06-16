@@ -15,7 +15,8 @@
   margin: 0 auto;
 }
 
-.travel-modal-container {
+.travel-modal-container,
+.event-modal-container {
   position: fixed;
   width: 100%;
   height: 100vh;
@@ -34,12 +35,20 @@
   flex-basis: 20%;
 }
 
+.col-25 {
+  flex-basis: 25%;
+}
+
 .col-50 {
   flex-basis: 50%;
 }
 
 .col-60 {
   flex-basis: 60%;
+}
+
+.col-75 {
+  flex-basis: 75%;
 }
 
 .col-100 {
@@ -83,7 +92,8 @@
     height: 100vh;
   }
 
-  .travel-modal-container {
+  .travel-modal-container,
+  .event-modal-container {
     position: absolute;
     width: 25%;
   }

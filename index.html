@@ -88,11 +88,12 @@
 
     <!-- Checklist -->
     <div class="checklist-container">
+      <!-- Travel Modal -->
       <div class="travel-modal-container middle hidden">
         <form class="travel-modal-form">
           <!-- Heading -->
           <div class="row">
-            <div class="col-100 travel-modal-header">
+            <div class="col-100 modal-header">
               <button class="travel-button cancel dark-blue">Cancel</button>
               <button class="travel-button save dark-blue">Save</button>
             </div>
@@ -102,15 +103,102 @@
           <div class="row">
             <div class="col-100 travel-modal-body">
               <label>
-                <h1 class="travel-modal-question dark-blue hidden">Where are you going?</h1>
-                <h1 class="travel-modal-question dark-blue">Where do you live?</h1>
+                <h1 class="modal-heading dark-blue hidden">What city are you traveling to?</h1>
+                <h1 class="modal-heading dark-blue">What city do you live in?</h1>
 
-                <div class="travel-modal-prompt">
-                  <img src="images/airplane.svg" alt="Airplane" class="travel-modal-icon hidden">
-                  <img src="images/house.svg" alt="House" class="travel-modal-icon">
-                  <input required type="text" placeholder="Los Angeles" class="travel-modal-input dark-gray">
+                <div class="modal-prompt">
+                  <img src="images/airplane.svg" alt="Airplane" class="modal-icon hidden">
+                  <img src="images/house.svg" alt="House" class="modal-icon">
+                  <input required type="text" placeholder="Los Angeles" class="modal-input dark-gray">
                 </div>
               </label>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Event Modal -->
+      <div class="event-modal-container middle hidden">
+        <form class="event-modal-form">
+          <!-- Heading -->
+          <div class="row">
+            <div class="col-100 modal-header">
+              <button class="event-button cancel dark-blue">Cancel</button>
+              <button class="event-button save-plus dark-blue">Save+</button>
+              <button class="event-button save dark-blue">Save</button>
+            </div>
+          </div>
+
+          <!-- Body -->
+          <!-- Type Buttons -->
+          <div class="row">
+            <div class="col-100 event-modal-buttons">
+              <button class="event-modal-view event modal-selected">Event</button>
+              <button class="event-modal-view birthday">Birthday</button>
+              <button class="event-modal-view hangout">Hangout</button>
+              <button class="event-modal-view meeting">Meeting</button>
+            </div>
+          </div>
+          <!-- Inputs -->
+          <div class="row">
+            <div class="col-100 event-modal-body">
+              <!-- Text -->
+              <h1 class="modal-heading event-modal-date dark-blue">
+                <span>January</span> <span>1</span>, <span>2021</span>
+              </h1>
+
+              <label>
+                <div class="modal-prompt event-modal-input-icons">
+                  <img src="images/calendar.svg" alt="Calendar" class="modal-icon">
+                  <img src="images/birthday.svg" alt="Birthday Present" class="modal-icon hidden">
+                  <img src="images/friends.svg" alt="Friends" class="modal-icon hidden">
+                  <img src="images/group.svg" alt="Group of People" class="modal-icon hidden">
+                  <input required type="text" placeholder="New Event" class="modal-input dark-gray">
+                </div>
+              </label>
+
+              <!-- Time -->
+              <label>
+                <div class="modal-prompt">
+                  <img src="images/clock.svg" alt="Clock" class="modal-icon">
+                  <div class="event-modal-time-input">
+                    <select name="hour" id="hour" class="event-modal-time">
+                      <option value="1">01</option>
+                      <option value="2">02</option>
+                      <option value="3">03</option>
+                      <option value="4">04</option>
+                      <option value="5">05</option>
+                      <option value="6">06</option>
+                      <option selected value="7">07</option>
+                      <option value="8">08</option>
+                      <option value="9">09</option>
+                      <option value="10">10</option>
+                      <option value="11">11</option>
+                      <option value="12">12</option>
+                    </select>
+                    <select name="minute" id="minute" class="event-modal-time">
+                      <option selected value="00">00</option>
+                      <option value="15">15</option>
+                      <option value="30">30</option>
+                      <option value="45">45</option>
+                    </select>
+                    <select name="ampm" id="ampm" class="event-modal-time">
+                      <option value="am">AM</option>
+                      <option selected value="pm">PM</option>
+                    </select>
+                    <button class="event-modal-time modal-selected">None</button>
+
+                  </div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-100 event-modal-delete-div hidden">
+              <button class="event-modal-delete">
+                <img src="images/trash.svg" alt="Delete" class="modal-icon">
+              </button>
             </div>
           </div>
         </form>

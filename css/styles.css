@@ -41,6 +41,10 @@ button:hover {
   color: #a5a4a4;
 }
 
+.gray {
+  color: #7c7c7c;
+}
+
 .dark-gray {
   color: #5f6368;
 }
@@ -53,58 +57,7 @@ button:hover {
   cursor: unset;
 }
 
-.travel-modal-container {
-  background-color: rgba(41, 41, 41, 0.75);
-}
-
-.travel-modal-form {
-  background-color: white;
-  border-radius: 30px;
-  width: 80%;
-  height: 60vh;
-}
-
-.travel-modal-header {
-  border-bottom: 1px solid #a5a4a4;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  height: 3rem;
-}
-
-.travel-button {
-  font-size: 18px;
-}
-
-.travel-modal-body {
-  padding: 3rem 1rem;
-}
-
-.travel-modal-question {
-  font-size: 24px;
-  font-weight: 500;
-}
-
-.travel-modal-prompt {
-  display: flex;
-  align-items: center;
-}
-
-.travel-modal-icon {
-  width: 39px;
-}
-
-.travel-modal-input {
-  border: none;
-  border-bottom: 1px solid black;
-  font-size: 18px;
-  margin: 0 1rem;
-  width: 100%;
-  height: 30px;
-}
-
-.travel-modal-input::placeholder {
+input::placeholder {
   color: #f2f2f2;
 }
 
@@ -212,6 +165,153 @@ button:hover {
   color: #5f6368;
 }
 
+.calendar-date-events-div {
+  display: none;
+  padding: 0 0.5rem;
+}
+
+.calendar-date-events-div > ul {
+  margin: 0;
+  padding: 0;
+}
+
+.calendar-date-event {
+  display: flex;
+  align-items: center;
+}
+
+.calendar-date-event-icon {
+  width: 16px;
+  margin: 0 0.25rem;
+}
+
+.calendar-date-event-text {
+  color: #5f6368;
+  font-size: 12px;
+  margin: 0;
+}
+
+.travel-modal-container,
+.event-modal-container {
+  background-color: rgba(41, 41, 41, 0.75);
+}
+
+.travel-modal-form,
+.event-modal-form {
+  background-color: white;
+  border-radius: 30px;
+  width: 90%;
+  height: 60vh;
+}
+
+.modal-header {
+  border-bottom: 1px solid #a5a4a4;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  height: 3rem;
+}
+
+.travel-button,
+.event-button {
+  font-size: 18px;
+}
+
+.travel-modal-body {
+  padding: 3rem 1.5rem;
+}
+
+.modal-heading {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0;
+}
+
+.modal-prompt {
+  display: flex;
+  align-items: center;
+  margin: 0.5rem 0;
+}
+
+.modal-icon {
+  width: 39px;
+}
+
+.modal-input {
+  border: none;
+  border-bottom: 1px solid black;
+  font-size: 18px;
+  margin: 0 1rem;
+  width: 100%;
+  height: 30px;
+}
+
+button.modal-selected {
+  border: 3px solid #1a73e8;
+}
+
+.event-modal-buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 0.75rem;
+}
+
+button.event-modal-view {
+  color: white;
+  border-radius: 5px;
+  font-size: 18px;
+  padding: 0.25rem 0.35rem;
+  margin: 0 0.125rem;
+}
+
+button.event {
+  background-color: #5f738b;
+}
+
+button.birthday {
+  background-color: #d64c4c;
+}
+
+button.hangout {
+  background-color: #c6e6fb;
+}
+
+button.meeting {
+  background-color: #9dacb9;
+}
+
+.event-modal-body {
+  padding: 0 1rem;
+}
+
+.event-modal-time-input {
+  display: flex;
+  align-items: center;
+  font-size: 18px;
+  margin: 0 1rem;
+  width: 100%;
+  height: 30px;
+}
+
+.event-modal-time {
+  background-color: #f2f2f2;
+  color: #7c7c7c;
+  font-size: 18px;
+  font-weight: 500;
+  border-radius: 5px;
+  border: none;
+}
+
+.event-modal-delete-div {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 30vh;
+}
+
 .day-banner {
   background-color: #9dacb9;
   color: white;
@@ -261,6 +361,49 @@ button:hover {
 
 .checklist-div {
   background-color: #fafcff;
+}
+
+.checklist-div > ul {
+  padding: 0 1rem;
+}
+
+.event-text-div {
+  display: flex;
+  align-items: center;
+}
+
+.event-radio-button {
+  width: 20px;
+  height: 20px;
+  border: 1px solid #e5e3e6;
+  border-radius: 50%;
+  padding: 0 9px;
+}
+
+.event-icon {
+  width: 14px;
+  margin: 0 0.5rem;
+}
+
+.event-text {
+  font-size: 14px;
+}
+
+.event-time-edit-div {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.event-time {
+  color: #888;
+  font-size: 14px;
+}
+
+.event-edit {
+  width: 32px;
+  height: 32px;
+  padding: 0;
 }
 
 .add-buttons {
@@ -326,6 +469,10 @@ button:hover {
 
   .calendar-date-weather-heading {
     display: flex;
+  }
+
+  .calendar-date-events-div {
+    display: unset;
   }
 
   .checklist-div {
