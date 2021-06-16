@@ -146,8 +146,10 @@ input::placeholder {
   margin: 0.25rem;
 }
 
-.calendar-date-destination {
+.calendar-date-destination,
+.calendar-date-holiday {
   font-size: 12px;
+  margin: 0;
 }
 
 .calendar-date-destination.travel-1 {
@@ -164,10 +166,6 @@ input::placeholder {
 
 .calendar-date-destination.travel-4 {
   color: #5f6368;
-}
-
-.calendar-date-holiday {
-  font-size: 12px;
 }
 
 .calendar-date-events-div {
