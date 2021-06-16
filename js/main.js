@@ -47,6 +47,7 @@ $eventButton.addEventListener('click', handleEventAdd);
 $eventModalCancel.addEventListener('click', handleEventCancel);
 $eventModalTypeDiv.addEventListener('click', handleEventTypeSelection);
 $eventModalNone.addEventListener('click', handleEventNoTime);
+$eventModalDelete.addEventListener('click', handleEventDelete);
 $eventModalForm.addEventListener('submit', handleEventSubmit);
 $checklist.addEventListener('click', handleEventEdit);
 
@@ -348,6 +349,36 @@ function handleEventEdit(event) {
 
   $eventModalDelete.classList.remove('hidden');
   $eventModal.classList.remove('hidden');
+}
+
+function handleEventDelete(event) {
+  event.preventDefault();
+
+  if (!event.target.closest('.event-modal-delete')) {
+    return;
+  }
+
+  var searching = true;
+  for (var i = 0; i < data.days.length; i++) {
+    for (var j = 0; j < data.days[i].events.length; j++) {
+      if (data.days[i].events[j].id === data.editingId) {
+        data.days[i].events.splice(j, 1);
+        searching = false;
+        break;
+      }
+    }
+    if (!searching) {
+      break;
+    }
+  }
+
+  data.editing = false;
+  generateSquares($calendar);
+  populateCalendar(view);
+  populateChecklist(view);
+  $eventModal.classList.add('hidden');
+  $eventModalInput.setAttribute('value', '');
+  $eventModalForm.reset();
 }
 
 // General Functions
