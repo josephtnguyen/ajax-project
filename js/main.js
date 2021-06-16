@@ -105,6 +105,7 @@ function handleTravelSubmit(event) {
 
   // if adding a travel destination, create a new day object
   var travel = $travelModalInput.value;
+  // get weather for new location
   getCoord(travel);
   var day = new CalendarDay({ ...view }, travel);
   Object.setPrototypeOf(day.date, CalendarDate.prototype);
@@ -126,9 +127,6 @@ function handleTravelSubmit(event) {
 
   // update the calendar
   refreshApp(view);
-
-  // if they are in the weather forecast range, update the weather
-  // if ()
 
   $travelModal.classList.add('hidden');
 
