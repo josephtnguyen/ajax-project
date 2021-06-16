@@ -130,6 +130,11 @@ input::placeholder {
   padding: 0 1rem;
 }
 
+.calendar-date-text-heading {
+  display: none;
+  align-items: center;
+}
+
 .calendar-date-weather-icon {
   width: 26px;
 }
@@ -159,6 +164,10 @@ input::placeholder {
 
 .calendar-date-destination.travel-4 {
   color: #5f6368;
+}
+
+.calendar-date-holiday {
+  font-size: 12px;
 }
 
 .calendar-date-events-div {
@@ -477,6 +486,10 @@ button.meeting {
   }
 
   .calendar-date-weather-heading {
+    display: flex;
+  }
+
+  .calendar-date-text-heading {
     display: flex;
   }
 

@@ -471,21 +471,6 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
   }
   $number.textContent = dateObj.day;
 
-  // Holiday
-  for (var i = 0; i < holidays.length; i++) {
-    var viewingMonth = view.month;
-    var viewingDay = dateObj.day;
-    if (!isCurrentMonth && dateObj.day > 15) {
-      viewingMonth--;
-    } else if (!isCurrentMonth && dateObj.day < 15) {
-      viewingMonth++;
-    }
-    if (holidays[i].date.datetime.month - 1 === viewingMonth && holidays[i].date.datetime.day === viewingDay) {
-      $number.classList.add('pink');
-      break;
-    }
-  }
-
   // Location/Weather
   var $headingSideDiv = document.createElement('div');
   $headingSideDiv.className = 'col-66-lg calendar-date-weather-heading';
@@ -506,7 +491,7 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
         }
       }
       // find the correct day in weatherList and fill in the DOM
-      for (i = 0; i < weatherList.length; i++) {
+      for (var i = 0; i < weatherList.length; i++) {
         if (weatherList[i].date.day === dateObj.day && isCurrentMonth) {
           var $weatherIcon = document.createElement('img');
           $weatherIcon.className = 'calendar-date-weather-icon';
@@ -526,9 +511,11 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
   }
 
   // Travel
+  var travelAdded = false;
   if (dayObj) {
     if (dayObj.travel) {
       if (dayObj.travel !== data.homeTown) {
+        travelAdded = true;
         if (dayObj.travel !== currentTravel.location) {
           currentTravel.location = dayObj.travel;
           currentTravel.style = 'travel-' + (parseInt(currentTravel.style[7]) + 1);
@@ -545,9 +532,37 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
           $travelDestination.className = 'calendar-date-destination';
           $travelDestination.classList.add(currentTravel.style);
           $travelDestination.textContent = dayObj.travel;
+          $headingSideDiv.classList.remove('calendar-date-weather-heading');
+          $headingSideDiv.classList.add('calendar-date-text-heading');
           $headingSideDiv.append($travelDestination);
         }
+      } else {
+        dayObj.travel = '';
       }
+    }
+  }
+
+  // Holiday
+  for (i = 0; i < holidays.length; i++) {
+    var viewingMonth = view.month;
+    var viewingDay = dateObj.day;
+    if (!isCurrentMonth && dateObj.day > 15) {
+      viewingMonth--;
+    } else if (!isCurrentMonth && dateObj.day < 15) {
+      viewingMonth++;
+    }
+    if (holidays[i].date.datetime.month - 1 === viewingMonth && holidays[i].date.datetime.day === viewingDay) {
+      $number.classList.add('pink');
+      // add text if no weather or travel plans are present
+      if (!weatherAdded && !travelAdded) {
+        var $holidayName = document.createElement('p');
+        $holidayName.className = 'calendar-date-holiday pink';
+        $holidayName.textContent = holidays[i].name;
+        $headingSideDiv.classList.remove('calendar-date-weather-heading');
+        $headingSideDiv.classList.add('calendar-date-text-heading');
+        $headingSideDiv.append($holidayName);
+      }
+      break;
     }
   }
 
@@ -779,6 +794,7 @@ function getHolidays(year) {
   function handleHolidays(event) {
     holidays = holidaysList.response.response.holidays;
     data.holidaysDummy = holidays;
+    refreshApp();
   }
 }
 
