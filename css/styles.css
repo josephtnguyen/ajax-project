@@ -86,10 +86,6 @@ input::placeholder {
   margin: 0.5rem 0;
 }
 
-.calendar-squares {
-  margin-bottom: 1.5rem;
-}
-
 .square {
   box-sizing: content-box;
   height: 3rem;
@@ -453,7 +449,7 @@ button.meeting {
   }
 
   .square {
-    height: 13.06vh;
+    height: 13.45vh;
     border: 1px solid #c8c8c8;
   }
 
