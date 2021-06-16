@@ -293,7 +293,6 @@ function handleEventEdit(event) {
   if (!event.target.closest('button')) {
     return;
   }
-  data.editing = true;
 
   // find the day to edit
   var day;
@@ -315,7 +314,14 @@ function handleEventEdit(event) {
     }
   }
 
+  // if the radio button was clicked, check/uncheck it instead
+  if (event.target.closest('.event-radio-button')) {
+
+    return;
+  }
+
   // open the modal and populate it with the proper inputs
+  data.editing = true;
   var placeholders = [
     'New Event',
     'Whose Birthday?',
