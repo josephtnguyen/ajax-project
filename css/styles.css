@@ -445,6 +445,50 @@ button.meeting {
   background-color: #c8b2d2;
 }
 
+@media (orientation: landscape) and (max-width: 900px) {
+  html {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
+
+  header {
+    height: 6vw;
+  }
+
+  footer {
+    height: 4vw;
+  }
+
+  .complete-container {
+    height: 100vw;
+  }
+
+  .travel-modal-container,
+  .event-modal-container {
+    width: 100%;
+    height: 100vw;
+  }
+
+  .travel-modal-form,
+  .event-modal-form {
+    width: 90%;
+    height: 60vw;
+  }
+
+  .day-banner {
+    height: 6vw;
+  }
+
+  .checklist-div {
+    height: 60vw;
+  }
+}
+
 @media (min-width: 1250px) {
   header {
     height: 8vh;
