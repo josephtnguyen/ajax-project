@@ -99,6 +99,10 @@ input::placeholder {
   padding: 0;
 }
 
+.date.black:hover {
+  border: 3px solid #7e8da0;
+}
+
 .date.travel-1 {
   color: #7299fd;
 }
@@ -120,7 +124,7 @@ input::placeholder {
   color: white;
 }
 
-.selected {
+button.date.black.selected {
   border: 3px solid #49596d;
 }
 
@@ -221,6 +225,16 @@ input::placeholder {
   font-size: 18px;
 }
 
+.travel-button:hover,
+.event-button:hover {
+  text-decoration: underline;
+}
+
+.travel-button.cancel.lighter-gray:hover {
+  text-decoration: none;
+  cursor: default;
+}
+
 .travel-modal-body {
   padding: 3rem 1.5rem;
 }
@@ -250,7 +264,7 @@ input::placeholder {
   height: 30px;
 }
 
-button.modal-selected {
+.event-modal-form button.modal-selected {
   border: 3px solid #1a73e8;
 }
 
@@ -263,10 +277,15 @@ button.modal-selected {
 
 button.event-modal-view {
   color: white;
+  border: 3px solid white;
   border-radius: 5px;
   font-size: 18px;
   padding: 0.25rem 0.35rem;
-  margin: 0 0.125rem;
+  margin: 0 0.1rem;
+}
+
+button.event-modal-view:hover {
+  border: 3px solid #75a7e9;
 }
 
 button.event {
@@ -308,6 +327,14 @@ button.meeting {
   border-radius: 5px;
   border: none;
   margin: 0 0.25rem;
+}
+
+button.event-modal-time {
+  border: 3px solid white;
+}
+
+button.event-modal-time:hover {
+  border: 3px solid #75a7e9;
 }
 
 .event-modal-delete-div {
@@ -386,6 +413,10 @@ button.meeting {
   padding: 0 9px;
 }
 
+.event-radio-button:hover {
+  background-color: #cee7d9;
+}
+
 .event-radio-button.checked {
   border: none;
   padding: 0;
@@ -419,7 +450,12 @@ button.meeting {
 .event-edit {
   width: 32px;
   height: 32px;
+  border-radius: 4px;
   padding: 0;
+}
+
+.event-edit:hover {
+  background-color: #e5e3e6;
 }
 
 .add-buttons {
@@ -441,11 +477,19 @@ button.meeting {
   font-size: 24px;
 }
 
+.add-event:hover {
+  background-color: #9bbdaa;
+}
+
 .add-travel {
   background-color: #c8b2d2;
 }
 
-@media (orientation: landscape) and (max-width: 900px) {
+.add-travel:hover {
+  background-color: #c5a0d6;
+}
+
+@media (orientation: landscape) and (max-width: 1050px) {
   html {
     transform: rotate(-90deg);
     transform-origin: left top;
@@ -489,7 +533,7 @@ button.meeting {
   }
 }
 
-@media (min-width: 1250px) {
+@media (min-width: 1500px) {
   header {
     height: 8vh;
   }

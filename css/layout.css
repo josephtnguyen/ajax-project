@@ -86,7 +86,7 @@
   height: 100%;
 }
 
-@media (min-width: 1250px) {
+@media (min-width: 1500px) {
   .complete-container {
     flex-direction: row;
   }
