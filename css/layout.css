@@ -60,7 +60,7 @@
   height: 100%;
 }
 
-@media (min-width: 1500px) {
+@media (min-width: 1300px) and (min-height: 800px) {
   .col-33-lg {
     flex-basis: calc(100% / 3);
   }
