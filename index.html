@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AJAX Project</title>
+  <title>Calendar Complete</title>
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
@@ -12,17 +12,15 @@
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-  <link rel="icon" href="images/favicon.ico">
+  <link rel="icon" href="images/calendar.svg">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
-
-
   <div class="complete-container">
-
+    <!-- Calendar -->
     <div class="calendar-container">
       <header class="middle">
         <div class="col-100 row">
@@ -84,10 +82,8 @@
       <footer></footer>
     </div>
 
-
-
     <!-- Checklist -->
-    <div class="checklist-container">
+    <div class="checklist-container max-height">
       <!-- Travel Modal -->
       <div class="travel-modal-container middle hidden">
         <form class="travel-modal-form">
@@ -195,8 +191,8 @@
             </div>
           </div>
 
-          <div class="row">
-            <div class="col-100 event-modal-delete-div hidden">
+          <div class="row event-modal-delete-div hidden">
+            <div class="col-100 center">
               <button class="event-modal-delete">
                 <img src="images/trash.svg" alt="Delete" class="modal-icon">
               </button>
@@ -220,7 +216,7 @@
       </div>
 
       <!-- Checklist -->
-      <div class="row">
+      <div class="row max-height">
         <div class="col-100 checklist-div">
           <ul>
 

@@ -39,7 +39,7 @@ $previousMonth.addEventListener('click', handlePrevious);
 $nextMonth.addEventListener('click', handleNext);
 $calendar.addEventListener('click', handleSelect);
 
-$travelButton.addEventListener('click', handleAddTravel);
+$travelButton.addEventListener('click', handleTravelAdd);
 $travelModalCancel.addEventListener('click', handleTravelCancel);
 $travelModalForm.addEventListener('submit', handleTravelSubmit);
 
@@ -145,7 +145,7 @@ function handleTravelCancel(event) {
   $travelModalForm.reset();
 }
 
-function handleAddTravel(event) {
+function handleTravelAdd(event) {
   $travelModalForm.children[1].children[0].children[0].children[0].classList.remove('hidden');
   $travelModalForm.children[1].children[0].children[0].children[1].classList.add('hidden');
   $travelModalForm.children[1].children[0].children[0].children[2].children[0].classList.remove('hidden');
@@ -286,8 +286,8 @@ function handleEventSubmit(event) {
     $eventModal.classList.add('hidden');
   }
 
-  $eventModalInput.setAttribute('value', '');
   $eventModalForm.reset();
+  $eventModalInput.setAttribute('value', '');
 }
 
 function handleEventEdit(event) {
