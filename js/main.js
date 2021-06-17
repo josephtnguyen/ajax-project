@@ -286,8 +286,8 @@ function handleEventSubmit(event) {
     $eventModal.classList.add('hidden');
   }
 
-  $eventModalInput.setAttribute('value', '');
   $eventModalForm.reset();
+  $eventModalInput.setAttribute('value', '');
 }
 
 function handleEventEdit(event) {

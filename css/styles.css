@@ -9,11 +9,11 @@ footer {
 }
 
 header {
-  height: 6vh;
+  height: 3rem;
 }
 
 footer {
-  height: 4vh;
+  height: 2rem;
 }
 
 button {
@@ -51,6 +51,24 @@ button:hover {
 
 .pink {
   color: #ecd2d3;
+}
+
+.complete-container {
+  width: 100%;
+  height: 100vh;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar-container {
+  width: 100%;
+  margin: 0 auto;
+}
+
+.checklist-container {
+  width: 100%;
+  margin: 0 auto;
 }
 
 .not-clickable:hover {
@@ -200,6 +218,10 @@ button.date.black.selected {
 
 .travel-modal-container,
 .event-modal-container {
+  position: fixed;
+  width: 100%;
+  height: 100vh;
+  bottom: 0;
   background-color: rgba(41, 41, 41, 0.75);
 }
 
@@ -207,8 +229,12 @@ button.date.black.selected {
 .event-modal-form {
   background-color: white;
   border-radius: 30px;
-  width: 90%;
-  height: 60vh;
+  width: 350px;
+  height: 500px;
+}
+
+.event-modal-form {
+  position: relative;
 }
 
 .modal-header {
@@ -338,17 +364,15 @@ button.event-modal-time:hover {
 }
 
 .event-modal-delete-div {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
-  height: 30vh;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 
 .day-banner {
   background-color: #9dacb9;
   color: white;
-  height: 6vh;
+  height: 3rem;
   padding: 0 1.5rem;
 }
 
@@ -489,57 +513,38 @@ button.event-modal-time:hover {
   background-color: #c5a0d6;
 }
 
-@media (orientation: landscape) and (max-width: 1050px) {
-  html {
-    transform: rotate(-90deg);
-    transform-origin: left top;
-    width: 100vh;
-    overflow-x: hidden;
-    position: absolute;
-    top: 100%;
-    left: 0;
-  }
+/* @media (max-height: 500px) {
 
+} */
+
+@media (min-width: 1500px) {
   header {
-    height: 6vw;
+    height: 4rem;
   }
 
   footer {
-    height: 4vw;
+    height: 2.5rem;
   }
 
   .complete-container {
-    height: 100vw;
+    flex-direction: row;
+  }
+
+  .calendar-container {
+    width: 75%;
+    margin: 0 auto;
+    height: 100vh;
   }
 
   .travel-modal-container,
   .event-modal-container {
-    width: 100%;
-    height: 100vw;
+    position: absolute;
+    width: 25%;
   }
 
-  .travel-modal-form,
-  .event-modal-form {
-    width: 90%;
-    height: 60vw;
-  }
-
-  .day-banner {
-    height: 6vw;
-  }
-
-  .checklist-div {
-    height: 60vw;
-  }
-}
-
-@media (min-width: 1500px) {
-  header {
-    height: 8vh;
-  }
-
-  footer {
-    height: 5vh;
+  .checklist-container {
+    width: 25%;
+    margin: 0 auto;
   }
 
   .day-of-week {
@@ -584,6 +589,6 @@ button.event-modal-time:hover {
   }
 
   .checklist-div {
-    height: 94vh;
+    height: 100%;
   }
 }
