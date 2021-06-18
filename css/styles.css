@@ -87,15 +87,28 @@ input::placeholder {
 
 .left-arrow-button,
 .right-arrow-button {
-  border-radius: 4px;
-  color: white;
-  font-size: 24px;
-  padding: 0.5rem;
+  width: 39px;
+  height: 39px;
 }
 
-.left-arrow-button:hover,
+.left-arrow-button {
+  background-image: url(../images/triangle-left.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.left-arrow-button:hover {
+  background-image: url(../images/triangle-left-solid.svg);
+}
+
+.right-arrow-button {
+  background-image: url(../images/triangle-right.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .right-arrow-button:hover {
-  border: 2px solid white;
+  background-image: url(../images/triangle-right-solid.svg);
 }
 
 .day-of-week {
