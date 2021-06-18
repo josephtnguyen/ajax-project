@@ -394,6 +394,12 @@ button.event-modal-time:hover {
   border: 3px solid #75a7e9;
 }
 
+button.event-modal-time.modal-selected {
+  border: 3px solid #75a7e9;
+  background-color: #75a7e9;
+  color: white;
+}
+
 .event-modal-delete-div {
   position: absolute;
   bottom: 0;
