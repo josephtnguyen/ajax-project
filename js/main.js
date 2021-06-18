@@ -89,11 +89,12 @@ function handleSelect(event) {
     return;
   }
   var $square = event.target.closest('.square');
-  if (!$square.children[0].children[0].children[0].matches('.black')) {
+  var $calendarNumber = $square.querySelector('.date');
+  if (!$calendarNumber.matches('.black')) {
     return;
   }
 
-  view.day = parseInt($square.children[0].children[0].children[0].textContent);
+  view.day = parseInt($calendarNumber.textContent);
   refreshApp(view, null, true);
 }
 
@@ -162,10 +163,15 @@ function handleTravelCancel(event) {
 }
 
 function handleTravelAdd(event) {
-  $travelModalForm.children[1].children[0].children[0].children[0].classList.remove('hidden');
-  $travelModalForm.children[1].children[0].children[0].children[1].classList.add('hidden');
-  $travelModalForm.children[1].children[0].children[0].children[2].children[0].classList.remove('hidden');
-  $travelModalForm.children[1].children[0].children[0].children[2].children[1].classList.add('hidden');
+  var $destinationQuestion = $travelModalForm.querySelector('.destination-question');
+  var $destinationIcon = $travelModalForm.querySelector('.destination-icon');
+  var $hometownQuestion = $travelModalForm.querySelector('.hometown-question');
+  var $hometownIcon = $travelModalForm.querySelector('.hometown-icon');
+
+  $destinationQuestion.classList.remove('hidden');
+  $destinationIcon.classList.remove('hidden');
+  $hometownQuestion.classList.add('hidden');
+  $hometownIcon.classList.add('hidden');
 
   showTravelModal();
 }
