@@ -1,7 +1,8 @@
 /* global data, gsap */
 /* global CalendarDate, Weather, Coord, CalendarDay, CalendarEvent, EventTime */
 
-var today = new CalendarDate(new Date().getDate(), new Date().getMonth(), new Date().getFullYear());
+var todaysDate = new Date();
+var today = new CalendarDate(todaysDate.getDate(), todaysDate.getMonth(), todaysDate.getFullYear());
 var view = new CalendarDate(parseInt(today.day), today.month, today.year);
 
 var holidays = [];
@@ -13,6 +14,7 @@ var $previousMonth = document.querySelector('.left-arrow-button');
 var $nextMonth = document.querySelector('.right-arrow-button');
 var $dateInfoDate = document.querySelector('.date-info-date');
 var $dateInfoHoliday = document.querySelector('.date-info-holiday');
+var $dateInfoTravel = document.querySelector('.date-info-travel');
 var $dateWeather = document.querySelector('.date-weather');
 
 var $travelModal = document.querySelector('.travel-modal-container');
@@ -87,11 +89,12 @@ function handleSelect(event) {
     return;
   }
   var $square = event.target.closest('.square');
-  if (!$square.children[0].children[0].children[0].matches('.black')) {
+  var $calendarNumber = $square.querySelector('.date');
+  if (!$calendarNumber.matches('.black')) {
     return;
   }
 
-  view.day = parseInt($square.children[0].children[0].children[0].textContent);
+  view.day = parseInt($calendarNumber.textContent);
   refreshApp(view, null, true);
 }
 
@@ -160,10 +163,15 @@ function handleTravelCancel(event) {
 }
 
 function handleTravelAdd(event) {
-  $travelModalForm.children[1].children[0].children[0].children[0].classList.remove('hidden');
-  $travelModalForm.children[1].children[0].children[0].children[1].classList.add('hidden');
-  $travelModalForm.children[1].children[0].children[0].children[2].children[0].classList.remove('hidden');
-  $travelModalForm.children[1].children[0].children[0].children[2].children[1].classList.add('hidden');
+  var $destinationQuestion = $travelModalForm.querySelector('.destination-question');
+  var $destinationIcon = $travelModalForm.querySelector('.destination-icon');
+  var $hometownQuestion = $travelModalForm.querySelector('.hometown-question');
+  var $hometownIcon = $travelModalForm.querySelector('.hometown-icon');
+
+  $destinationQuestion.classList.remove('hidden');
+  $destinationIcon.classList.remove('hidden');
+  $hometownQuestion.classList.add('hidden');
+  $hometownIcon.classList.add('hidden');
 
   showTravelModal();
 }
@@ -649,6 +657,16 @@ function populateDayBanner(calendarDate, fromX = 0, fromOpacity = 1) {
   for (var i = 0; i < holidays.length; i++) {
     if (holidays[i].date.datetime.month - 1 === calendarDate.month && holidays[i].date.datetime.day === parseInt(calendarDate.day)) {
       $dateInfoHoliday.textContent = holidays[i].name;
+      break;
+    }
+  }
+
+  // update travel
+  gsap.from($dateInfoTravel, { duration: 0.25, x: fromX, opacity: fromOpacity });
+  $dateInfoTravel.textContent = '';
+  for (i = 0; i < data.days.length; i++) {
+    if (data.days[i].date.isSameDay(calendarDate)) {
+      $dateInfoTravel.textContent = data.days[i].travel;
       break;
     }
   }

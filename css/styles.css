@@ -87,15 +87,28 @@ input::placeholder {
 
 .left-arrow-button,
 .right-arrow-button {
-  border-radius: 4px;
-  color: white;
-  font-size: 24px;
-  padding: 0.5rem;
+  width: 39px;
+  height: 39px;
 }
 
-.left-arrow-button:hover,
+.left-arrow-button {
+  background-image: url(../images/triangle-left.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.left-arrow-button:hover {
+  background-image: url(../images/triangle-left-solid.svg);
+}
+
+.right-arrow-button {
+  background-image: url(../images/triangle-right.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
 .right-arrow-button:hover {
-  border: 2px solid white;
+  background-image: url(../images/triangle-right-solid.svg);
 }
 
 .day-of-week {
@@ -251,6 +264,22 @@ button.date.black.selected {
 .travel-button,
 .event-button {
   font-size: 18px;
+  width: 75px;
+  padding: 0;
+}
+
+.travel-button.cancel,
+.event-button.cancel {
+  text-align: left;
+}
+
+.event-button.save-plus {
+  text-align: center;
+}
+
+.travel-button.save,
+.event-button.save {
+  text-align: right;
 }
 
 .travel-button:hover,
@@ -365,16 +394,36 @@ button.event-modal-time:hover {
   border: 3px solid #75a7e9;
 }
 
+button.event-modal-time.modal-selected {
+  border: 3px solid #75a7e9;
+  background-color: #75a7e9;
+  color: white;
+}
+
 .event-modal-delete-div {
   position: absolute;
   bottom: 0;
   width: 100%;
+  margin: 1rem 0;
+}
+
+.event-modal-delete {
+  width: 32px;
+  height: 32px;
+  background-image: url(../images/trash.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.event-modal-delete:hover {
+  background-image: url(../images/trash-active.svg);
 }
 
 .day-banner {
   background-color: #9dacb9;
   color: white;
-  height: 3rem;
+  height: 3.5rem;
   padding: 0 1.5rem;
 }
 
@@ -392,7 +441,8 @@ button.event-modal-time:hover {
   margin: 0;
 }
 
-.date-info-holiday {
+.date-info-holiday,
+.date-info-travel {
   font-weight: 400;
   font-size: 10px;
   margin: 0;
