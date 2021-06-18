@@ -20,6 +20,7 @@ var $travelModalForm = document.querySelector('.travel-modal-form');
 var $travelButton = document.querySelector('.add-travel');
 var $travelModalInput = document.querySelector('.travel-modal-container .modal-input');
 var $travelModalCancel = document.querySelector('.travel-button.cancel');
+var $travelModalSave = document.querySelector('.travel-button.save');
 
 var $eventModalTypeSelectors = document.querySelectorAll('button.event-modal-view');
 var $eventModalTimes = document.querySelectorAll('select.event-modal-time');
@@ -28,6 +29,7 @@ var $eventModal = document.querySelector('.event-modal-container');
 var $eventModalForm = document.querySelector('.event-modal-form');
 var $eventButton = document.querySelector('.add-event');
 var $eventModalCancel = document.querySelector('.event-button.cancel');
+var $eventModalSave = document.querySelector('.event-button.save');
 var $eventModalTypeDiv = document.querySelector('.event-modal-buttons');
 var $eventModalDate = document.querySelector('.event-modal-date');
 var $eventModalNone = document.querySelector('button.event-modal-time');
@@ -42,7 +44,7 @@ $calendar.addEventListener('click', handleSelect);
 $travelButton.addEventListener('click', handleTravelAdd);
 $travelModalCancel.addEventListener('click', handleTravelCancel);
 $travelModalForm.addEventListener('submit', handleTravelSubmit);
-// $travelModalForm.addEventListener('keydown', handleTravelSubmit);
+$travelModalForm.addEventListener('keydown', handleTravelEnter);
 
 $eventButton.addEventListener('click', handleEventAdd);
 $eventModalCancel.addEventListener('click', handleEventCancel);
@@ -50,7 +52,7 @@ $eventModalTypeDiv.addEventListener('click', handleEventTypeSelection);
 $eventModalNone.addEventListener('click', handleEventNoTime);
 $eventModalDelete.addEventListener('click', handleEventDelete);
 $eventModalForm.addEventListener('submit', handleEventSubmit);
-// $eventModalForm.addEventListener('keydown', handleEventSubmit);
+$eventModalForm.addEventListener('keydown', handleEventEnter);
 $checklist.addEventListener('click', handleEventEdit);
 
 getHomeTown(data);
@@ -93,10 +95,17 @@ function handleSelect(event) {
   refreshApp(view, null, true);
 }
 
+function handleTravelEnter(event) {
+  if (event.key !== 'Enter') {
+    return;
+  }
+  event.preventDefault();
+  var pseudoEvent = event;
+  pseudoEvent.submitter = $travelModalSave;
+  handleTravelSubmit(pseudoEvent);
+}
+
 function handleTravelSubmit(event) {
-  // if (event.key !== 'Enter') {
-  //   return;
-  // }
   event.preventDefault();
   // record hometown if asking for hometown
   if (!data.homeTown) {
@@ -230,10 +239,17 @@ function handleEventNoTime(event) {
   }
 }
 
+function handleEventEnter(event) {
+  if (event.key !== 'Enter') {
+    return;
+  }
+  event.preventDefault();
+  var pseudoEvent = event;
+  pseudoEvent.submitter = $eventModalSave;
+  handleEventSubmit(pseudoEvent);
+}
+
 function handleEventSubmit(event) {
-  // if (event.key !== 'Enter') {
-  //   return;
-  // }
   event.preventDefault();
 
   // create a CalendarDay
@@ -391,9 +407,7 @@ function handleEventDelete(event) {
   }
 
   data.editing = false;
-  generateSquares($calendar);
-  populateCalendar(view);
-  populateChecklist(view);
+  refreshApp(view, null, true);
   hideEventModal();
   $eventModalInput.setAttribute('value', '');
   $eventModalForm.reset();
