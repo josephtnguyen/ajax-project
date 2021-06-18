@@ -751,6 +751,7 @@ function populateChecklist(calendarDate, fromX = 0, fromOpacity = 1) {
   for (i = 0; i < day.events.length; i++) {
     var $li = document.createElement('li');
     gsap.from($li, { duration: 0.25, x: fromX, opacity: fromOpacity, delay: waitTime });
+    waitTime += 0.05;
     $li.className = 'row';
     $li.setAttribute('data-id', day.events[i].id);
 
@@ -800,7 +801,6 @@ function populateChecklist(calendarDate, fromX = 0, fromOpacity = 1) {
     $eventTimeEdit.append($time);
     $eventTimeEdit.append($edit);
     $edit.append($editImage);
-    waitTime += 0.05;
   }
 }
 
