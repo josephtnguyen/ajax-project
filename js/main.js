@@ -42,6 +42,7 @@ $calendar.addEventListener('click', handleSelect);
 $travelButton.addEventListener('click', handleTravelAdd);
 $travelModalCancel.addEventListener('click', handleTravelCancel);
 $travelModalForm.addEventListener('submit', handleTravelSubmit);
+$travelModalForm.addEventListener('keydown', handleTravelSubmit);
 
 $eventButton.addEventListener('click', handleEventAdd);
 $eventModalCancel.addEventListener('click', handleEventCancel);
@@ -49,6 +50,7 @@ $eventModalTypeDiv.addEventListener('click', handleEventTypeSelection);
 $eventModalNone.addEventListener('click', handleEventNoTime);
 $eventModalDelete.addEventListener('click', handleEventDelete);
 $eventModalForm.addEventListener('submit', handleEventSubmit);
+$eventModalForm.addEventListener('keydown', handleEventSubmit);
 $checklist.addEventListener('click', handleEventEdit);
 
 getHomeTown(data);
@@ -92,8 +94,10 @@ function handleSelect(event) {
 }
 
 function handleTravelSubmit(event) {
+  if (event.key !== 'Enter') {
+    return;
+  }
   event.preventDefault();
-
   // record hometown if asking for hometown
   if (!data.homeTown) {
     hideTravelModal();
@@ -227,6 +231,9 @@ function handleEventNoTime(event) {
 }
 
 function handleEventSubmit(event) {
+  if (event.key !== 'Enter') {
+    return;
+  }
   event.preventDefault();
 
   // create a CalendarDay
@@ -284,7 +291,11 @@ function handleEventSubmit(event) {
   populateCalendar(view);
   populateChecklist(view);
 
-  if (event.submitter.matches('.event-button.save')) {
+  if (event.submitter) {
+    if (event.submitter.matches('.event-button.save')) {
+      hideEventModal();
+    }
+  } else if (event.key === 'Enter') {
     hideEventModal();
   }
 
