@@ -1,7 +1,8 @@
 /* global data, gsap */
 /* global CalendarDate, Weather, Coord, CalendarDay, CalendarEvent, EventTime */
 
-var today = new CalendarDate(new Date().getDate(), new Date().getMonth(), new Date().getFullYear());
+var todaysDate = new Date();
+var today = new CalendarDate(todaysDate.getDate(), todaysDate.getMonth(), todaysDate.getFullYear());
 var view = new CalendarDate(parseInt(today.day), today.month, today.year);
 
 var holidays = [];
