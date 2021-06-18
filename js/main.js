@@ -13,6 +13,7 @@ var $previousMonth = document.querySelector('.left-arrow-button');
 var $nextMonth = document.querySelector('.right-arrow-button');
 var $dateInfoDate = document.querySelector('.date-info-date');
 var $dateInfoHoliday = document.querySelector('.date-info-holiday');
+var $dateInfoTravel = document.querySelector('.date-info-travel');
 var $dateWeather = document.querySelector('.date-weather');
 
 var $travelModal = document.querySelector('.travel-modal-container');
@@ -649,6 +650,16 @@ function populateDayBanner(calendarDate, fromX = 0, fromOpacity = 1) {
   for (var i = 0; i < holidays.length; i++) {
     if (holidays[i].date.datetime.month - 1 === calendarDate.month && holidays[i].date.datetime.day === parseInt(calendarDate.day)) {
       $dateInfoHoliday.textContent = holidays[i].name;
+      break;
+    }
+  }
+
+  // update travel
+  gsap.from($dateInfoTravel, { duration: 0.25, x: fromX, opacity: fromOpacity });
+  $dateInfoTravel.textContent = '';
+  for (i = 0; i < data.days.length; i++) {
+    if (data.days[i].date.isSameDay(calendarDate)) {
+      $dateInfoTravel.textContent = data.days[i].travel;
       break;
     }
   }
