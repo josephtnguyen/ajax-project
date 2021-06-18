@@ -1,4 +1,4 @@
-/* global data */
+/* global data, gsap */
 /* global CalendarDate, Weather, Coord, CalendarDay, CalendarEvent, EventTime */
 
 var today = new CalendarDate(new Date().getDate(), new Date().getMonth(), new Date().getFullYear());
@@ -96,8 +96,9 @@ function handleTravelSubmit(event) {
 
   // record hometown if asking for hometown
   if (!data.homeTown) {
+    hideTravelModal();
+
     $travelModalCancel.classList.remove('lighter-gray');
-    $travelModal.classList.add('hidden');
     data.homeTown = $travelModalInput.value;
     getCoord(data.homeTown);
     $travelModalForm.reset();
@@ -129,7 +130,7 @@ function handleTravelSubmit(event) {
   // update the calendar
   refreshApp(view);
 
-  $travelModal.classList.add('hidden');
+  hideTravelModal();
 
   $travelModalForm.reset();
 }
@@ -141,7 +142,7 @@ function handleTravelCancel(event) {
     return;
   }
 
-  $travelModal.classList.add('hidden');
+  hideTravelModal();
   $travelModalForm.reset();
 }
 
@@ -150,7 +151,8 @@ function handleTravelAdd(event) {
   $travelModalForm.children[1].children[0].children[0].children[1].classList.add('hidden');
   $travelModalForm.children[1].children[0].children[0].children[2].children[0].classList.remove('hidden');
   $travelModalForm.children[1].children[0].children[0].children[2].children[1].classList.add('hidden');
-  $travelModal.classList.remove('hidden');
+
+  showTravelModal();
 }
 
 function handleEventAdd(event) {
@@ -172,13 +174,13 @@ function handleEventAdd(event) {
   $eventModalDate.children[1].textContent = view.day;
   $eventModalDate.children[2].textContent = view.year;
 
-  $eventModal.classList.remove('hidden');
+  showEventModal();
 }
 
 function handleEventCancel(event) {
   event.preventDefault();
   data.editing = false;
-  $eventModal.classList.add('hidden');
+  hideEventModal();
   $eventModalForm.reset();
 }
 
@@ -283,7 +285,7 @@ function handleEventSubmit(event) {
   populateChecklist(view);
 
   if (event.submitter.matches('.event-button.save')) {
-    $eventModal.classList.add('hidden');
+    hideEventModal();
   }
 
   $eventModalForm.reset();
@@ -355,7 +357,7 @@ function handleEventEdit(event) {
   $eventModalDate.children[2].textContent = view.year;
 
   $eventModalDelete.classList.remove('hidden');
-  $eventModal.classList.remove('hidden');
+  showEventModal();
 }
 
 function handleEventDelete(event) {
@@ -383,7 +385,7 @@ function handleEventDelete(event) {
   generateSquares($calendar);
   populateCalendar(view);
   populateChecklist(view);
-  $eventModal.classList.add('hidden');
+  hideEventModal();
   $eventModalInput.setAttribute('value', '');
   $eventModalForm.reset();
 }
@@ -776,6 +778,42 @@ function refreshApp(calendarDate) {
   populateCalendar(calendarDate);
   populateDayBanner(calendarDate);
   populateChecklist(calendarDate);
+}
+
+function showTravelModal() {
+  gsap.fromTo($travelModal, { opacity: 0 }, { duration: 0.25, opacity: 1 });
+  gsap.fromTo($travelModalForm, { opacity: 0, y: 500 }, { duration: 0.25, opacity: 1, y: 0 });
+  $travelModal.classList.remove('hidden');
+}
+
+function hideTravelModal() {
+  gsap.fromTo($travelModal, { opacity: 1 }, { duration: 0.25, opacity: 0 });
+  gsap.fromTo($travelModalForm, { opacity: 1, y: 0 }, {
+    duration: 0.25,
+    opacity: 0,
+    y: 500,
+    onComplete: function () {
+      $travelModal.classList.add('hidden');
+    }
+  });
+}
+
+function showEventModal() {
+  gsap.fromTo($eventModal, { opacity: 0 }, { duration: 0.25, opacity: 1 });
+  gsap.fromTo($eventModalForm, { opacity: 0, y: 500 }, { duration: 0.25, opacity: 1, y: 0 });
+  $eventModal.classList.remove('hidden');
+}
+
+function hideEventModal() {
+  gsap.fromTo($eventModal, { opacity: 1 }, { duration: 0.25, opacity: 0 });
+  gsap.fromTo($eventModalForm, { opacity: 1, y: 0 }, {
+    duration: 0.25,
+    opacity: 0,
+    y: 500,
+    onComplete: function () {
+      $eventModal.classList.add('hidden');
+    }
+  });
 }
 
 // AJAX Functions
