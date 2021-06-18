@@ -1,4 +1,4 @@
-/* global data */
+/* global data, gsap */
 /* global CalendarDate, Weather, Coord, CalendarDay, CalendarEvent, EventTime */
 
 var today = new CalendarDate(new Date().getDate(), new Date().getMonth(), new Date().getFullYear());
@@ -20,6 +20,7 @@ var $travelModalForm = document.querySelector('.travel-modal-form');
 var $travelButton = document.querySelector('.add-travel');
 var $travelModalInput = document.querySelector('.travel-modal-container .modal-input');
 var $travelModalCancel = document.querySelector('.travel-button.cancel');
+var $travelModalSave = document.querySelector('.travel-button.save');
 
 var $eventModalTypeSelectors = document.querySelectorAll('button.event-modal-view');
 var $eventModalTimes = document.querySelectorAll('select.event-modal-time');
@@ -28,6 +29,7 @@ var $eventModal = document.querySelector('.event-modal-container');
 var $eventModalForm = document.querySelector('.event-modal-form');
 var $eventButton = document.querySelector('.add-event');
 var $eventModalCancel = document.querySelector('.event-button.cancel');
+var $eventModalSave = document.querySelector('.event-button.save');
 var $eventModalTypeDiv = document.querySelector('.event-modal-buttons');
 var $eventModalDate = document.querySelector('.event-modal-date');
 var $eventModalNone = document.querySelector('button.event-modal-time');
@@ -42,6 +44,7 @@ $calendar.addEventListener('click', handleSelect);
 $travelButton.addEventListener('click', handleTravelAdd);
 $travelModalCancel.addEventListener('click', handleTravelCancel);
 $travelModalForm.addEventListener('submit', handleTravelSubmit);
+$travelModalForm.addEventListener('keydown', handleTravelEnter);
 
 $eventButton.addEventListener('click', handleEventAdd);
 $eventModalCancel.addEventListener('click', handleEventCancel);
@@ -49,6 +52,7 @@ $eventModalTypeDiv.addEventListener('click', handleEventTypeSelection);
 $eventModalNone.addEventListener('click', handleEventNoTime);
 $eventModalDelete.addEventListener('click', handleEventDelete);
 $eventModalForm.addEventListener('submit', handleEventSubmit);
+$eventModalForm.addEventListener('keydown', handleEventEnter);
 $checklist.addEventListener('click', handleEventEdit);
 
 getHomeTown(data);
@@ -64,7 +68,7 @@ function handlePrevious(event) {
     view.month--;
   }
   view.day = 1;
-  refreshApp(view);
+  refreshApp(view, 'left', true);
 }
 
 function handleNext(event) {
@@ -75,7 +79,7 @@ function handleNext(event) {
     view.month++;
   }
   view.day = 1;
-  refreshApp(view);
+  refreshApp(view, 'right', true);
 }
 
 function handleSelect(event) {
@@ -88,16 +92,26 @@ function handleSelect(event) {
   }
 
   view.day = parseInt($square.children[0].children[0].children[0].textContent);
-  refreshApp(view);
+  refreshApp(view, null, true);
+}
+
+function handleTravelEnter(event) {
+  if (event.key !== 'Enter') {
+    return;
+  }
+  event.preventDefault();
+  var pseudoEvent = event;
+  pseudoEvent.submitter = $travelModalSave;
+  handleTravelSubmit(pseudoEvent);
 }
 
 function handleTravelSubmit(event) {
   event.preventDefault();
-
   // record hometown if asking for hometown
   if (!data.homeTown) {
+    hideTravelModal();
+
     $travelModalCancel.classList.remove('lighter-gray');
-    $travelModal.classList.add('hidden');
     data.homeTown = $travelModalInput.value;
     getCoord(data.homeTown);
     $travelModalForm.reset();
@@ -129,7 +143,7 @@ function handleTravelSubmit(event) {
   // update the calendar
   refreshApp(view);
 
-  $travelModal.classList.add('hidden');
+  hideTravelModal();
 
   $travelModalForm.reset();
 }
@@ -141,7 +155,7 @@ function handleTravelCancel(event) {
     return;
   }
 
-  $travelModal.classList.add('hidden');
+  hideTravelModal();
   $travelModalForm.reset();
 }
 
@@ -150,7 +164,8 @@ function handleTravelAdd(event) {
   $travelModalForm.children[1].children[0].children[0].children[1].classList.add('hidden');
   $travelModalForm.children[1].children[0].children[0].children[2].children[0].classList.remove('hidden');
   $travelModalForm.children[1].children[0].children[0].children[2].children[1].classList.add('hidden');
-  $travelModal.classList.remove('hidden');
+
+  showTravelModal();
 }
 
 function handleEventAdd(event) {
@@ -172,13 +187,13 @@ function handleEventAdd(event) {
   $eventModalDate.children[1].textContent = view.day;
   $eventModalDate.children[2].textContent = view.year;
 
-  $eventModal.classList.remove('hidden');
+  showEventModal();
 }
 
 function handleEventCancel(event) {
   event.preventDefault();
   data.editing = false;
-  $eventModal.classList.add('hidden');
+  hideEventModal();
   $eventModalForm.reset();
 }
 
@@ -222,6 +237,16 @@ function handleEventNoTime(event) {
   } else {
     $eventModalNone.classList.add('modal-selected');
   }
+}
+
+function handleEventEnter(event) {
+  if (event.key !== 'Enter') {
+    return;
+  }
+  event.preventDefault();
+  var pseudoEvent = event;
+  pseudoEvent.submitter = $eventModalSave;
+  handleEventSubmit(pseudoEvent);
 }
 
 function handleEventSubmit(event) {
@@ -278,12 +303,14 @@ function handleEventSubmit(event) {
   // sort the events of the day
   day.events.sort((a, b) => a.weight - b.weight);
 
-  generateSquares($calendar);
-  populateCalendar(view);
-  populateChecklist(view);
+  refreshApp(view, null, true);
 
-  if (event.submitter.matches('.event-button.save')) {
-    $eventModal.classList.add('hidden');
+  if (event.submitter) {
+    if (event.submitter.matches('.event-button.save')) {
+      hideEventModal();
+    }
+  } else if (event.key === 'Enter') {
+    hideEventModal();
   }
 
   $eventModalForm.reset();
@@ -355,7 +382,7 @@ function handleEventEdit(event) {
   $eventModalDate.children[2].textContent = view.year;
 
   $eventModalDelete.classList.remove('hidden');
-  $eventModal.classList.remove('hidden');
+  showEventModal();
 }
 
 function handleEventDelete(event) {
@@ -380,10 +407,8 @@ function handleEventDelete(event) {
   }
 
   data.editing = false;
-  generateSquares($calendar);
-  populateCalendar(view);
-  populateChecklist(view);
-  $eventModal.classList.add('hidden');
+  refreshApp(view, null, true);
+  hideEventModal();
   $eventModalInput.setAttribute('value', '');
   $eventModalForm.reset();
 }
@@ -404,13 +429,14 @@ function generateSquares(calendar) {
   }
 }
 
-function populateCalendar(calendarDate) {
+function populateCalendar(calendarDate, fromX = 0, fromOpacity = 1) {
   // update header
   var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   $calendarMonthYear.children[0].textContent = months[calendarDate.month];
   $calendarMonthYear.children[1].textContent = calendarDate.year;
+  gsap.from($calendarMonthYear, { duration: 0.25, x: fromX, opacity: fromOpacity });
 
-  // fill in calendar
+  // start on the first day of the month
   var currentDate = new Date(calendarDate.year, calendarDate.month, 1);
   // wind back to Sunday
   var firstDay = currentDate.getDay();
@@ -423,26 +449,27 @@ function populateCalendar(calendarDate) {
   for (var i = 0; i < $calendar.children.length; i++) {
     for (var j = 0; j < 7; j++) {
       var $square = $calendar.children[i].children[j];
-      var dateObj = new CalendarDate(
+      gsap.from($square, { duration: 0.25, x: fromX, opacity: fromOpacity });
+      var dateOfSquare = new CalendarDate(
         currentDate.getDate(),
         currentDate.getMonth(),
         currentDate.getFullYear()
       );
       var isCurrentMonth = true;
-      if (currentDate.getMonth() !== calendarDate.month) {
+      if (dateOfSquare.month !== calendarDate.month) {
         isCurrentMonth = false;
       }
       // see if we have any data on the current day
       var dayObj = null;
       for (var k = 0; k < data.days.length; k++) {
-        if (dateObj.isSameDay(data.days[k].date)) {
+        if (dateOfSquare.isSameDay(data.days[k].date)) {
           dayObj = data.days[k];
           break;
         }
       }
 
-      generateHTMLCalendarDay($square, dateObj, isCurrentMonth, dayObj, currentTravel);
-      currentDate.setDate(dateObj.day + 1);
+      generateHTMLCalendarDay($square, dateOfSquare, isCurrentMonth, dayObj, currentTravel);
+      currentDate.setDate(dateOfSquare.day + 1);
     }
   }
 }
@@ -608,14 +635,16 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
 
 }
 
-function populateDayBanner(calendarDate) {
+function populateDayBanner(calendarDate, fromX = 0, fromOpacity = 1) {
   // update Date Info
+  gsap.from($dateInfoDate, { duration: 0.25, x: fromX, opacity: fromOpacity });
   var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   $dateInfoDate.children[0].textContent = months[calendarDate.month];
   $dateInfoDate.children[1].textContent = calendarDate.day;
   $dateInfoDate.children[2].textContent = calendarDate.year;
 
   // update holiday
+  gsap.from($dateInfoHoliday, { duration: 0.25, x: fromX, opacity: fromOpacity });
   $dateInfoHoliday.textContent = '';
   for (var i = 0; i < holidays.length; i++) {
     if (holidays[i].date.datetime.month - 1 === calendarDate.month && holidays[i].date.datetime.day === parseInt(calendarDate.day)) {
@@ -625,6 +654,7 @@ function populateDayBanner(calendarDate) {
   }
 
   // update weather
+  gsap.from($dateWeather, { duration: 0.25, x: fromX, opacity: fromOpacity });
   $dateWeather.innerHTML = '';
   var weatherList = weathers[data.homeTown];
   var dayObj = null;
@@ -696,7 +726,7 @@ function setEventModalTime(time) {
   }
 }
 
-function populateChecklist(calendarDate) {
+function populateChecklist(calendarDate, fromX = 0, fromOpacity = 1) {
   if (data.days.length === 0) {
     return;
   }
@@ -717,8 +747,11 @@ function populateChecklist(calendarDate) {
   day.events.sort((a, b) => a.weight - b.weight);
 
   // populate checklist
+  var waitTime = 0;
   for (i = 0; i < day.events.length; i++) {
     var $li = document.createElement('li');
+    gsap.from($li, { duration: 0.25, x: fromX, opacity: fromOpacity, delay: waitTime });
+    waitTime += 0.05;
     $li.className = 'row';
     $li.setAttribute('data-id', day.events[i].id);
 
@@ -771,11 +804,64 @@ function populateChecklist(calendarDate) {
   }
 }
 
-function refreshApp(calendarDate) {
+function refreshApp(calendarDate, calendarDirection = null, newSelection) {
   generateSquares($calendar);
-  populateCalendar(calendarDate);
-  populateDayBanner(calendarDate);
-  populateChecklist(calendarDate);
+
+  if (calendarDirection) {
+    if (calendarDirection === 'left') {
+      populateCalendar(calendarDate, -100, 0);
+    } else if (calendarDirection === 'right') {
+      populateCalendar(calendarDate, 100, 0);
+    } else {
+      populateCalendar(calendarDate);
+    }
+  } else {
+    populateCalendar(calendarDate);
+  }
+
+  if (newSelection) {
+    populateDayBanner(calendarDate, 100, 0);
+    populateChecklist(calendarDate, 100, 0);
+  } else {
+    populateDayBanner(calendarDate);
+    populateChecklist(calendarDate);
+  }
+}
+
+function showTravelModal() {
+  gsap.fromTo($travelModal, { opacity: 0 }, { duration: 0.25, opacity: 1 });
+  gsap.fromTo($travelModalForm, { opacity: 0, y: 500 }, { duration: 0.25, opacity: 1, y: 0 });
+  $travelModal.classList.remove('hidden');
+}
+
+function hideTravelModal() {
+  gsap.fromTo($travelModal, { opacity: 1 }, { duration: 0.25, opacity: 0 });
+  gsap.fromTo($travelModalForm, { opacity: 1, y: 0 }, {
+    duration: 0.25,
+    opacity: 0,
+    y: 500,
+    onComplete: function () {
+      $travelModal.classList.add('hidden');
+    }
+  });
+}
+
+function showEventModal() {
+  gsap.fromTo($eventModal, { opacity: 0 }, { duration: 0.25, opacity: 1 });
+  gsap.fromTo($eventModalForm, { opacity: 0, y: 500 }, { duration: 0.25, opacity: 1, y: 0 });
+  $eventModal.classList.remove('hidden');
+}
+
+function hideEventModal() {
+  gsap.fromTo($eventModal, { opacity: 1 }, { duration: 0.25, opacity: 0 });
+  gsap.fromTo($eventModalForm, { opacity: 1, y: 0 }, {
+    duration: 0.25,
+    opacity: 0,
+    y: 500,
+    onComplete: function () {
+      $eventModal.classList.add('hidden');
+    }
+  });
 }
 
 // AJAX Functions
