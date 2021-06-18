@@ -42,7 +42,7 @@ $calendar.addEventListener('click', handleSelect);
 $travelButton.addEventListener('click', handleTravelAdd);
 $travelModalCancel.addEventListener('click', handleTravelCancel);
 $travelModalForm.addEventListener('submit', handleTravelSubmit);
-$travelModalForm.addEventListener('keydown', handleTravelSubmit);
+// $travelModalForm.addEventListener('keydown', handleTravelSubmit);
 
 $eventButton.addEventListener('click', handleEventAdd);
 $eventModalCancel.addEventListener('click', handleEventCancel);
@@ -50,7 +50,7 @@ $eventModalTypeDiv.addEventListener('click', handleEventTypeSelection);
 $eventModalNone.addEventListener('click', handleEventNoTime);
 $eventModalDelete.addEventListener('click', handleEventDelete);
 $eventModalForm.addEventListener('submit', handleEventSubmit);
-$eventModalForm.addEventListener('keydown', handleEventSubmit);
+// $eventModalForm.addEventListener('keydown', handleEventSubmit);
 $checklist.addEventListener('click', handleEventEdit);
 
 getHomeTown(data);
@@ -66,7 +66,7 @@ function handlePrevious(event) {
     view.month--;
   }
   view.day = 1;
-  refreshApp(view, 'left');
+  refreshApp(view, 'left', true);
 }
 
 function handleNext(event) {
@@ -77,7 +77,7 @@ function handleNext(event) {
     view.month++;
   }
   view.day = 1;
-  refreshApp(view, 'right');
+  refreshApp(view, 'right', true);
 }
 
 function handleSelect(event) {
@@ -90,13 +90,13 @@ function handleSelect(event) {
   }
 
   view.day = parseInt($square.children[0].children[0].children[0].textContent);
-  refreshApp(view);
+  refreshApp(view, null, true);
 }
 
 function handleTravelSubmit(event) {
-  if (event.key !== 'Enter') {
-    return;
-  }
+  // if (event.key !== 'Enter') {
+  //   return;
+  // }
   event.preventDefault();
   // record hometown if asking for hometown
   if (!data.homeTown) {
@@ -231,9 +231,9 @@ function handleEventNoTime(event) {
 }
 
 function handleEventSubmit(event) {
-  if (event.key !== 'Enter') {
-    return;
-  }
+  // if (event.key !== 'Enter') {
+  //   return;
+  // }
   event.preventDefault();
 
   // create a CalendarDay
@@ -287,9 +287,7 @@ function handleEventSubmit(event) {
   // sort the events of the day
   day.events.sort((a, b) => a.weight - b.weight);
 
-  generateSquares($calendar);
-  populateCalendar(view);
-  populateChecklist(view);
+  refreshApp(view, null, true);
 
   if (event.submitter) {
     if (event.submitter.matches('.event-button.save')) {
@@ -623,14 +621,16 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
 
 }
 
-function populateDayBanner(calendarDate) {
+function populateDayBanner(calendarDate, fromX = 0, fromOpacity = 1) {
   // update Date Info
+  gsap.from($dateInfoDate, { duration: 0.25, x: fromX, opacity: fromOpacity });
   var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   $dateInfoDate.children[0].textContent = months[calendarDate.month];
   $dateInfoDate.children[1].textContent = calendarDate.day;
   $dateInfoDate.children[2].textContent = calendarDate.year;
 
   // update holiday
+  gsap.from($dateInfoHoliday, { duration: 0.25, x: fromX, opacity: fromOpacity });
   $dateInfoHoliday.textContent = '';
   for (var i = 0; i < holidays.length; i++) {
     if (holidays[i].date.datetime.month - 1 === calendarDate.month && holidays[i].date.datetime.day === parseInt(calendarDate.day)) {
@@ -640,6 +640,7 @@ function populateDayBanner(calendarDate) {
   }
 
   // update weather
+  gsap.from($dateWeather, { duration: 0.25, x: fromX, opacity: fromOpacity });
   $dateWeather.innerHTML = '';
   var weatherList = weathers[data.homeTown];
   var dayObj = null;
@@ -711,7 +712,7 @@ function setEventModalTime(time) {
   }
 }
 
-function populateChecklist(calendarDate) {
+function populateChecklist(calendarDate, fromX = 0, fromOpacity = 1) {
   if (data.days.length === 0) {
     return;
   }
@@ -732,8 +733,10 @@ function populateChecklist(calendarDate) {
   day.events.sort((a, b) => a.weight - b.weight);
 
   // populate checklist
+  var waitTime = 0;
   for (i = 0; i < day.events.length; i++) {
     var $li = document.createElement('li');
+    gsap.from($li, { duration: 0.25, x: fromX, opacity: fromOpacity, delay: waitTime });
     $li.className = 'row';
     $li.setAttribute('data-id', day.events[i].id);
 
@@ -783,22 +786,32 @@ function populateChecklist(calendarDate) {
     $eventTimeEdit.append($time);
     $eventTimeEdit.append($edit);
     $edit.append($editImage);
+    waitTime += 0.05;
   }
 }
 
-function refreshApp(calendarDate, from = null) {
+function refreshApp(calendarDate, calendarDirection = null, newSelection) {
   generateSquares($calendar);
-  if (from) {
-    if (from === 'left') {
+
+  if (calendarDirection) {
+    if (calendarDirection === 'left') {
       populateCalendar(calendarDate, -100, 0);
-    } else if (from === 'right') {
+    } else if (calendarDirection === 'right') {
       populateCalendar(calendarDate, 100, 0);
+    } else {
+      populateCalendar(calendarDate);
     }
   } else {
     populateCalendar(calendarDate);
   }
-  populateDayBanner(calendarDate);
-  populateChecklist(calendarDate);
+
+  if (newSelection) {
+    populateDayBanner(calendarDate, 100, 0);
+    populateChecklist(calendarDate, 100, 0);
+  } else {
+    populateDayBanner(calendarDate);
+    populateChecklist(calendarDate);
+  }
 }
 
 function showTravelModal() {
