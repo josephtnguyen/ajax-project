@@ -382,6 +382,20 @@ button.event-modal-time:hover {
   position: absolute;
   bottom: 0;
   width: 100%;
+  margin: 1rem 0;
+}
+
+.event-modal-delete {
+  width: 32px;
+  height: 32px;
+  background-image: url(../images/trash.svg);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.event-modal-delete:hover {
+  background-image: url(../images/trash-active.svg);
 }
 
 .day-banner {
