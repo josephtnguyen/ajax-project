@@ -66,7 +66,7 @@ function handlePrevious(event) {
     view.month--;
   }
   view.day = 1;
-  refreshApp(view);
+  refreshApp(view, 'left');
 }
 
 function handleNext(event) {
@@ -77,7 +77,7 @@ function handleNext(event) {
     view.month++;
   }
   view.day = 1;
-  refreshApp(view);
+  refreshApp(view, 'right');
 }
 
 function handleSelect(event) {
@@ -417,13 +417,14 @@ function generateSquares(calendar) {
   }
 }
 
-function populateCalendar(calendarDate) {
+function populateCalendar(calendarDate, fromX = 0, fromOpacity = 1) {
   // update header
   var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   $calendarMonthYear.children[0].textContent = months[calendarDate.month];
   $calendarMonthYear.children[1].textContent = calendarDate.year;
+  gsap.from($calendarMonthYear, { duration: 0.25, x: fromX, opacity: fromOpacity });
 
-  // fill in calendar
+  // start on the first day of the month
   var currentDate = new Date(calendarDate.year, calendarDate.month, 1);
   // wind back to Sunday
   var firstDay = currentDate.getDay();
@@ -436,26 +437,27 @@ function populateCalendar(calendarDate) {
   for (var i = 0; i < $calendar.children.length; i++) {
     for (var j = 0; j < 7; j++) {
       var $square = $calendar.children[i].children[j];
-      var dateObj = new CalendarDate(
+      gsap.from($square, { duration: 0.25, x: fromX, opacity: fromOpacity });
+      var dateOfSquare = new CalendarDate(
         currentDate.getDate(),
         currentDate.getMonth(),
         currentDate.getFullYear()
       );
       var isCurrentMonth = true;
-      if (currentDate.getMonth() !== calendarDate.month) {
+      if (dateOfSquare.month !== calendarDate.month) {
         isCurrentMonth = false;
       }
       // see if we have any data on the current day
       var dayObj = null;
       for (var k = 0; k < data.days.length; k++) {
-        if (dateObj.isSameDay(data.days[k].date)) {
+        if (dateOfSquare.isSameDay(data.days[k].date)) {
           dayObj = data.days[k];
           break;
         }
       }
 
-      generateHTMLCalendarDay($square, dateObj, isCurrentMonth, dayObj, currentTravel);
-      currentDate.setDate(dateObj.day + 1);
+      generateHTMLCalendarDay($square, dateOfSquare, isCurrentMonth, dayObj, currentTravel);
+      currentDate.setDate(dateOfSquare.day + 1);
     }
   }
 }
@@ -784,9 +786,17 @@ function populateChecklist(calendarDate) {
   }
 }
 
-function refreshApp(calendarDate) {
+function refreshApp(calendarDate, from = null) {
   generateSquares($calendar);
-  populateCalendar(calendarDate);
+  if (from) {
+    if (from === 'left') {
+      populateCalendar(calendarDate, -100, 0);
+    } else if (from === 'right') {
+      populateCalendar(calendarDate, 100, 0);
+    }
+  } else {
+    populateCalendar(calendarDate);
+  }
   populateDayBanner(calendarDate);
   populateChecklist(calendarDate);
 }
