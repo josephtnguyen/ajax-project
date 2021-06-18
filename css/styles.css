@@ -264,6 +264,22 @@ button.date.black.selected {
 .travel-button,
 .event-button {
   font-size: 18px;
+  width: 75px;
+  padding: 0;
+}
+
+.travel-button.cancel,
+.event-button.cancel {
+  text-align: left;
+}
+
+.event-button.save-plus {
+  text-align: center;
+}
+
+.travel-button.save,
+.event-button.save {
+  text-align: right;
 }
 
 .travel-button:hover,
