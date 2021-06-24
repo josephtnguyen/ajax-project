@@ -1,5 +1,5 @@
 /* exported data */
-var data = {
+let data = {
   homeTown: '',
   homeCoord: null,
   coords: {},
@@ -12,7 +12,7 @@ var data = {
   editingId: 0
 };
 
-var previousData = localStorage.getItem('calendar-data');
+const previousData = localStorage.getItem('calendar-data');
 if (previousData) {
   data = JSON.parse(previousData);
 }
