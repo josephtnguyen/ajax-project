@@ -1,43 +1,43 @@
 /* global data, gsap */
 /* global CalendarDate, Weather, Coord, CalendarDay, CalendarEvent, EventTime */
 
-var todaysDate = new Date();
-var today = new CalendarDate(todaysDate.getDate(), todaysDate.getMonth(), todaysDate.getFullYear());
-var view = new CalendarDate(parseInt(today.day), today.month, today.year);
+const todaysDate = new Date();
+const today = new CalendarDate(todaysDate.getDate(), todaysDate.getMonth(), todaysDate.getFullYear());
+const view = new CalendarDate(parseInt(today.day), today.month, today.year);
 
-var holidays = [];
-var weathers = {};
+let holidays = [];
+const weathers = {};
 
-var $calendarMonthYear = document.querySelector('.header-month-year');
-var $calendar = document.querySelector('.calendar-squares');
-var $previousMonth = document.querySelector('.left-arrow-button');
-var $nextMonth = document.querySelector('.right-arrow-button');
-var $dateInfoDate = document.querySelector('.date-info-date');
-var $dateInfoHoliday = document.querySelector('.date-info-holiday');
-var $dateInfoTravel = document.querySelector('.date-info-travel');
-var $dateWeather = document.querySelector('.date-weather');
+const $calendarMonthYear = document.querySelector('.header-month-year');
+const $calendar = document.querySelector('.calendar-squares');
+const $previousMonth = document.querySelector('.left-arrow-button');
+const $nextMonth = document.querySelector('.right-arrow-button');
+const $dateInfoDate = document.querySelector('.date-info-date');
+const $dateInfoHoliday = document.querySelector('.date-info-holiday');
+const $dateInfoTravel = document.querySelector('.date-info-travel');
+const $dateWeather = document.querySelector('.date-weather');
 
-var $travelModal = document.querySelector('.travel-modal-container');
-var $travelModalForm = document.querySelector('.travel-modal-form');
-var $travelButton = document.querySelector('.add-travel');
-var $travelModalInput = document.querySelector('.travel-modal-container .modal-input');
-var $travelModalCancel = document.querySelector('.travel-button.cancel');
-var $travelModalSave = document.querySelector('.travel-button.save');
+const $travelModal = document.querySelector('.travel-modal-container');
+const $travelModalForm = document.querySelector('.travel-modal-form');
+const $travelButton = document.querySelector('.add-travel');
+const $travelModalInput = document.querySelector('.travel-modal-container .modal-input');
+const $travelModalCancel = document.querySelector('.travel-button.cancel');
+const $travelModalSave = document.querySelector('.travel-button.save');
 
-var $eventModalTypeSelectors = document.querySelectorAll('button.event-modal-view');
-var $eventModalTimes = document.querySelectorAll('select.event-modal-time');
-var $eventModalIcons = document.querySelectorAll('.event-modal-input-icons .modal-icon');
-var $eventModal = document.querySelector('.event-modal-container');
-var $eventModalForm = document.querySelector('.event-modal-form');
-var $eventButton = document.querySelector('.add-event');
-var $eventModalCancel = document.querySelector('.event-button.cancel');
-var $eventModalSave = document.querySelector('.event-button.save');
-var $eventModalTypeDiv = document.querySelector('.event-modal-buttons');
-var $eventModalDate = document.querySelector('.event-modal-date');
-var $eventModalNone = document.querySelector('button.event-modal-time');
-var $eventModalInput = document.querySelector('.event-modal-container .modal-input');
-var $eventModalDelete = document.querySelector('.event-modal-delete-div');
-var $checklist = document.querySelector('.checklist-div > ul');
+const $eventModalTypeSelectors = document.querySelectorAll('button.event-modal-view');
+const $eventModalTimes = document.querySelectorAll('select.event-modal-time');
+const $eventModalIcons = document.querySelectorAll('.event-modal-input-icons .modal-icon');
+const $eventModal = document.querySelector('.event-modal-container');
+const $eventModalForm = document.querySelector('.event-modal-form');
+const $eventButton = document.querySelector('.add-event');
+const $eventModalCancel = document.querySelector('.event-button.cancel');
+const $eventModalSave = document.querySelector('.event-button.save');
+const $eventModalTypeDiv = document.querySelector('.event-modal-buttons');
+const $eventModalDate = document.querySelector('.event-modal-date');
+const $eventModalNone = document.querySelector('button.event-modal-time');
+const $eventModalInput = document.querySelector('.event-modal-container .modal-input');
+const $eventModalDelete = document.querySelector('.event-modal-delete-div');
+const $checklist = document.querySelector('.checklist-div > ul');
 
 $previousMonth.addEventListener('click', handlePrevious);
 $nextMonth.addEventListener('click', handleNext);
@@ -88,8 +88,8 @@ function handleSelect(event) {
   if (!event.target.closest('.square')) {
     return;
   }
-  var $square = event.target.closest('.square');
-  var $calendarNumber = $square.querySelector('.date');
+  const $square = event.target.closest('.square');
+  const $calendarNumber = $square.querySelector('.date');
   if (!$calendarNumber.matches('.black')) {
     return;
   }
@@ -103,7 +103,7 @@ function handleTravelEnter(event) {
     return;
   }
   event.preventDefault();
-  var pseudoEvent = event;
+  const pseudoEvent = event;
   pseudoEvent.submitter = $travelModalSave;
   handleTravelSubmit(pseudoEvent);
 }
@@ -122,16 +122,16 @@ function handleTravelSubmit(event) {
   }
 
   // if adding a travel destination, create a new day object
-  var travel = $travelModalInput.value;
+  const travel = $travelModalInput.value;
   // get weather for new location
   getCoord(travel);
-  var day = new CalendarDay({ ...view }, travel);
+  let day = new CalendarDay({ ...view }, travel);
   Object.setPrototypeOf(day.date, CalendarDate.prototype);
   // if the day already exists, modify the day instead
   if (data.days.length === 0) {
     data.days.push(day);
   }
-  for (var i = 0; i < data.days.length; i++) {
+  for (let i = 0; i < data.days.length; i++) {
     if (data.days[i].date.isSameDay(view)) {
       day = data.days[i];
       day.travel = travel;
@@ -163,10 +163,10 @@ function handleTravelCancel(event) {
 }
 
 function handleTravelAdd(event) {
-  var $destinationQuestion = $travelModalForm.querySelector('.destination-question');
-  var $destinationIcon = $travelModalForm.querySelector('.destination-icon');
-  var $hometownQuestion = $travelModalForm.querySelector('.hometown-question');
-  var $hometownIcon = $travelModalForm.querySelector('.hometown-icon');
+  const $destinationQuestion = $travelModalForm.querySelector('.destination-question');
+  const $destinationIcon = $travelModalForm.querySelector('.destination-icon');
+  const $hometownQuestion = $travelModalForm.querySelector('.hometown-question');
+  const $hometownIcon = $travelModalForm.querySelector('.hometown-icon');
 
   $destinationQuestion.classList.remove('hidden');
   $destinationIcon.classList.remove('hidden');
@@ -183,14 +183,14 @@ function handleEventAdd(event) {
   $eventModalInput.setAttribute('value', '');
   $eventModalNone.classList.remove('modal-selected');
   $eventModalDelete.classList.add('hidden');
-  for (var i = 1; i < $eventModalTypeSelectors.length; i++) {
+  for (let i = 1; i < $eventModalTypeSelectors.length; i++) {
     $eventModalTypeSelectors[i].classList.remove('modal-selected');
     $eventModalIcons[i].classList.add('hidden');
   }
 
   setEventModalTime(new EventTime('7', '00', 'pm'));
 
-  var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   $eventModalDate.children[0].textContent = months[view.month];
   $eventModalDate.children[1].textContent = view.day;
   $eventModalDate.children[2].textContent = view.year;
@@ -212,13 +212,13 @@ function handleEventTypeSelection(event) {
     return;
   }
 
-  var placeholders = [
+  const placeholders = [
     'New Event',
     'Whose Birthday?',
     'New Hangout',
     'New Meeting'
   ];
-  for (var i = 0; i < $eventModalTypeSelectors.length; i++) {
+  for (let i = 0; i < $eventModalTypeSelectors.length; i++) {
     if (event.target === $eventModalTypeSelectors[i]) {
       $eventModalTypeSelectors[i].classList.add('modal-selected');
       $eventModalIcons[i].classList.remove('hidden');
@@ -252,7 +252,7 @@ function handleEventEnter(event) {
     return;
   }
   event.preventDefault();
-  var pseudoEvent = event;
+  const pseudoEvent = event;
   pseudoEvent.submitter = $eventModalSave;
   handleEventSubmit(pseudoEvent);
 }
@@ -261,13 +261,13 @@ function handleEventSubmit(event) {
   event.preventDefault();
 
   // create a CalendarDay
-  var day = new CalendarDay({ ...view });
+  let day = new CalendarDay({ ...view });
   Object.setPrototypeOf(day.date, CalendarDate.prototype);
   // if a CalendarDay already exists, modify it instead
   if (data.days.length === 0) {
     data.days.push(day);
   }
-  for (var i = 0; i < data.days.length; i++) {
+  for (let i = 0; i < data.days.length; i++) {
     if (data.days[i].date.isSameDay(view)) {
       day = data.days[i];
       break;
@@ -279,8 +279,8 @@ function handleEventSubmit(event) {
   }
 
   // find the CalendarEvent type
-  var type = 'event';
-  for (i = 0; i < $eventModalTypeSelectors.length; i++) {
+  let type = 'event';
+  for (let i = 0; i < $eventModalTypeSelectors.length; i++) {
     if ($eventModalTypeSelectors[i].matches('.modal-selected')) {
       type = $eventModalTypeSelectors[i].textContent.toLowerCase();
       break;
@@ -288,14 +288,14 @@ function handleEventSubmit(event) {
   }
 
   // find the time if available
-  var time = null;
+  let time = null;
   if (!$eventModalNone.classList.contains('modal-selected')) {
     time = new EventTime($eventModalTimes[0].value, $eventModalTimes[1].value, $eventModalTimes[2].value);
   }
 
   // create a CalendarEvent or update current event
   if (data.editing) {
-    for (i = 0; i < day.events.length; i++) {
+    for (let i = 0; i < day.events.length; i++) {
       if (day.events[i].id === data.editingId) {
         day.events[i] = new CalendarEvent(type, $eventModalInput.value, time, data.editingId);
         data.editing = false;
@@ -303,7 +303,7 @@ function handleEventSubmit(event) {
       }
     }
   } else {
-    var calendarEvent = new CalendarEvent(type, $eventModalInput.value, time, data.eventId);
+    const calendarEvent = new CalendarEvent(type, $eventModalInput.value, time, data.eventId);
     data.eventId++;
     day.events.push(calendarEvent);
   }
@@ -331,8 +331,8 @@ function handleEventEdit(event) {
   }
 
   // find the day to edit
-  var day;
-  for (var i = 0; i < data.days.length; i++) {
+  let day;
+  for (let i = 0; i < data.days.length; i++) {
     if (view.isSameDay(data.days[i].date)) {
       day = data.days[i];
       break;
@@ -340,10 +340,10 @@ function handleEventEdit(event) {
   }
 
   // find the event to edit
-  var eventListing;
-  var eventId = parseInt(event.target.closest('.row').getAttribute('data-id'));
+  let eventListing;
+  const eventId = parseInt(event.target.closest('.row').getAttribute('data-id'));
   data.editingId = eventId;
-  for (i = 0; i < day.events.length; i++) {
+  for (let i = 0; i < day.events.length; i++) {
     if (day.events[i].id === eventId) {
       eventListing = day.events[i];
       break;
@@ -359,13 +359,13 @@ function handleEventEdit(event) {
 
   // open the modal and populate it with the proper inputs
   data.editing = true;
-  var placeholders = [
+  const placeholders = [
     'New Event',
     'Whose Birthday?',
     'New Hangout',
     'New Meeting'
   ];
-  for (i = 0; i < $eventModalTypeSelectors.length; i++) {
+  for (let i = 0; i < $eventModalTypeSelectors.length; i++) {
     if ($eventModalTypeSelectors[i].matches('.' + eventListing.type)) {
       $eventModalTypeSelectors[i].classList.add('modal-selected');
       $eventModalIcons[i].classList.remove('hidden');
@@ -384,7 +384,7 @@ function handleEventEdit(event) {
     $eventModalNone.classList.add('modal-selected');
   }
   // update date
-  var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   $eventModalDate.children[0].textContent = months[view.month];
   $eventModalDate.children[1].textContent = view.day;
   $eventModalDate.children[2].textContent = view.year;
@@ -400,9 +400,9 @@ function handleEventDelete(event) {
     return;
   }
 
-  var searching = true;
-  for (var i = 0; i < data.days.length; i++) {
-    for (var j = 0; j < data.days[i].events.length; j++) {
+  let searching = true;
+  for (let i = 0; i < data.days.length; i++) {
+    for (let j = 0; j < data.days[i].events.length; j++) {
       if (data.days[i].events[j].id === data.editingId) {
         data.days[i].events.splice(j, 1);
         searching = false;
@@ -424,11 +424,11 @@ function handleEventDelete(event) {
 // General Functions
 function generateSquares(calendar) {
   calendar.innerHTML = '';
-  for (var i = 0; i < 6; i++) {
-    var $row = document.createElement('div');
+  for (let i = 0; i < 6; i++) {
+    const $row = document.createElement('div');
     $row.className = 'row';
-    for (var j = 0; j < 7; j++) {
-      var $square = document.createElement('div');
+    for (let j = 0; j < 7; j++) {
+      const $square = document.createElement('div');
       $square.className = 'col-14 square';
       $square.setAttribute('id', 'p' + (i * 10 + j));
       $row.append($square);
@@ -439,37 +439,37 @@ function generateSquares(calendar) {
 
 function populateCalendar(calendarDate, fromX = 0, fromOpacity = 1) {
   // update header
-  var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   $calendarMonthYear.children[0].textContent = months[calendarDate.month];
   $calendarMonthYear.children[1].textContent = calendarDate.year;
   gsap.from($calendarMonthYear, { duration: 0.25, x: fromX, opacity: fromOpacity });
 
   // start on the first day of the month
-  var currentDate = new Date(calendarDate.year, calendarDate.month, 1);
+  const currentDate = new Date(calendarDate.year, calendarDate.month, 1);
   // wind back to Sunday
-  var firstDay = currentDate.getDay();
-  for (var dayOfWeek = firstDay; dayOfWeek > 0; dayOfWeek--) {
+  const firstDay = currentDate.getDay();
+  for (let dayOfWeek = firstDay; dayOfWeek > 0; dayOfWeek--) {
     currentDate.setDate(currentDate.getDate() - 1);
   }
 
   // loop through all squares
-  var currentTravel = { location: data.homeTown, style: 'travel-1' };
-  for (var i = 0; i < $calendar.children.length; i++) {
-    for (var j = 0; j < 7; j++) {
-      var $square = $calendar.children[i].children[j];
+  const currentTravel = { location: data.homeTown, style: 'travel-1' };
+  for (let i = 0; i < $calendar.children.length; i++) {
+    for (let j = 0; j < 7; j++) {
+      const $square = $calendar.children[i].children[j];
       gsap.from($square, { duration: 0.25, x: fromX, opacity: fromOpacity });
-      var dateOfSquare = new CalendarDate(
+      const dateOfSquare = new CalendarDate(
         currentDate.getDate(),
         currentDate.getMonth(),
         currentDate.getFullYear()
       );
-      var isCurrentMonth = true;
+      let isCurrentMonth = true;
       if (dateOfSquare.month !== calendarDate.month) {
         isCurrentMonth = false;
       }
       // see if we have any data on the current day
-      var dayObj = null;
-      for (var k = 0; k < data.days.length; k++) {
+      let dayObj = null;
+      for (let k = 0; k < data.days.length; k++) {
         if (dateOfSquare.isSameDay(data.days[k].date)) {
           dayObj = data.days[k];
           break;
@@ -483,14 +483,14 @@ function populateCalendar(calendarDate, fromX = 0, fromOpacity = 1) {
 }
 
 function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, currentTravel) {
-  var $heading = document.createElement('div');
+  const $heading = document.createElement('div');
   $heading.className = 'row';
 
   // Number
-  var $numberDiv = document.createElement('div');
+  const $numberDiv = document.createElement('div');
   $numberDiv.className = 'col-33-lg middle';
 
-  var $number = document.createElement('button');
+  const $number = document.createElement('button');
   $number.className = 'date';
   if (isCurrentMonth) {
     $number.classList.add('black');
@@ -507,17 +507,17 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
   $number.textContent = dateObj.day;
 
   // Location/Weather
-  var $headingSideDiv = document.createElement('div');
+  const $headingSideDiv = document.createElement('div');
   $headingSideDiv.className = 'col-66-lg calendar-date-weather-heading';
 
-  var weatherAdded = false;
-  var weatherList = weathers[data.homeTown];
+  let weatherAdded = false;
+  let weatherList = weathers[data.homeTown];
   if (weatherList) {
     if (view.isSameMonth(today)) {
       // get other weather if traveling
       if (dayObj) {
         if (dayObj.travel) {
-          for (var location in weathers) {
+          for (const location in weathers) {
             if (location === dayObj.travel) {
               weatherList = weathers[location];
               break;
@@ -526,13 +526,13 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
         }
       }
       // find the correct day in weatherList and fill in the DOM
-      for (var i = 0; i < weatherList.length; i++) {
+      for (let i = 0; i < weatherList.length; i++) {
         if (weatherList[i].date.day === dateObj.day && isCurrentMonth) {
-          var $weatherIcon = document.createElement('img');
+          const $weatherIcon = document.createElement('img');
           $weatherIcon.className = 'calendar-date-weather-icon';
           $weatherIcon.setAttribute('src', weatherList[i].svg);
 
-          var $weatherTemp = document.createElement('h3');
+          const $weatherTemp = document.createElement('h3');
           $weatherTemp.className = 'calendar-date-weather-temp no-margin';
           $weatherTemp.textContent = weatherList[i].temp + '\u00B0';
 
@@ -546,14 +546,14 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
   }
 
   // Travel
-  var travelAdded = false;
+  let travelAdded = false;
   if (dayObj) {
     if (dayObj.travel) {
       if (dayObj.travel !== data.homeTown) {
         travelAdded = true;
         if (dayObj.travel !== currentTravel.location) {
           currentTravel.location = dayObj.travel;
-          var nextStyleIndex = parseInt(currentTravel.style[7]) + 1;
+          const nextStyleIndex = parseInt(currentTravel.style[7]) + 1;
           currentTravel.style = 'travel-' + nextStyleIndex;
           if (nextStyleIndex === 5) {
             currentTravel.style = 'travel-1';
@@ -564,7 +564,7 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
 
         // add text if no weather is present
         if (!weatherAdded) {
-          var $travelDestination = document.createElement('p');
+          const $travelDestination = document.createElement('p');
           $travelDestination.className = 'calendar-date-destination';
           $travelDestination.classList.add(currentTravel.style);
           $travelDestination.textContent = dayObj.travel;
@@ -579,9 +579,9 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
   }
 
   // Holiday
-  for (i = 0; i < holidays.length; i++) {
-    var viewingMonth = view.month;
-    var viewingDay = dateObj.day;
+  for (let i = 0; i < holidays.length; i++) {
+    let viewingMonth = view.month;
+    const viewingDay = dateObj.day;
     if (!isCurrentMonth && dateObj.day > 15) {
       viewingMonth--;
     } else if (!isCurrentMonth && dateObj.day < 15) {
@@ -591,7 +591,7 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
       $number.classList.add('pink');
       // add text if no weather or travel plans are present
       if (!weatherAdded && !travelAdded) {
-        var $holidayName = document.createElement('p');
+        const $holidayName = document.createElement('p');
         $holidayName.className = 'calendar-date-holiday pink';
         $holidayName.textContent = holidays[i].name;
         $headingSideDiv.classList.remove('calendar-date-weather-heading');
@@ -603,27 +603,27 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
   }
 
   // Events
-  var $body = document.createElement('div');
+  const $body = document.createElement('div');
   $body.className = 'row';
 
-  var $listDiv = document.createElement('div');
+  const $listDiv = document.createElement('div');
   $listDiv.className = 'col-100 calendar-date-events-div';
 
-  var $list = document.createElement('ul');
+  const $list = document.createElement('ul');
 
   if (dayObj) {
-    for (i = 0; i < 4; i++) {
+    for (let i = 0; i < 4; i++) {
       if (!dayObj.events[i]) {
         break;
       }
-      var $li = document.createElement('li');
+      const $li = document.createElement('li');
       $li.className = 'calendar-date-event';
 
-      var $icon = document.createElement('img');
+      const $icon = document.createElement('img');
       $icon.className = 'calendar-date-event-icon';
       $icon.setAttribute('src', dayObj.events[i].svg);
 
-      var $text = document.createElement('p');
+      const $text = document.createElement('p');
       $text.className = 'calendar-date-event-text';
       $text.textContent = dayObj.events[i].input;
 
@@ -646,7 +646,7 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
 function populateDayBanner(calendarDate, fromX = 0, fromOpacity = 1) {
   // update Date Info
   gsap.from($dateInfoDate, { duration: 0.25, x: fromX, opacity: fromOpacity });
-  var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+  const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
   $dateInfoDate.children[0].textContent = months[calendarDate.month];
   $dateInfoDate.children[1].textContent = calendarDate.day;
   $dateInfoDate.children[2].textContent = calendarDate.year;
@@ -654,7 +654,7 @@ function populateDayBanner(calendarDate, fromX = 0, fromOpacity = 1) {
   // update holiday
   gsap.from($dateInfoHoliday, { duration: 0.25, x: fromX, opacity: fromOpacity });
   $dateInfoHoliday.textContent = '';
-  for (var i = 0; i < holidays.length; i++) {
+  for (let i = 0; i < holidays.length; i++) {
     if (holidays[i].date.datetime.month - 1 === calendarDate.month && holidays[i].date.datetime.day === parseInt(calendarDate.day)) {
       $dateInfoHoliday.textContent = holidays[i].name;
       break;
@@ -664,7 +664,7 @@ function populateDayBanner(calendarDate, fromX = 0, fromOpacity = 1) {
   // update travel
   gsap.from($dateInfoTravel, { duration: 0.25, x: fromX, opacity: fromOpacity });
   $dateInfoTravel.textContent = '';
-  for (i = 0; i < data.days.length; i++) {
+  for (let i = 0; i < data.days.length; i++) {
     if (data.days[i].date.isSameDay(calendarDate)) {
       $dateInfoTravel.textContent = data.days[i].travel;
       break;
@@ -674,11 +674,11 @@ function populateDayBanner(calendarDate, fromX = 0, fromOpacity = 1) {
   // update weather
   gsap.from($dateWeather, { duration: 0.25, x: fromX, opacity: fromOpacity });
   $dateWeather.innerHTML = '';
-  var weatherList = weathers[data.homeTown];
-  var dayObj = null;
+  let weatherList = weathers[data.homeTown];
+  let dayObj = null;
   if (weatherList) {
     // see if we have any data on the current day
-    for (i = 0; i < data.days.length; i++) {
+    for (let i = 0; i < data.days.length; i++) {
       if (data.days[i].date.isSameDay(calendarDate)) {
         dayObj = data.days[i];
         break;
@@ -693,7 +693,7 @@ function populateDayBanner(calendarDate, fromX = 0, fromOpacity = 1) {
     }
 
     if (weatherList) {
-      for (i = 0; i < weatherList.length; i++) {
+      for (let i = 0; i < weatherList.length; i++) {
         if (weatherList[i].date.day === parseInt(calendarDate.day) && weatherList[i].date.month === calendarDate.month && weatherList[i].date.year === calendarDate.year) {
           generateBannerWeather($dateWeather, weatherList[i]);
           break;
@@ -705,22 +705,22 @@ function populateDayBanner(calendarDate, fromX = 0, fromOpacity = 1) {
 }
 
 function generateBannerWeather(weatherDiv, weather) {
-  var $icon = document.createElement('img');
+  const $icon = document.createElement('img');
   $icon.className = 'date-weather-icon';
   $icon.setAttribute('src', weather.svg);
 
-  var $mainTemp = document.createElement('h1');
+  const $mainTemp = document.createElement('h1');
   $mainTemp.className = 'date-weather-main-temp';
   $mainTemp.textContent = weather.temp + '\u00B0';
 
-  var $sideTemp = document.createElement('div');
+  const $sideTemp = document.createElement('div');
   $sideTemp.className = 'date-weather-side-temp';
 
-  var $high = document.createElement('p');
+  const $high = document.createElement('p');
   $high.className = 'no-margin';
   $high.textContent = 'High: ' + weather.max + '\u00B0';
 
-  var $low = document.createElement('p');
+  const $low = document.createElement('p');
   $low.className = 'no-margin';
   $low.textContent = 'Low: ' + weather.min + '\u00B0';
 
@@ -732,9 +732,9 @@ function generateBannerWeather(weatherDiv, weather) {
 }
 
 function setEventModalTime(time) {
-  var timeComponents = ['hour', 'minute', 'ampm'];
-  for (var i = 0; i < $eventModalTimes.length; i++) {
-    for (var j = 0; j < $eventModalTimes[i].children.length; j++) {
+  const timeComponents = ['hour', 'minute', 'ampm'];
+  for (let i = 0; i < $eventModalTimes.length; i++) {
+    for (let j = 0; j < $eventModalTimes[i].children.length; j++) {
       if (time[timeComponents[i]] === $eventModalTimes[i].children[j].value) {
         $eventModalTimes[i].children[j].setAttribute('selected', '');
       } else {
@@ -750,8 +750,8 @@ function populateChecklist(calendarDate, fromX = 0, fromOpacity = 1) {
   }
   // if the current day has no data, return
   $checklist.innerHTML = '';
-  var day;
-  for (var i = 0; i < data.days.length; i++) {
+  let day;
+  for (let i = 0; i < data.days.length; i++) {
     if (data.days[i].date.isSameDay(calendarDate)) {
       day = data.days[i];
       break;
@@ -765,49 +765,49 @@ function populateChecklist(calendarDate, fromX = 0, fromOpacity = 1) {
   day.events.sort((a, b) => a.weight - b.weight);
 
   // populate checklist
-  var waitTime = 0;
-  for (i = 0; i < day.events.length; i++) {
-    var $li = document.createElement('li');
+  let waitTime = 0;
+  for (let i = 0; i < day.events.length; i++) {
+    const $li = document.createElement('li');
     gsap.from($li, { duration: 0.25, x: fromX, opacity: fromOpacity, delay: waitTime });
     waitTime += 0.05;
     $li.className = 'row';
     $li.setAttribute('data-id', day.events[i].id);
 
-    var $eventTextDiv = document.createElement('div');
+    const $eventTextDiv = document.createElement('div');
     $eventTextDiv.className = 'col-75 event-text-div';
 
-    var $checkButton = document.createElement('button');
+    const $checkButton = document.createElement('button');
     $checkButton.className = 'event-radio-button';
     if (day.events[i].checked) {
       $checkButton.classList.add('checked');
       $checkButton.classList.add('middle');
-      var $checkImg = document.createElement('img');
+      const $checkImg = document.createElement('img');
       $checkImg.setAttribute('src', 'images/check.svg');
       $checkImg.className = 'check';
       $checkButton.append($checkImg);
     }
 
-    var $icon = document.createElement('img');
+    const $icon = document.createElement('img');
     $icon.className = 'event-icon';
     $icon.setAttribute('src', day.events[i].svg);
 
-    var $text = document.createElement('p');
+    const $text = document.createElement('p');
     $text.className = 'event-text';
     $text.textContent = day.events[i].input;
 
-    var $eventTimeEdit = document.createElement('div');
+    const $eventTimeEdit = document.createElement('div');
     $eventTimeEdit.className = 'col-25 event-time-edit-div';
 
-    var $time = document.createElement('p');
+    const $time = document.createElement('p');
     $time.className = 'event-time';
     if (day.events[i].time) {
       $time.textContent = day.events[i].time.hour + ':' + day.events[i].time.minute + day.events[i].time.ampm.toUpperCase();
     }
 
-    var $edit = document.createElement('button');
+    const $edit = document.createElement('button');
     $edit.className = 'event-edit middle';
 
-    var $editImage = document.createElement('img');
+    const $editImage = document.createElement('img');
     $editImage.setAttribute('src', 'images/edit.svg');
 
     $checklist.append($li);
@@ -884,11 +884,11 @@ function hideEventModal() {
 
 // AJAX Functions
 function getHolidays(year) {
-  var holidaysList = new XMLHttpRequest();
-  var holidayKey = '?api_key=89c4f0216fb3240f31be20bc4f84aee739d99cda';
-  var holidayCountry = '&country=US';
-  var holidayYear = '&year=' + year;
-  var holidayType = '&type=national';
+  const holidaysList = new XMLHttpRequest();
+  const holidayKey = '?api_key=89c4f0216fb3240f31be20bc4f84aee739d99cda';
+  const holidayCountry = '&country=US';
+  const holidayYear = '&year=' + year;
+  const holidayType = '&type=national';
 
   holidaysList.open('GET', 'https://calendarific.com/api/v2/holidays' + holidayKey + holidayCountry + holidayYear + holidayType);
   holidaysList.responseType = 'json';
@@ -915,25 +915,25 @@ function getAllWeather() {
   getWeather(data.homeCoord);
 
   // get all travel locations
-  var locations = new Set();
-  for (var i = 0; i < data.days.length; i++) {
+  const locations = new Set();
+  for (let i = 0; i < data.days.length; i++) {
     if (data.days[i].travel) {
       locations.add(data.days[i].travel);
     }
   }
 
   // get coords for all locations, which will then get the weather
-  var locationsList = [...locations];
-  for (i = 0; i < locationsList.length; i++) {
+  const locationsList = [...locations];
+  for (let i = 0; i < locationsList.length; i++) {
     getCoord(locationsList[i]);
   }
 }
 
 function getCoord(locationName) {
-  var coord = new XMLHttpRequest();
-  var weatherKey = data.weatherKey;
-  var weatherUnits = '&units=imperial';
-  var weatherLocation = '?q=' + locationName;
+  const coord = new XMLHttpRequest();
+  const weatherKey = data.weatherKey;
+  const weatherUnits = '&units=imperial';
+  const weatherLocation = '?q=' + locationName;
 
   coord.open('GET', 'https://api.openweathermap.org/data/2.5/weather' + weatherLocation + weatherUnits + weatherKey);
   coord.responseType = 'json';
@@ -952,10 +952,10 @@ function getCoord(locationName) {
 }
 
 function getWeather(coord) {
-  var weather = new XMLHttpRequest();
-  var weatherKey = data.weatherKey;
-  var weatherUnits = '&units=imperial';
-  var weatherLocation = '?lat=' + coord.lat + '&lon=' + coord.lon;
+  const weather = new XMLHttpRequest();
+  const weatherKey = data.weatherKey;
+  const weatherUnits = '&units=imperial';
+  const weatherLocation = '?lat=' + coord.lat + '&lon=' + coord.lon;
 
   weather.open('GET', 'https://api.openweathermap.org/data/2.5/onecall' + weatherLocation + weatherUnits + weatherKey);
   weather.responseType = 'json';
@@ -963,11 +963,11 @@ function getWeather(coord) {
   weather.send();
 
   function handleWeather(event) {
-    var weatherList = weather.response.daily;
-    var finalData = [];
-    for (var i = 0; i < weatherList.length; i++) {
-      var weatherData = weatherList[i];
-      var weatherObj = new Weather(
+    const weatherList = weather.response.daily;
+    const finalData = [];
+    for (let i = 0; i < weatherList.length; i++) {
+      const weatherData = weatherList[i];
+      const weatherObj = new Weather(
         new CalendarDate(today.day + i, today.month, today.year),
         coord.location,
         weatherData.weather[0].main,
