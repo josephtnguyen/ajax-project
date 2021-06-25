@@ -468,6 +468,10 @@ button.event-modal-time.modal-selected {
   font-size: 12px;
 }
 
+.checklist-height {
+  height: calc(100% - 3.5rem);
+}
+
 .checklist-div {
   background-color: #fafcff;
 }
@@ -615,7 +619,6 @@ button.event-modal-time.modal-selected {
   }
 
   .checklist-div {
-    height: 100%;
     width: 375px;
   }
 }
