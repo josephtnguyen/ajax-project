@@ -65,7 +65,7 @@ function CalendarEvent(type, input, time, id) {
   this.id = id;
 
   if (time) {
-    var timeValue = 0;
+    let timeValue = 0;
     timeValue += parseInt(time.minute);
     if (time.hour !== '12') {
       timeValue += parseInt(time.hour) * 100;
@@ -101,7 +101,7 @@ function EventTime(hour, minute, ampm) {
 }
 
 // add prototypes back to days
-for (var i = 0; i < data.days.length; i++) {
+for (let i = 0; i < data.days.length; i++) {
   Object.setPrototypeOf(data.days[i], CalendarDay.prototype);
   Object.setPrototypeOf(data.days[i].date, CalendarDate.prototype);
 }
