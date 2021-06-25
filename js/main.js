@@ -280,9 +280,9 @@ function handleEventSubmit(event) {
 
   // find the CalendarEvent type
   let type = 'event';
-  for (let i = 0; i < $eventModalTypeSelectors.length; i++) {
-    if ($eventModalTypeSelectors[i].matches('.modal-selected')) {
-      type = $eventModalTypeSelectors[i].textContent.toLowerCase();
+  for (const $selector of $eventModalTypeSelectors) {
+    if ($selector.matches('.modal-selected')) {
+      type = $selector.textContent.toLowerCase();
       break;
     }
   }
@@ -295,9 +295,9 @@ function handleEventSubmit(event) {
 
   // create a CalendarEvent or update current event
   if (data.editing) {
-    for (let i = 0; i < day.events.length; i++) {
-      if (day.events[i].id === data.editingId) {
-        day.events[i] = new CalendarEvent(type, $eventModalInput.value, time, data.editingId);
+    for (let calendarEvent of day.events) {
+      if (calendarEvent.id === data.editingId) {
+        calendarEvent = new CalendarEvent(type, $eventModalInput.value, time, data.editingId);
         data.editing = false;
         break;
       }
@@ -332,9 +332,9 @@ function handleEventEdit(event) {
 
   // find the day to edit
   let day;
-  for (let i = 0; i < data.days.length; i++) {
-    if (view.isSameDay(data.days[i].date)) {
-      day = data.days[i];
+  for (const calendarDay of data.days) {
+    if (view.isSameDay(calendarDay.date)) {
+      day = calendarDay;
       break;
     }
   }
@@ -343,9 +343,9 @@ function handleEventEdit(event) {
   let eventListing;
   const eventId = parseInt(event.target.closest('.row').getAttribute('data-id'));
   data.editingId = eventId;
-  for (let i = 0; i < day.events.length; i++) {
-    if (day.events[i].id === eventId) {
-      eventListing = day.events[i];
+  for (const calendarEvent of day.events) {
+    if (calendarEvent.id === eventId) {
+      eventListing = calendarEvent;
       break;
     }
   }
@@ -430,7 +430,6 @@ function generateSquares(calendar) {
     for (let j = 0; j < 7; j++) {
       const $square = document.createElement('div');
       $square.className = 'col-14 square';
-      $square.setAttribute('id', 'p' + (i * 10 + j));
       $row.append($square);
     }
     calendar.append($row);
@@ -469,9 +468,9 @@ function populateCalendar(calendarDate, fromX = 0, fromOpacity = 1) {
       }
       // see if we have any data on the current day
       let dayObj = null;
-      for (let k = 0; k < data.days.length; k++) {
-        if (dateOfSquare.isSameDay(data.days[k].date)) {
-          dayObj = data.days[k];
+      for (const calendarDay of data.days) {
+        if (dateOfSquare.isSameDay(calendarDay.date)) {
+          dayObj = calendarDay;
           break;
         }
       }
@@ -580,8 +579,8 @@ function generateHTMLCalendarDay(square, dateObj, isCurrentMonth, dayObj, curren
 
   // Holiday
   for (let i = 0; i < holidays.length; i++) {
-    let viewingMonth = view.month;
     const viewingDay = dateObj.day;
+    let viewingMonth = view.month;
     if (!isCurrentMonth && dateObj.day > 15) {
       viewingMonth--;
     } else if (!isCurrentMonth && dateObj.day < 15) {
@@ -654,9 +653,9 @@ function populateDayBanner(calendarDate, fromX = 0, fromOpacity = 1) {
   // update holiday
   gsap.from($dateInfoHoliday, { duration: 0.25, x: fromX, opacity: fromOpacity });
   $dateInfoHoliday.textContent = '';
-  for (let i = 0; i < holidays.length; i++) {
-    if (holidays[i].date.datetime.month - 1 === calendarDate.month && holidays[i].date.datetime.day === parseInt(calendarDate.day)) {
-      $dateInfoHoliday.textContent = holidays[i].name;
+  for (const holiday of holidays) {
+    if (holiday.date.datetime.month - 1 === calendarDate.month && holiday.date.datetime.day === parseInt(calendarDate.day)) {
+      $dateInfoHoliday.textContent = holiday.name;
       break;
     }
   }
@@ -664,9 +663,9 @@ function populateDayBanner(calendarDate, fromX = 0, fromOpacity = 1) {
   // update travel
   gsap.from($dateInfoTravel, { duration: 0.25, x: fromX, opacity: fromOpacity });
   $dateInfoTravel.textContent = '';
-  for (let i = 0; i < data.days.length; i++) {
-    if (data.days[i].date.isSameDay(calendarDate)) {
-      $dateInfoTravel.textContent = data.days[i].travel;
+  for (const calendarDay of data.days) {
+    if (calendarDay.date.isSameDay(calendarDate)) {
+      $dateInfoTravel.textContent = calendarDay.travel;
       break;
     }
   }
@@ -678,9 +677,9 @@ function populateDayBanner(calendarDate, fromX = 0, fromOpacity = 1) {
   let dayObj = null;
   if (weatherList) {
     // see if we have any data on the current day
-    for (let i = 0; i < data.days.length; i++) {
-      if (data.days[i].date.isSameDay(calendarDate)) {
-        dayObj = data.days[i];
+    for (const calendarDay of data.days) {
+      if (calendarDay.date.isSameDay(calendarDate)) {
+        dayObj = calendarDay;
         break;
       }
     }
@@ -693,9 +692,9 @@ function populateDayBanner(calendarDate, fromX = 0, fromOpacity = 1) {
     }
 
     if (weatherList) {
-      for (let i = 0; i < weatherList.length; i++) {
-        if (weatherList[i].date.day === parseInt(calendarDate.day) && weatherList[i].date.month === calendarDate.month && weatherList[i].date.year === calendarDate.year) {
-          generateBannerWeather($dateWeather, weatherList[i]);
+      for (const weather of weatherList) {
+        if (weather.date.day === parseInt(calendarDate.day) && weather.date.month === calendarDate.month && weather.date.year === calendarDate.year) {
+          generateBannerWeather($dateWeather, weather);
           break;
         }
       }
