@@ -2,6 +2,8 @@
 
 A dynamic and comprehensive [calendar management system](https://josephtnguyen.github.io/calendar-complete/) that provides a complete view of one's schedule.
 
+![calendar1](https://user-images.githubusercontent.com/59109937/128261461-966ed389-54ac-4138-a5a9-4938600f7dbb.gif)
+
 ## Motivation
 
 I wanted to push my current knowledge of HTML, CSS, and JavaScript to its limit, while making something that I wanted to use.  As someone who highly values organization and planning, making an all-in-one calendar app sounded like a great way of showcasing my skills.  And what really drew me was the chance to use the OpenWeather API, since most calendar apps do not have a weekly forecast even though weather can play a large role in how we plan our week.
@@ -11,8 +13,6 @@ I wanted to push my current knowledge of HTML, CSS, and JavaScript to its limit,
 Built using HTML5, CSS3, and JavaScript.  The application applies AJAX to populate the calendar with real-time data using OpenWeather and Calendarific APIs, uses GreenSock for transitions.
 
 ## Features
-
-![calendar1](https://user-images.githubusercontent.com/59109937/128261461-966ed389-54ac-4138-a5a9-4938600f7dbb.gif)
 
 #### Current Features
 
