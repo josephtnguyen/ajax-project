@@ -50,6 +50,7 @@ $travelModalForm.addEventListener('keydown', handleTravelEnter);
 
 $eventButton.addEventListener('click', handleEventAdd);
 $eventModalCancel.addEventListener('click', handleEventCancel);
+$eventModalSave.addEventListener('click', handleEventSave);
 $eventModalTypeDiv.addEventListener('click', handleEventTypeSelection);
 $eventModalNone.addEventListener('click', handleEventNoTime);
 $eventModalDelete.addEventListener('click', handleEventDelete);
@@ -251,6 +252,13 @@ function handleEventEnter(event) {
   if (event.key !== 'Enter') {
     return;
   }
+  event.preventDefault();
+  const pseudoEvent = event;
+  pseudoEvent.submitter = $eventModalSave;
+  handleEventSubmit(pseudoEvent);
+}
+
+function handleEventSave(event) {
   event.preventDefault();
   const pseudoEvent = event;
   pseudoEvent.submitter = $eventModalSave;
