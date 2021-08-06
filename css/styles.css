@@ -235,6 +235,7 @@ button.date.black.selected {
   background-color: rgba(41, 41, 41, 0.75);
   z-index: 2;
   align-items: center;
+  overflow: hidden;
 }
 
 .travel-modal-form,
@@ -424,6 +425,7 @@ button.event-modal-time.modal-selected {
   color: white;
   height: 3.5rem;
   padding: 0 1.5rem;
+  overflow: hidden;
 }
 
 .date-info {
@@ -473,6 +475,7 @@ button.event-modal-time.modal-selected {
 
 .checklist-div {
   background-color: #fafcff;
+  overflow: hidden;
 }
 
 .checklist-div > ul {
