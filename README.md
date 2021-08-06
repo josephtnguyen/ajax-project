@@ -10,7 +10,7 @@ I wanted to push my current knowledge of HTML, CSS, and JavaScript to its limit,
 
 ## Technologies
 
-Built using HTML5, CSS3, and JavaScript.  The application applies AJAX to populate the calendar with real-time data using OpenWeather and Calendarific APIs, uses GreenSock for transitions.
+Built using **HTML5**, **CSS3**, and **JavaScript**.  The application applies **AJAX** to populate the calendar with real-time data using **OpenWeather** and **Calendarific** APIs, uses **GreenSock** for transitions.
 
 ## Features
 
